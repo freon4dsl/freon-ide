@@ -1,0 +1,8 @@
+language lalala
+
+concept B1  {
+    reference aa: B1;
+    lsl: boolean;
+}
+
+concept assso base B1  {}

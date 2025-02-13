@@ -1,0 +1,14 @@
+language a
+
+concept b implements Interface11 {
+    
+}
+
+concept FFF {
+
+}
+
+concept C_1 base B1 {
+
+}
+
