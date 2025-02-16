@@ -5,7 +5,7 @@ import { CompletionParams, CancellationToken, CompletionList } from "vscode-lang
 export class MyCompletionProvider extends DefaultCompletionProvider {
     override async getCompletion(document: LangiumDocument, params: CompletionParams, _cancelToken?: CancellationToken): Promise<CompletionList | undefined> {
 
-        console.log("MyCompletionProvider")
+        console.log(`MyCompletionProvider ${params.context?.triggerCharacter} ${params.textDocument.uri} ${params.position.line}`)
         // return super.getCompletion(document, params, _cancelToken)
     //    const extensionIndex = params.textDocument.uri.lastIndexOf(".")
     //    const extension = params.textDocument.uri.substring(extensionIndex,  params.textDocument.uri.length)

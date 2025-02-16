@@ -1,5 +1,5 @@
 import { ReferenceInfo, Scope, ScopeProvider, AstUtils, LangiumCoreServices, AstNodeDescriptionProvider, MapScope, EMPTY_SCOPE, DefaultScopeProvider, AstNode, Reference } from "langium";
-import { ClassifierType, Concept, Expression, Interface, isConcept, isFreonModel, isProjection, Limited, ModelUnit } from "./generated/ast.js";
+import { ClassifierType, Concept, Expression, Interface, isClassifier, isConcept, isFreonModel, isProjection, Limited, ModelUnit } from "./generated/ast.js";
 
 export class MyScopeProvider implements ScopeProvider {
     private astNodeDescriptionProvider: AstNodeDescriptionProvider;
@@ -17,7 +17,7 @@ export class MyScopeProvider implements ScopeProvider {
             //get the root node of the document
             const model = AstUtils.getContainerOfType(context.container, isFreonModel)!;
             //select all persons from this document
-            const concepts = model.classifiers.filter(c => isConcept(c.classifier)).map(cc => cc.classifier);
+            const concepts = model.classifiers.filter(c => isConcept(c)).map(cc => cc)
             console.log("Concepts: " + concepts.map(i => i.kind + ":" + i.name))
             //transform them into node descriptions
             const descriptions = concepts.map(p => this.astNodeDescriptionProvider.createDescription(p, p.name));
@@ -40,18 +40,21 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
     override getScope(context: ReferenceInfo): Scope {
         // First see whether this is a "self.property" in the .edit file
         if (context.property === "propName") {
-            console.log(`========== context for propName is ${context.reference.$refText}`)
+            console.log(`========== context for propName is property '${context.property}' + '${context.reference.$refText}'`)
             const projection = this.containerOfType(context.container, "Projection")
-            console.log("    Projection found is " + projection?.$type)
+            console.log(`    Projection found is ${projection} type '${projection?.$type}`)
             if (isProjection(projection)) {
                 const classifierReference = getClassifierType(projection.classifier)
-                console.log(`    isProjection ${classifierReference?.$refText}  ${classifierReference?.ref} ${classifierReference?.error?.message} ${classifierReference?.error?.property} `)
+                console.log(`    !!isProjection ${classifierReference?.$refText}  ${classifierReference?.ref} ${classifierReference?.error?.message} ${classifierReference?.error?.property} `)
                 // console.log(`CT ${classifierReference.$refText} ${classifierReference.ref} ${classifierReference.error} ${classifierReference.$nodeDescription}`)
                 const classifierRef = classifierReference?.ref
                 console.log("    ClassfierRef " + classifierRef?.$type)
-                if (isConcept(classifierRef)) {
-                    console.log("    Found concept " + classifierRef.name + " " + " props " + classifierRef.properties.map(p => p.name + " "))
-                    
+                if (isClassifier(classifierRef)) {
+                    if (classifierRef === undefined || classifierRef?.properties?.length === 0) {
+                        console.log("    Found concept " + classifierRef.name + " " + " NOPROPS  " + classifierRef.properties.map(p => p.name + " "))
+                    } else {
+                        console.log("    Found concept " + classifierRef.name + " " + " props " + classifierRef.properties.map(p => p.name + " "))
+                    }
                     const descriptions = classifierRef.properties.map(p => this.astNodeDescriptionProvider.createDescription(p, p.name));
                     return new MapScope(descriptions)
                 }
@@ -65,9 +68,9 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
 
     containerOfType(node: AstNode, type: string): AstNode | undefined {
         // console.log(`containerOfType ${node.$type}`)
-        let result = node.$container
+        let result: AstNode | undefined = node
         while (result !== undefined) {
-            // console.log(`RcontainerOfType ${result.$type}`)
+            // console.log(`    RcontainerOfType ${result.$type}`)
             if (result.$type === type) {
                 return result;
             }

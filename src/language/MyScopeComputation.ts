@@ -15,7 +15,7 @@ export class MyScopeComputation extends DefaultScopeComputation {
         const freon = document.parseResult.value as Freon;
         if (!!(freon.ast)) {
             result.push(...freon.ast.classifiers
-                .map(p => this.descriptions.createDescription(p.classifier, p.classifier.name))
+                .map(p => this.descriptions.createDescription(p, p.name))
             );
             // result.push(...freon.ast.modelunits
             //     .map(p => this.descriptions.createDescription(p, p.name))
