@@ -135,7 +135,7 @@ Projection:
 TableProjection:
     kind=TABLE WS? PROJECTION_BEGIN WS?
         (th=TableHeader WS?)?
-        p=Property_projection WS? (PROJECTION_SEPARATOR WS? pp+=PropertyRefOnly)*
+        p=Property_projection WS? (PROJECTION_SEPARATOR WS? pp+=Property_projection)*
     PROJECTION_END WS?;
 
 PropertyRefOnly: 
@@ -194,7 +194,7 @@ terminal DisplayType:
     "text" | "checkbox" | "radio" | "switch" | "inner-switch" | "slider";
 
 ListInfo:
-    TableInfo | ListNoTableInfo;
+    t=TableInfo | l=ListNoTableInfo;
 
 TableInfo:
     kind=TABLE WS? ((r='rows' | c='columns') WS?)?;
