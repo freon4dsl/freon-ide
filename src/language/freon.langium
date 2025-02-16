@@ -103,7 +103,23 @@ ClassifierType:
  *****************************************************************************/
 FreonEditor:
     'editor' WS name=ID WS ('precedence' WS precedence=INT WS?)?
-    (projections+=Projection)*;
+    (projections+=Projection)*
+     ('global' WS CURLY_BEGIN WS list+=SingleGlobalProjection* WS? CURLY_END WS?)?;
+
+SingleGlobalProjection:
+    BOOLEAN_TYPE WS (kind=DisplayType WS?) (key=KeywordDecl WS?)? 
+    |
+    'referenceSeparator' WS? PROJECTION_BEGIN t+=TextItem* PROJECTION_END WS?
+    |
+    NUMBER_TYPE WS (kind=DisplayType WS?)?
+    |
+    'limited' PROJECTION_BEGIN PROJECTION_END WS (kind=DisplayType WS?)?
+    |
+    'external' WS? CURLY_BEGIN WS? list=ListOfExternals WS? CURLY_END WS?
+    ;
+
+ListOfExternals:
+    id+=ID WS? (COMMA WS? id+=ID WS?)*;
 
 Projection:
     classifier=ClassifierType WS? CURLY_BEGIN WS?
@@ -164,7 +180,7 @@ Property_projection:
 
 SingleProperty:
     PROPERTY_REF_BEGIN WS?
-        "self."? propName=[Property] (COLON projName=ID)? WS? 
+        ('self.')? propName=[Property] (COLON projName=ID)? WS? 
         (ListInfo WS?)? 
         (DisplayType WS?)?  KeywordDecl? ExternalInfo?
     CURLY_END WS?;
@@ -181,17 +197,16 @@ ListInfo:
     TableInfo | ListNoTableInfo;
 
 TableInfo:
-    kind=TABLE WS? (('rows' | 'columns') WS?)?;
+    kind=TABLE WS? ((r='rows' | c='columns') WS?)?;
 
 ListNoTableInfo:
-    dir=ListDirection WS? (type=ListInfoType WS? PROJECTION_BEGIN WS? t+=TextItem* WS? PROJECTION_END WS? )?
-    WS?;
+    dir=ListDirection WS? (type=ListInfoType WS? PROJECTION_BEGIN t+=TextItem+ PROJECTION_END WS? )?;
 
 ListDirection:
     h='horizontal' | v='vertical';
 
 ListInfoType:
-    t=("separator" | "terminator" | "initiator");
+    s='separator' | t='terminator' | i='initiator';
 
 KeywordDecl:
     PROJECTION_BEGIN WS? name=ID WS? (PROJECTION_SEPARATOR WS? ID WS?)? PROJECTION_END WS?;
