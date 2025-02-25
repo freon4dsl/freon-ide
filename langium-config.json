@@ -3,10 +3,7 @@
     "languages": [{
         "id": "freon",
         "grammar": "src/language/freon.langium",
-        "fileExtensions": [".ast", ".edit", ".scope", ".type", ".valid"],
-        "textMate": {
-            "out": "syntaxes/freon.tmLanguage.json"
-        }
+        "fileExtensions": [".ast", ".edit", ".scope", ".type", ".valid"]
     }],
     "out": "src/language/generated"
 }

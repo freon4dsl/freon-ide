@@ -5,6 +5,7 @@ import { FreonValidator, registerValidationChecks } from './freon-validator.js';
 import { MyScopeProvider2 } from './MyScopeProvider.js';
 import { MyScopeComputation } from './MyScopeComputation.js';
 import { MyCompletionProvider } from './MyCompletionProvider.js';
+import { MySemanticTokenProvider } from './MySemanticTokenProvider.js';
 // import { MyCompletionProvider } from './MyCompletionProvider.js';
 // import { MyScopeComputation, MyScopeProvider } from './MyScopeProvider.js';
 
@@ -39,7 +40,8 @@ export const FreonModule: Module<FreonServices, PartialLangiumServices & FreonAd
         ScopeComputation: (services) => new MyScopeComputation(services),
     },
     lsp: {
-        CompletionProvider: (services) => new MyCompletionProvider(services)
+        CompletionProvider: (services) => new MyCompletionProvider(services),
+        SemanticTokenProvider: (services) => new MySemanticTokenProvider(services)
     }
 };
 

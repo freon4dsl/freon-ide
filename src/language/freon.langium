@@ -1,29 +1,29 @@
 grammar FreonAst
 
 entry Freon:
-    WS? (ast=FreonModel | edit=FreonEditor | scoper=Scoper_Definition | validator=Validator_Definition );
+    WS? (ast=FreonModel | edit=FreonEditor | scoper=Scoper_Definition | validator=Validator_Definition | typer=TyperDefinition );
 
 
 FreonModel:
-    'language' WS name=ID WS? 
+    'language' WS name=Identifier WS? 
     (models+=Model | classifiers+=Classifier)*;
 
 Model:
-    kind='model' WS name=ID WS? CURLY_BEGIN WS?
+    kind='model' WS name=Identifier WS? CURLY_BEGIN WS?
         (properties+=Property)*
     CURLY_END WS;
 
 ModelUnit:
-    kind='modelunit' WS name=ID WS implements=Implements? CURLY_BEGIN WS?
+    kind='modelunit' WS name=Identifier WS? (implements=Implements WS?)? CURLY_BEGIN WS?
         (properties+=Property)*
-        ('file-extension' WS? EQUALS WS? STRING WS? SEMI WS?)?
+        ('file-extension' WS? '=' WS? STRING WS? SEMI WS?)?
     CURLY_END WS?;
 
 Classifier:
-    Concept | Interface | ExpressionConcept | Limited | ModelUnit;
+    Concept | Interface | ExpressionConcept | Limited | ModelUnit | TypeConcept;
 
 Limited:
-    kind='limited' WS name=ID WS ('base' WS base=[Limited] WS)? implements=Implements? CURLY_BEGIN WS?
+    kind='limited' WS? name=Identifier WS? ('base' WS base=[Limited] WS)? implements=Implements? CURLY_BEGIN WS?
         (properties+=Property)* 
         (instances+=Instance)*
     CURLY_END WS?;
@@ -33,7 +33,7 @@ Instance:
     Instance1 | Instance2;
 
 Instance1:
-    name=ID WS? EQUALS WS? CURLY_BEGIN WS? props=PropDefList CURLY_END WS?;
+    name=Identifier WS? '=' WS? CURLY_BEGIN WS? props=PropDefList CURLY_END WS?;
 
 PropDefList:
     head=PropDef WS? (COMMA WS? v+=PropDef WS?)*;
@@ -43,7 +43,7 @@ PropDefList:
 PropDef:
     name=STRING WS? COLON WS? value=PropValue WS?
     |
-    name=ID WS? COLON WS? value=PropValue WS?;
+    name=Identifier WS? COLON WS? value=PropValue WS?;
 
 PropValue:
       value=STRING
@@ -66,20 +66,20 @@ PropValueList:
 
 // shorthand for "{name: "name"}"
 Instance2:
-    name=ID WS? SEMI WS?;
+    name=Identifier WS? SEMI WS?;
 
 Concept:
-    (abstract?='abstract' WS?)? kind='concept' WS name=ID WS? ('base' WS base=[Concept] WS?)? implements=Implements? CURLY_BEGIN WS?
+    (abstract?='abstract' WS?)? kind='concept' WS name=Identifier WS? ('base' WS base=[Concept] WS?)? implements=Implements? CURLY_BEGIN WS?
         (properties+=Property)*
     CURLY_END WS?;
 
 Interface:
-    (abstract?='abstract' WS)? kind='interface' WS name=ID WS? extends=InterfaceImplements? CURLY_BEGIN WS?
+    (abstract?='abstract' WS)? kind='interface' WS name=Identifier WS? extends=InterfaceImplements? CURLY_BEGIN WS?
         (properties+=Property)*
     CURLY_END WS?;
 
 Property:
-    (reference?='reference' WS)? name=ID WS? (optional?='?' WS?)? COLON WS? type=(ClassifierType | PrimitiveType) WS? (list?='[]' WS?)? SEMI WS?;
+    (reference?='reference' WS)? name=Identifier WS? (optional?='?' WS?)? COLON WS? type=(ClassifierType | PrimitiveType) WS? (list?='[]' WS?)? SEMI WS?;
 
 Implements:
     kind='implements' WS intfaces+=[Interface] WS? (COMMA WS? intfaces+=[Interface] WS?)*  ;
@@ -88,16 +88,16 @@ InterfaceImplements:
     k='base' WS intfaces+=[Interface] WS? (COMMA WS? intfaces+=[Interface] WS?)*  ;
 
 ExpressionConcept:
-    (abstract?='abstract' WS)? (binary?='binary' WS)? kind='expression' WS  name=ID WS? ('base' WS base=[Classifier] WS?)? implements=Implements? CURLY_BEGIN WS?
+    (abstract?='abstract' WS)? (binary?='binary' WS)? kind='expression' WS  name=Identifier WS? ('base' WS base=[Classifier] WS?)? implements=Implements? CURLY_BEGIN WS?
         (properties+=Property)*
-        ('priority' WS? EQUALS WS? priority=INT WS? SEMI WS?)?
+        ('priority' WS? '=' WS? priority=INT WS? SEMI WS?)?
     CURLY_END WS?;
 
-PrimitiveType:
-        type=(STRING_TYPE | BOOLEAN_TYPE | NUMBER_TYPE | IDENTIFIER_TYPE);
+PrimitiveType returns string:
+        ('string' | 'boolean' | 'number' | 'identifier' );
 
 ClassifierType:
-    (conceptType=[Classifier] | intfaceType=[Interface] | expressionType=[ExpressionConcept] | limitedType=[Limited] | modelunitType=[ModelUnit]);
+    (conceptType=[Classifier]);
 // TOD Does not work classifierType only has undefined members
 // ClassifierType:
 //     classifierType=([Concept] | [Interface] | [ExpressionConcept] | [Limited] | [ModelUnit]);
@@ -106,16 +106,16 @@ ClassifierType:
  *                                EDITOR
  *****************************************************************************/
 FreonEditor:
-    'editor' WS name=ID WS ('precedence' WS precedence=INT WS?)?
-    (projections+=Projection)*
-     ('global' WS CURLY_BEGIN WS list+=SingleGlobalProjection* WS? CURLY_END WS?)?;
+    'editor' WS name=Identifier WS ('precedence' WS precedence=INT WS?)?
+     ('global' WS CURLY_BEGIN WS list+=SingleGlobalProjection* WS? CURLY_END WS?)?
+    (projections+=Projection)*;
 
 SingleGlobalProjection:
-    BOOLEAN_TYPE WS (kind=DisplayType WS?) (key=KeywordDecl WS?)? 
+    'boolean' WS (kind=DisplayType WS?) (key=KeywordDecl WS?)? 
     |
     'referenceSeparator' WS? PROJECTION_BEGIN t+=TextItem* PROJECTION_END WS?
     |
-    NUMBER_TYPE WS (kind=DisplayType WS?)?
+    'number' WS (kind=DisplayType WS?)?
     |
     'limited' PROJECTION_BEGIN PROJECTION_END WS (kind=DisplayType WS?)?
     |
@@ -123,14 +123,22 @@ SingleGlobalProjection:
     ;
 
 ListOfExternals:
-    id+=ID WS? (COMMA WS? id+=ID WS?)*;
+    id+=Identifier WS? (COMMA WS? id+=Identifier WS?)*;
+
+FragmentProjection:
+    'fragment' WS? name=Identifier WS?
+        text_projection=TextProjection?;
+
+SuperProjection:
+    SUPER WS? cls=[Classifier] WS? (COLON ed=[FreonEditor] WS?)? PROJECTION_END;
 
 Projection:
     classifier=ClassifierType WS? CURLY_BEGIN WS?
         text_projection=TextProjection? table_projection=TableProjection? 
-        (referenceShortcut='referenceShortcut' WS? EQUALS WS? PROPERTY_REF_BEGIN WS? propName=[Property] WS? CURLY_END  WS?)?
-        (trigger='trigger' WS? EQUALS WS? STRING WS?)?
-        (symbol='symbol' WS? EQUALS WS? STRING WS?)?
+        (fragment=FragmentProjection)?
+        (referenceShortcut='referenceShortcut' WS? '=' WS? PROPERTY_REF_BEGIN WS? propName=[Property] WS? CURLY_END  WS?)?
+        (trigger='trigger' WS? '=' WS? STRING WS?)?
+        (symbol='symbol' WS? '=' WS? STRING WS?)?
     CURLY_END WS?;
 
 // TableOrNormal:
@@ -143,9 +151,9 @@ TableProjection:
     PROJECTION_END WS?;
 
 PropertyRefOnly: 
-    PROPERTY_REF_BEGIN WS? propName=[Property] (COLON ID)? WS? CURLY_END  WS?;
+    PROPERTY_REF_BEGIN WS? propName=[Property] (COLON Identifier)? WS? CURLY_END  WS?;
 TableHeader:
-    t+=TableTextItem+ WS? (PROJECTION_SEPARATOR WS? tt+=TableTextItem+ WS?)*;
+    t+=TableTextItem WS? (t+=TableTextItem WS?)* (PROJECTION_SEPARATOR WS? t+=TableTextItem WS? (t+=TableTextItem WS?)*)*;
 
 TextProjection: 
     PROJECTION_BEGIN
@@ -154,48 +162,73 @@ TextProjection:
 
 LineWithOptional:
     // WS? items+=( TextItem | OptionalProjection | Simple_external | Fragment_projection | Property_projection | SuperProjection | NEWLINE )+;
-    ( t+=TextItem | p+=Property_projection | o+=OptionalProjection | WS | NEWLINE )+;
+    ( t+=TextItem |  p+=Property_projection | o+=OptionalProjection | frag+=FragmentReference | ext+=Simple_external | u+=SuperProjection | WS | NEWLINE )+;
 
 LineWithoutOptional:
     // items+=(TextItem | Simple_external | Fragment_projection | Property_projection | SuperProjection | NEWLINE | WS)+;
-    ( t+=TextItem | p+=Property_projection | WS | NEWLINE )+;
+    ( t+=TextItem | p+=Property_projection | frag+=FragmentReference | ext+=Simple_external| u+=SuperProjection | WS | NEWLINE )+;
 
-TextItem:
-    (a=COLON | b=CURLY_BEGIN | d=CURLY_END |c=SEMI| e=INT | COMMA | DOT | EXCL | AT | w=PROJECTION_SEPARATOR |  text=ID |
-    PAR_OPEN | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE | BACK_QUOTE | e=EQUALS | PLUS | MINUS | SLASH | BACK_SLASH | ESCAPED |
-    'base' | 'implements' | 'concept' | 'model' | 'language' | 'editor' | 'trigger' | 'referenceShortcut' | 'symbol' |
-    'abstract' | 'precedence' | 'priority' | 'reference' | 'true' | 'false' | 'self' | 'for'
-    );
+TextItem :
+    text=(COLON | CURLY_BEGIN | CURLY_END |SEMI| INT | COMMA | DOT | EXCL | AT | PROJECTION_SEPARATOR |
+    PAR_OPEN | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE | BACK_QUOTE | '=' | PLUS | MINUS | SLASH | BACK_SLASH | ESCAPED 
+    | PROJECTION_BEGIN | Comparator
+    | ListInfoType | ListDirection
+    | PrimitiveType
+    | Identifier)
+    ;
+
 TableTextItem:
-    (a=COLON | b=CURLY_BEGIN | d=CURLY_END |c=SEMI| e=INT | COMMA | DOT | EXCL | AT |  text=ID |
-    PAR_OPEN | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE | BACK_QUOTE | e=EQUALS | PLUS | MINUS | SLASH | BACK_SLASH |
-    b='base' | i='implements' | 'concept' | 'model' );
+    text=(COLON | CURLY_BEGIN | CURLY_END |SEMI| INT | COMMA | DOT | EXCL | AT |
+    PAR_OPEN | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE | BACK_QUOTE | '=' | PLUS | MINUS | SLASH | BACK_SLASH | ESCAPED 
+    | PROJECTION_BEGIN | Comparator
+    | ListInfoType | ListDirection
+    | PrimitiveType
+    | Identifier)
+    ;
+
+Identifier returns string:  
+      ID 
+    | Keyword
+    | TABLE
+    | DisplayType;
+
+Keyword returns string:
+    'base' | 'implements' | 'concept' | 'model' | 'language' | 'editor' | 'trigger' | 'referenceShortcut' | 'symbol' 
+    | 'abstract' | 'precedence' | 'priority' | 'reference' | 'true' | 'false' | 'for' | 'in'
+    | 'rows' | 'columns' | 'wrap' | 'replace' | 'expression' | 'binary' | 'limited'
+    | 'fragment' | 'external' | 'type' 
+    // | 'self'
+    ;
+
 
 OptionalProjection:
     kind=OPTIONAL (lines+=LineWithoutOptional)* PROJECTION_END;
 
 Simple_external:
-    kind='te';
-Fragment_projection:
-    kind='tf';
+    '[external' WS? '=' WS? name=Identifier WS? p+=Parameter* PROJECTION_END;
+
+Parameter: key=Identifier WS? '=' WS? value=STRING WS?;
+
+FragmentReference:
+    kind=FRAGMENT WS? fregment=Identifier WS? PROJECTION_END;
 
 Property_projection:
     SingleProperty ;//|  l=ListProperty;// | button_projection;
 
 SingleProperty:
     PROPERTY_REF_BEGIN WS?
-        ('self' WS? (DOT? WS?))? propName=[Property] (COLON projName=ID)? WS? 
+        ('self' WS? (DOT WS?))? propName=[Property] (COLON projName=Identifier)? WS? 
         (ListInfo WS?)? 
         (DisplayType WS?)?  KeywordDecl? ExternalInfo?
     CURLY_END WS?;
 
 // ListProperty:
 //     PROPERTY_REF_BEGIN WS? 
-//         "self."? propName=[Property] WS? (COLON WS? projName=ID WS?)? (ListInfo WS?)? (DisplayType WS?)?  KeywordDecl? ExternalInfo?
+//         "self."? propName=[Property] WS? (COLON WS? projName=Identifier WS?)? (ListInfo WS?)? (DisplayType WS?)?  KeywordDecl? ExternalInfo?
 //     CURLY_END WS?;
 
 terminal DisplayType:
-    "text" | "checkbox" | "radio" | "switch" | "inner-switch" | "slider";
+    'text' | 'checkbox' | 'radio' | 'switch' | 'inner-switch' | 'slider';
 
 ListInfo:
     t=TableInfo | l=ListNoTableInfo;
@@ -204,31 +237,31 @@ TableInfo:
     kind=TABLE WS? ((r='rows' | c='columns') WS?)?;
 
 ListNoTableInfo:
-    dir=ListDirection WS? (type=ListInfoType WS? PROJECTION_BEGIN t+=TextItem+ PROJECTION_END WS? )?;
+    (dir=ListDirection WS?)? (type=ListInfoType WS? PROJECTION_BEGIN t+=TextItem+ PROJECTION_END WS? )?;
 
-ListDirection:
-    h='horizontal' | v='vertical';
+ListDirection returns string:
+    'horizontal' | 'vertical';
 
-ListInfoType:
-    s='separator' | t='terminator' | i='initiator';
+ListInfoType returns string:
+    'separator' | 'terminator' | 'initiator';
 
 KeywordDecl:
-    PROJECTION_BEGIN WS? name=ID WS? (PROJECTION_SEPARATOR WS? ID WS?)? PROJECTION_END WS?;
+    PROJECTION_BEGIN WS? name=Identifier WS? (PROJECTION_SEPARATOR WS? Identifier WS?)? PROJECTION_END WS?;
 
 ExternalInfo:
-    ("wrap" WS? EQUALS WS? wrap=ID WS? (params+=Key_value_pair WS?)*)
+    ("wrap" WS? '=' WS? wrap=Identifier WS? (params+=Key_value_pair WS?)*)
     | 
-    ("replace" WS? EQUALS WS? replace=ID WS?  (params+=Key_value_pair WS?)*);
+    ("replace" WS? '=' WS? replace=Identifier WS?  (params+=Key_value_pair WS?)*);
 
 Key_value_pair:
-    key=ID WS? EQUALS WS? STRING WS? ;
+    key=Identifier WS? '=' WS? STRING WS? ;
 
 /****************************************************************
  *                            Scoper
  ****************************************************************/
 
 Scoper_Definition:
-    'scoper' WS name=ID WS 'for' WS 'language' WS languageName=ID WS ns=Namespaces WS? defs+=ConceptDefinition*;
+    'scoper' WS name=Identifier WS 'for' WS 'language' WS languageName=Identifier WS ns=Namespaces WS? defs+=ConceptDefinition*;
 
 Namespaces:
     isnamespaceKey='isnamespace' WS? CURLY_BEGIN WS? 
@@ -243,7 +276,7 @@ ConceptDefinition:
     CURLY_END WS?;
 
 NamespaceAddition: 
-    kind='namespace_addition' WS? EQUALS WS? list=Expressionlist  SEMI WS?;
+    kind='namespace_addition' WS? '=' WS? list=Expressionlist  SEMI WS?;
 
 // TODO
 Expressionlist:
@@ -254,7 +287,7 @@ Expressionlist:
 // TODO
 AlternativeScope:
     // kind='scope' WS? EQUALS (WS | t+=DummyItem)* SEMI WS?;
-    kind='scope' WS? EQUALS WS? exp=LangExpression SEMI WS?;
+    kind='scope' WS? '=' WS? exp=LangExpression SEMI WS?;
 
 /****************************************************************
  *                           Expressions
@@ -273,7 +306,7 @@ Expression: sourceName=('self' | 'container') WS? (appliedfeature=DotExpression)
 DotExpression: DOT WS? propName=[Property] WS? (appliedfeature=DotExpression?)?  ;
 
 FunctionExpression: 
-    sourceName=ID PAR_OPEN ( WS?
+    sourceName=Identifier PAR_OPEN ( WS?
       head=LangExpression
       (COMMA WS? v+=LangExpression)*
     )?
@@ -287,18 +320,7 @@ SimpleExpression:
  *                           VALIDATOR
  ****************************************************************/
 Validator_Definition:
-    'validator' WS validatorName=ID WS 'for' WS 'language' WS languageName=ID WS? cr+=(ConceptRule)*;
-
-// validnameKey = "validIdentifier" ws
-// typecheckKey = "typecheck" rws
-// notEmptyKey  = "notEmpty" rws
-// isuniqueKey  = "isunique" rws
-// inKey        = "in" rws
-// severityKey  = "severity" ws
-// messageKey   = "message" ws
-// comparator   = "<=" / "=" / ">=" / ">" / "<"
-// modelReferenceStart = "${"
-// modelReferenceEnd = "}"
+    'validator' WS validatorName=Identifier WS 'for' WS 'language' WS languageName=Identifier WS? cr+=(ConceptRule)*;
 
 ConceptRule:
     conceptRef=ClassifierType WS? CURLY_BEGIN WS? rules+=Rule* CURLY_END WS?;
@@ -315,7 +337,7 @@ RuleExtras:
     CURLY_BEGIN WS? severity=Severity WS? (COMMA WS? e=Errormessage WS?)? CURLY_END WS? 
     | CURLY_BEGIN WS? message=Errormessage WS? (COMMA WS? s+=Severity WS?)? CURLY_END WS?;
 
-Severity: 'severity' WS? COLON WS? value=ID WS? ;
+Severity: 'severity' WS? COLON WS? value=Identifier WS? ;
 
 Errormessage: 'message' WS? COLON WS? content=STRING WS? ;
 
@@ -343,30 +365,105 @@ ExpressionRule:
 IsuniqueRule:
     'isunique' WS? propName=[Property] WS? 'in' WS? exp2=LangExpression extra=RuleExtras? ;
 
-Comparator: c=("<=" | EQUALS | ">=" | ">" | "<");
+Comparator returns string: "<=" | '=' | ">=" | ">" | "<";
 /****************************************************************
  *                           Typer
  ****************************************************************/
 
+TyperDefinition:
+    'typer' WS?
 
+    ('istype' WS? CURLY_BEGIN WS? cc=[Classifier] WS? (COMMA WS? c+=[Classifier] WS?)* CURLY_END WS?)?
+    tc+=TypeConcept*
+    ('hastype' WS? CURLY_BEGIN WS? ccc=[Classifier] WS? (COMMA WS? ccccc+=[Classifier] WS?)* CURLY_END WS?)?
+    a=AnyTypeRule?
+    c+=ClassifierTypeSpec*
+    // (t+=TextItem | WS)*
+    ;
+
+// TODO use real references [...]
+TypeConcept: kind='type' WS? name=Identifier WS? CURLY_BEGIN WS? 
+                (properties+=Property)*
+    CURLY_END WS?;
+
+AnyTypeRule: kind='anytype' WS? CURLY_BEGIN WS? r+=TyperStatement* WS? CURLY_END WS?;
 // const validFunctionNames: string[] = ["conformsTo", "equalsType", "typeof", "commonSuperTypeOf", "ancestor"];
 
+ClassifierTypeSpec : cref=ClassifierType WS? CURLY_BEGIN WS? rule+=TyperStatement* CURLY_END WS? ;
 
+TyperStatement: FretInferenceRule
+    | FretConformanceRule
+    | FretEqualsRule
+    // | FretLimitedRule 
+    ;
+
+FretInferenceRule: kind='infertype' WS? exp=TyperExp WS? SEMI WS?;
+FretConformanceRule: kind='conformsto' WS? exp=TyperExp WS? SEMI WS? ;
+FretEqualsRule: kind='equalsto' WS? exp=TyperExp WS? SEMI WS?;
+FretLimitedRule: e=TyperExp;
+
+TyperExp: (
+         self=TyperSelfExp 
+        | any=AnyTypeExp
+        | l=FretLimitedInstanceExp 
+        | w=FretWhereExp 
+        | c=FretCreateExp
+        | f=FretFunctionCallExp
+    )
+    (
+        (WS? DOT WS? propName+=[Property] WS?)* 
+        
+    )
+    ;
+// TyperExp: exp= 
+//     FretPropertyCallExp
+//     | FretSelfExp
+//     | FretAnytypeExp
+//     | FretVarCallExp
+//     | FretCreateExp
+//     | FretLimitedInstanceExp
+//     | FretWhereExp
+//     | FretFunctionCallExp
+//     | Binary_FretExp ;
+
+TyperSelfExp: kind='self' WS?;
+AnyTypeExp: kind='anytype' WS? ;
+
+// FretVarCallExp: p=[Property] WS?;
+
+FretCreateExp: kind='new' WS? cref=ClassifierType WS? CURLY_BEGIN WS? (i+=FretPropInstance WS? (COMMA WS? i+=FretPropInstance WS?)* ) CURLY_END WS? ;
+
+FretPropInstance: propInstanceName=[Property] WS? COLON WS? e=TyperExp WS?;
+
+FretLimitedInstanceExp: l=[Limited] COLON i=Identifier WS?;
+
+FretWhereExp: FretVarDecl WS? 'where' WS? CURLY_BEGIN WS?
+	 ( b+=Binary_FretExp SEMI )*
+	 CURLY_END WS? ;
+
+FretVarDecl: name=Identifier COLON cls=[Classifier] WS? ;
+
+FretFunctionCallExp: i=FunctionName PAR_OPEN WS? (f+=TyperExp (COMMA t+=TyperExp WS?)*)? PAR_CLOSE ;
+
+FunctionName returns string: 'typeof' | 'commonSuperType' | 'ownerOfType';
+
+Binary_FretExp: l=TyperExp WS? (BinaryTypeOperator WS? r+=TyperExp WS?)+;
+
+BinaryTypeOperator returns string: 'conformsto' | 'equalsto' ;
 
  /**************************************************************/
-// TODO
-SuperProjection:
-    kind='tsu' WS?;
 
 // TemplateSpace:
 //     char+=ID+ ;
 hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\// WS?;
 hidden terminal SL_COMMENT: /\/\/[^\n\r]*/ WS?;
 
+// terminal GREATER_THAN: '>';
+// terminal LESS_THAN: '<';
 terminal SLASH: '/';
 terminal ESCAPED: '\\"';
 terminal BACK_SLASH: '\\';
-terminal EQUALS: '=';
+// terminal EQUALS: '=';
 terminal PLUS: '+';
 terminal MINUS: '-';
 terminal UNDERSCORE: '_';
@@ -377,7 +474,9 @@ terminal DOT: '.';
 terminal COMMA: ',';
 terminal EXCL: '!';
 terminal AT: '@';
+terminal FRAGMENT: '[fragment';
 terminal OPTIONAL: '[?';
+terminal SUPER: '[=>';
 terminal QUESTION: '?';
 terminal PAR_OPEN: '(';
 terminal PAR_CLOSE: ')';
@@ -392,10 +491,10 @@ terminal COLON: ':';
 terminal PROPERTY_REF_BEGIN: '${';
 terminal SEMI: ';';
 terminal TABLE:'table';
-terminal STRING_TYPE: 'string';
+// terminal STRING_TYPE: 'string';
 terminal BOOLEAN_TYPE: 'boolean';
-terminal NUMBER_TYPE: 'number';
-terminal IDENTIFIER_TYPE: 'identifier';
+// terminal NUMBER_TYPE: 'number';
+// terminal IDENTIFIER_TYPE: 'identifier';
 terminal NEWLINE: '\n';
 // terminal ANY_CHAR: /[*a-zA-Z0-9'\-[\]\|+<>=#$_.,!?@~%^&*-=+(){}:;<>?]/;
 
