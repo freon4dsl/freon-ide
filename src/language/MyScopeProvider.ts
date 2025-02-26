@@ -4,7 +4,7 @@ import { Classifier, ClassifierType, Concept, ExpressionConcept, Interface, isCl
      isConceptDefinition, isConceptRule, isExpressionConcept, isFreonModel, isFretCreateExp, isFretWhereExp, isInterface, isProjection, Limited, ModelUnit, Property, 
      TypeConcept} from "./generated/ast.js";
 import { visitAndMap } from "../utils/graphs.js";
-// import * as LANGIUM from 'langium';
+import * as LANGIUM from 'langium';
 
 export class MyScopeProvider implements ScopeProvider {
     private astNodeDescriptionProvider: AstNodeDescriptionProvider;
@@ -110,30 +110,42 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
             }
         }
         /** Filtering does not work in WebStorm
-         *
+         */
         const refpath = LANGIUM.AstUtils.getDocument(context.container).uri.fsPath
         const directory = refpath?.substring(0, refpath.lastIndexOf("/"))
         // console.log(`refpath '${refpath}'`)
-        const filteredItems: AstNodeDescription[] = result.getAllElements().toArray().filter(element => this.dir(element) === directory)
-        if (directory.includes("RulesLanguage")) {
-            console.log(`property  '${context.property}' available items ${result.getAllElements().toArray().length}`)
-            console.log(`  directory '${directory}' filteredItems ${filteredItems.length}`)
-            console.log(`  uri       '${refpath}'`)
-            result.getAllElements().forEach(elem => {
-                if (this.dir(elem).includes("RulesLanguage")) {
-                    console.log(`    '${elem.name}' uri '${elem.documentUri.fsPath}'`)
-                    console.log(`    '${elem.name}' dir '${this.dir(elem)}'`)
-                }
-            })
+        if (refpath.includes("RulesLanguage")) {
+            console.log(`property  '${context.property}'  fspath '${refpath}'`)
         }
+        const filteredItems: AstNodeDescription[] = result.getAllElements().toArray().filter(element => {
+            const comp: boolean = (this.dir(element).localeCompare(directory) === 0) || (directory.localeCompare(this.dir(element)) === 0)
+            if (refpath.includes("RulesLanguage") && element.documentUri.fsPath.includes(".ast")) {
+                if (!comp) {
+                    console.log(`Excluding '${element.documentUri.fsPath}'`)
+                } else {
+                    console.log(`+++++++++ '${element.documentUri.fsPath}'`)
+                }
+            }
+            return comp
+        })
+        // if (directory.includes("RulesLanguage")) {
+        //     console.log(`property  '${context.property}' available items ${result.getAllElements().toArray().length}`)
+        //     console.log(`  directory '${directory}' filteredItems ${filteredItems.length}`)
+        //     console.log(`  uri       '${refpath}'`)
+        //     result.getAllElements().forEach(elem => {
+        //         if (this.dir(elem).includes("RulesLanguage")) {
+        //             console.log(`    '${elem.name}' uri '${elem.documentUri.fsPath}'`)
+        //             console.log(`    '${elem.name}' dir '${this.dir(elem)}'`)
+        //         }
+        //     })
+        // }
         // if (filteredItems.toArray().length === 0)  {
         //     console.log(`EMPTY AFTER FILTER for property  ${context.property} in file ${refpath}`)
             // result.getAllElements().forEach(element => console.log(`  BEFORE ${element.name} of ${element.documentUri.fsPath}`))
         // }
-        // return result
         return new MapScope(filteredItems)
-        */
-       return result;
+        
+    //    return result;
     }
 
     private getProperties(cref: ClassifierType) {

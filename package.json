@@ -1,7 +1,7 @@
 {
     "name": "freon",
     "description": "Please enter a brief description here",
-    "version": "0.0.260",
+    "version": "0.0.321",
     "repository": "none ",
     "type": "module",
     "scripts": {
@@ -10,7 +10,7 @@
         "build": "tsc -b tsconfig.src.json && node esbuild.mjs",
         "build:lsp": "./node_modules/esbuild/bin/esbuild ./src/language/main.ts --bundle --platform=node --format=iife --outfile=./public/freonServerWorker.cjs",
         "watch": "concurrently -n tsc,esbuild -c blue,yellow \"tsc -b tsconfig.src.json --watch\" \"node esbuild.mjs --watch\"",
-        "install:freon": "code --install-extension freon-0.0.260.vsix",
+        "install:freon": "code --install-extension freon-0.0.321.vsix",
         "uninstall:freon": "code --uninstall-extension freon.freon",
         "lint": "eslint src --ext ts",
         "langium:generate": "langium generate",
@@ -79,9 +79,7 @@
             }
         ]
     },
-    "activationEvents": [
-        "onLanguage:freon"
-    ],
+    "activationEvents": [],
     "provider": "Jos",
     "publisher": "freon",
     "main": "./out/extension/main.cjs",
