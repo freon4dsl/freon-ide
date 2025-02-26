@@ -1,7 +1,7 @@
 import { ReferenceInfo, Scope, ScopeProvider, AstUtils, LangiumCoreServices, AstNodeDescriptionProvider,
      MapScope, EMPTY_SCOPE, DefaultScopeProvider, AstNode, Reference, AstNodeDescription } from "langium";
 import { Classifier, ClassifierType, Concept, ExpressionConcept, Interface, isClassifier, isClassifierTypeSpec, isConcept,
-     isConceptDefinition, isConceptRule, isExpressionConcept, isFreonModel, isFretCreateExp, isInterface, isProjection, Limited, ModelUnit, Property, 
+     isConceptDefinition, isConceptRule, isExpressionConcept, isFreonModel, isFretCreateExp, isFretWhereExp, isInterface, isProjection, Limited, ModelUnit, Property, 
      TypeConcept} from "./generated/ast.js";
 import { visitAndMap } from "../utils/graphs.js";
 // import * as LANGIUM from 'langium';
@@ -51,106 +51,99 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
         // console.log(`========== context for property '${context.property}' + '${context.reference.$refText}' + '${context.container.$type}'`)
         if (context.property === "propName") {
             const projection = this.containerOfType(context.container, "Projection")
-            // console.log(`    Projection found is ${projection} type '${projection?.$type}`)
             if (isProjection(projection)) {
-                const classifierReference = getClassifierType(projection.classifier)
-                // console.log(`    !!isProjection ${classifierReference} => ${classifierReference?.$refText}  ${classifierReference?.ref} ${classifierReference?.error?.message} ${classifierReference?.error?.property} `)
-                // console.log(`                   ${projection.classifier.conceptType} ${projection.classifier.expressionType} ${projection.classifier.intfaceType} ${projection.classifier.limitedType} ${projection.classifier.modelunitType} `)
-                const classifierRef = classifierReference?.ref
-                // console.log("    ClassfierRef " + classifierRef?.$type)
-                if (isClassifier(classifierRef)) {
-                    const descriptions = allProperties(classifierRef).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
-                    result = new MapScope(descriptions)
-                }
+                result = this.getProperties(projection.classifier)
             } else {
                 const scopeDef = this.containerOfType(context.container, "ConceptDefinition")
                 if (isConceptDefinition(scopeDef)) {
-                    const classifierReference = getClassifierType(scopeDef.cref)
-                    const classifierRef = classifierReference?.ref
-                    if (isClassifier(classifierRef)) {
-                        const descriptions = allProperties(classifierRef).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
-                        result = new MapScope(descriptions)
-                    }
+                    result = this.getProperties(scopeDef.cref)
                 } else {
                     const validDef = this.containerOfType(context.container, "ConceptRule")
                     if (isConceptRule(validDef)) {
-                        const classifierReference = getClassifierType(validDef.conceptRef)
-                        const classifierRef = classifierReference?.ref
-                        if (isClassifier(classifierRef)) {
-                            const descriptions = allProperties(classifierRef).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
-                            result = new MapScope(descriptions)
-                        }
+                        result = this.getProperties(validDef.conceptRef)
                     } else {
-                        // const createExp = this.containerOfType(context.container, "FretCreateExp")
-                        // if (isFretCreateExp(createExp)) {
-                        //     const classifierReference = getClassifierType(createExp.cref)
-                        //     const classifierRef = classifierReference?.ref
-                        //     if (isClassifier(classifierRef)) {
-                        //         const descriptions = allProperties(classifierRef).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
-                        //         result = new MapScope(descriptions)
-                        //     }
-                        // } else {
                         const typeSpec = this.containerOfType(context.container, "ClassifierTypeSpec")
                         if (isClassifierTypeSpec(typeSpec)) {
-                            const classifierReference = getClassifierType(typeSpec.cref)
-                            const classifierRef = classifierReference?.ref
-                            if (isClassifier(classifierRef)) {
-                                const descriptions = allProperties(classifierRef).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
-                                result = new MapScope(descriptions)
-                            }
+                            result = this.getProperties(typeSpec.cref);
                         }
                     }
                 }
             }
         } else { 
             if (context.property === "propInstanceName") {
+                console.log(`propInstanceName container ${context.container.$type}`)
                 const createExp = this.containerOfType(context.container, "FretCreateExp")
                 if (isFretCreateExp(createExp)) {
-                    const classifierReference = getClassifierType(createExp.cref)
-                    const classifierRef = classifierReference?.ref
-                    if (isClassifier(classifierRef)) {
-                        const descriptions = allProperties(classifierRef).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
-                        result = new MapScope(descriptions)
-                    }
+                    result = this.getProperties(createExp.cref)
                 }
             } else {
-                // const instanceExpr = this.containerOfType(context.container, "InstanceExpression")
-                // if (isInstanceExpression(instanceExpr)) {
-                //     if (context.property="instance") {
-                //         console.log("==================== " + context.property + "  in " + instanceExpr.$type )
-                //         // TODO take supers of Limited into account
-                //             const node: InstanceExpression = instanceExpr as InstanceExpression
-                //             console.log("== node.conceptName " + node.conceptName.$refText)
-                //             console.log("== node.description " + node.conceptName.$nodeDescription)
-                //             const nodeRefOk = node.conceptName?.ref !== undefined
-                //             const REF = node.conceptName?.ref  
-                //             if (nodeRefOk && isLimited(REF)) {
-                //                 const limited: Limited = node.conceptName.ref as Limited
-                //                 // console.log("==================== " + (context.reference.ref as InstanceExpression).conceptName?.ref?.conceptName?.ref)
-                //                 if (limited.instances !== undefined) {
-                //                     const instances: Instance[] = limited.instances
-                //                     const descript: AstNodeDescription[] = instances.map(ins => this.astNodeDescriptionProvider.createDescription(ins, ins.name))
-                //                     return new MapScope(descript)
-                //                 }
-                //             }
-                //     }
-                // }
-                // return default
-                result = super.getScope(context)
+                if (context.property === "varPropName") {
+                    const whereExp = this.containerOfType(context.container, "FretWhereExp")
+                    if (isFretWhereExp(whereExp)) {
+                        result = this.getProperties(whereExp.var.cref)
+                    }
+                } else {
+                    // const instanceExpr = this.containerOfType(context.container, "InstanceExpression")
+                    // if (isInstanceExpression(instanceExpr)) {
+                    //     if (context.property="instance") {
+                    //         console.log("==================== " + context.property + "  in " + instanceExpr.$type )
+                    //         // TODO take supers of Limited into account
+                    //             const node: InstanceExpression = instanceExpr as InstanceExpression
+                    //             console.log("== node.conceptName " + node.conceptName.$refText)
+                    //             console.log("== node.description " + node.conceptName.$nodeDescription)
+                    //             const nodeRefOk = node.conceptName?.ref !== undefined
+                    //             const REF = node.conceptName?.ref  
+                    //             if (nodeRefOk && isLimited(REF)) {
+                    //                 const limited: Limited = node.conceptName.ref as Limited
+                    //                 // console.log("==================== " + (context.reference.ref as InstanceExpression).conceptName?.ref?.conceptName?.ref)
+                    //                 if (limited.instances !== undefined) {
+                    //                     const instances: Instance[] = limited.instances
+                    //                     const descript: AstNodeDescription[] = instances.map(ins => this.astNodeDescriptionProvider.createDescription(ins, ins.name))
+                    //                     return new MapScope(descript)
+                    //                 }
+                    //             }
+                    //     }
+                    // }
+                    // return default
+                    result = super.getScope(context)
+                }
             }
         }
-        // for(const item of result.getAllElements()) {
-        //     console.log(`SCOPE ITEM ${item.name} from ${this.dir(item)}`)
-        // }
-        // const refpath = LANGIUM.AstUtils.getDocument(context.container).uri.fsPath
-        // const directory = refpath?.substring(0, refpath.lastIndexOf("/"))
-       
-        // const filteredItems = result.getAllElements().filter(element => this.dir(element) === directory)
+        /** Filtering does not work in WebStorm
+         *
+        const refpath = LANGIUM.AstUtils.getDocument(context.container).uri.fsPath
+        const directory = refpath?.substring(0, refpath.lastIndexOf("/"))
+        // console.log(`refpath '${refpath}'`)
+        const filteredItems: AstNodeDescription[] = result.getAllElements().toArray().filter(element => this.dir(element) === directory)
+        if (directory.includes("RulesLanguage")) {
+            console.log(`property  '${context.property}' available items ${result.getAllElements().toArray().length}`)
+            console.log(`  directory '${directory}' filteredItems ${filteredItems.length}`)
+            console.log(`  uri       '${refpath}'`)
+            result.getAllElements().forEach(elem => {
+                if (this.dir(elem).includes("RulesLanguage")) {
+                    console.log(`    '${elem.name}' uri '${elem.documentUri.fsPath}'`)
+                    console.log(`    '${elem.name}' dir '${this.dir(elem)}'`)
+                }
+            })
+        }
         // if (filteredItems.toArray().length === 0)  {
         //     console.log(`EMPTY AFTER FILTER for property  ${context.property} in file ${refpath}`)
-        //     result.getAllElemenzts().forEach(element => console.log(`  BEFORE ${element.name} of ${element.documentUri.fsPath}`))
+            // result.getAllElements().forEach(element => console.log(`  BEFORE ${element.name} of ${element.documentUri.fsPath}`))
         // }
-        return result
+        // return result
+        return new MapScope(filteredItems)
+        */
+       return result;
+    }
+
+    private getProperties(cref: ClassifierType) {
+        const classifierReference = getClassifierType(cref);
+        const classifierRef = classifierReference?.ref;
+        if (isClassifier(classifierRef)) {
+            const descriptions = allProperties(classifierRef).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
+            return new MapScope(descriptions);
+        }
+        return EMPTY_SCOPE;
     }
 
     dir(desc: AstNodeDescription): string {
@@ -273,3 +266,37 @@ export function superClassifiers(classifier: Classifier): Classifier[]{
     // console.log(`all supers of ${classifier.name} : ${result.map(r => r.name)}`)
     return result
 }
+
+/**
+* 
+* @param node Find the nearest container of type `type`.
+* @param type 
+* @returns 
+*/
+// function containerOfType(node: AstNode, type: string): AstNode | undefined {
+//    // console.log(`containerOfType ${node.$type}`)
+//    let result: AstNode | undefined = node
+//    while (result !== undefined) {
+//        // console.log(`    RcontainerOfType ${result.$type}`)
+//        if (result.$type === type) {
+//            return result;
+//        }
+//        result = result.$container
+//    }
+//    return result
+// }
+
+// export function contextProjection(context: ReferenceInfo, propName: string, containerType: string): Scope | undefined {
+//     if (context.property === propName) {
+//         const projection = containerOfType(context.container, containerType)
+//         if ( isProjection(projection) ) {
+//             const classifierReference = getClassifierType(projection.classifier)
+//             const classifierRef = classifierReference?.ref
+//             if (isClassifier(classifierRef)) {
+//                 const descriptions = allProperties(classifierRef).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
+//                 return new MapScope(descriptions)
+//             }
+//    }
+//     }
+//     return undefined
+// }

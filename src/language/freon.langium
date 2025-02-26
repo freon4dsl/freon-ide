@@ -23,7 +23,7 @@ Classifier:
     Concept | Interface | ExpressionConcept | Limited | ModelUnit | TypeConcept;
 
 Limited:
-    kind='limited' WS? name=Identifier WS? ('base' WS base=[Limited] WS)? implements=Implements? CURLY_BEGIN WS?
+    kind='limited' WS? name=Identifier WS? ('base' WS (cbase=[Concept] | lbase=[Limited]) WS)? implements=Implements? CURLY_BEGIN WS?
         (properties+=Property)* 
         (instances+=Instance)*
     CURLY_END WS?;
@@ -98,7 +98,7 @@ PrimitiveType returns string:
 
 ClassifierType:
     (conceptType=[Classifier]);
-// TOD Does not work classifierType only has undefined members
+// TODO Does not work classifierType only has undefined members
 // ClassifierType:
 //     classifierType=([Concept] | [Interface] | [ExpressionConcept] | [Limited] | [ModelUnit]);
 
@@ -394,27 +394,30 @@ ClassifierTypeSpec : cref=ClassifierType WS? CURLY_BEGIN WS? rule+=TyperStatemen
 TyperStatement: FretInferenceRule
     | FretConformanceRule
     | FretEqualsRule
-    // | FretLimitedRule 
+    | FretLimitedRule 
     ;
 
 FretInferenceRule: kind='infertype' WS? exp=TyperExp WS? SEMI WS?;
 FretConformanceRule: kind='conformsto' WS? exp=TyperExp WS? SEMI WS? ;
 FretEqualsRule: kind='equalsto' WS? exp=TyperExp WS? SEMI WS?;
-FretLimitedRule: e=TyperExp;
+FretLimitedRule: 'limited' WS? (ie+=InstanceRuleExpression WS?)* 'conformsto' WS? InstanceRuleExpression WS? SEMI WS?;
 
 TyperExp: (
          self=TyperSelfExp 
         | any=AnyTypeExp
-        | l=FretLimitedInstanceExp 
         | w=FretWhereExp 
         | c=FretCreateExp
         | f=FretFunctionCallExp
+        | l=FretLimitedInstanceExp
     )
     (
         (WS? DOT WS? propName+=[Property] WS?)* 
         
     )
     ;
+
+InstanceRuleExpression: (conceptName=[Limited] WS? type=COLON WS?)? instance=[Instance] WS?;
+
 // TyperExp: exp= 
 //     FretPropertyCallExp
 //     | FretSelfExp
@@ -437,17 +440,20 @@ FretPropInstance: propInstanceName=[Property] WS? COLON WS? e=TyperExp WS?;
 
 FretLimitedInstanceExp: l=[Limited] COLON i=Identifier WS?;
 
-FretWhereExp: FretVarDecl WS? 'where' WS? CURLY_BEGIN WS?
-	 ( b+=Binary_FretExp SEMI )*
+FretWhereExp: var=FretVarDecl 'where' WS? CURLY_BEGIN WS?
+	 ( b+=Binary_FretExp SEMI WS? )*
 	 CURLY_END WS? ;
 
-FretVarDecl: name=Identifier COLON cls=[Classifier] WS? ;
+FretVarDecl: 'let' WS? name=Identifier WS? COLON WS? cref=ClassifierType WS? ;
 
-FretFunctionCallExp: i=FunctionName PAR_OPEN WS? (f+=TyperExp (COMMA t+=TyperExp WS?)*)? PAR_CLOSE ;
+FretFunctionCallExp: i=FunctionName WS? PAR_OPEN WS? (f+=TyperExp WS? (COMMA  WS? t+=TyperExp WS?)*)? PAR_CLOSE WS?;
 
 FunctionName returns string: 'typeof' | 'commonSuperType' | 'ownerOfType';
 
-Binary_FretExp: l=TyperExp WS? (BinaryTypeOperator WS? r+=TyperExp WS?)+;
+// TODO add varPropName to Scoper
+VarRef: var=[FretVarDecl] WS? DOT WS? varPropName=[Property] WS?;
+WhereTyperExp: VarRef | TyperExp;
+Binary_FretExp: l=WhereTyperExp (BinaryTypeOperator WS? r+=WhereTyperExp WS?)+;
 
 BinaryTypeOperator returns string: 'conformsto' | 'equalsto' ;
 
