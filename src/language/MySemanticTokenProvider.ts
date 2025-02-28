@@ -31,7 +31,7 @@ export class MySemanticTokenProvider extends AbstractSemanticTokenProvider {
             });
             acceptor({
                 node,
-                property: 'type',
+                property: 'propertyType',
                 type: SemanticTokenTypes.typeParameter
             });
         // class does not exist in WebStorm

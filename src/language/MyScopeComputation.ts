@@ -20,10 +20,6 @@ export class MyScopeComputation extends DefaultScopeComputation {
             );
             const instances = freon.ast.classifiers.filter(c => isLimited(c)).flatMap(lim => (lim as Limited).instances)
             result.push( ...instances.flatMap(p => (instanceHasName(p) ? this.descriptions.createDescription(p, p.name) : [])))
-            // result.push(...freon.ast.modelunits
-            //     .map(p => this.descriptions.createDescription(p, p.name))
-            // );
-            // console.log("custom computeExports")
             this.logResult(document, result)
             return result;
         } else {
