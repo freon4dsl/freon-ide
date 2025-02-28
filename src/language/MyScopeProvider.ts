@@ -43,11 +43,11 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
     }
 
     override getScope(context: ReferenceInfo): Scope {
-        console.log(`getScope for ${context.property} ${context.container.$type}`)
+        // console.log(`getScope for ${context.property} ${context.container.$type}`)
         let result: Scope = EMPTY_SCOPE
         switch(context.property) {
             case 'propName': {
-                console.log(("propName"))
+                // console.log(("propName"))
                 const projection = this.containerOfType(context.container, "Projection")
                 if (isProjection(projection)) {
                     result = this.getProperties(projection.classifier)
@@ -72,7 +72,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 break
             }
             case 'propInstanceName': {
-                console.log("propInstanceName")
+                // console.log("propInstanceName")
                 const createExp = this.containerOfType(context.container, "FretCreateExp")
                 if (isFretCreateExp(createExp)) {
                     result = this.getProperties(createExp.cref)
@@ -91,7 +91,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 break
             }
             case 'nextPropName': {
-                console.log("nextPropName")
+                // console.log("nextPropName")
                 const typerExp = this.containerOfType(context.container, "TyperExp")
                 if (isTyperExp(typerExp)) {
                     const previous: Property | undefined = typerExp?.propName?.ref
@@ -111,7 +111,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 break;
             }
             case 'isUniqueName': {
-                console.log("isUniqueName ")
+                // console.log("isUniqueName ")
                 const uniqueExp = this.containerOfType(context.container, "IsUniqueRule")
                 const ruleExp = this.containerOfType(context.container, "ConceptRule")
                 if (isConceptRule(ruleExp) && isIsUniqueRule(uniqueExp)) {
@@ -142,7 +142,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
         }
         if (context.property === "conceptType") {
             if (this.containerOfType(context.container, "TypeConcept") !== undefined) {
-                console.log("ADDING FreType")
+                // console.log("ADDING FreType")
                 result = new MapScope(result.getAllElements().toArray().concat(this.FRE_NODE))
             }
         }
