@@ -116,10 +116,10 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 const ruleExp = this.containerOfType(context.container, "ConceptRule")
                 if (isConceptRule(ruleExp) && isIsUniqueRule(uniqueExp)) {
                     const list: Property | undefined= uniqueExp.propName?.ref
-                    console.log("    isunique list " + list)
+                    // console.log("    isunique list " + list)
                     if (list !== undefined) {
                         const contextTypeRef: ClassifierType | PrimitiveType | undefined = list.propertyType
-                        console.log("    type " + contextTypeRef)
+                        // console.log("    type " + contextTypeRef)
                         if (isClassifierType(contextTypeRef)) {
                             result = this.getProperties(contextTypeRef)
                         } else {
@@ -146,11 +146,6 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 result = new MapScope(result.getAllElements().toArray().concat(this.FRE_NODE))
             }
         }
-// if (result === EMPTY_SCOPE) {
-        //     const refpath = LANGIUM.AstUtils.getDocument(context.container).uri.fsPath
-        //     const directory = refpath?.substring(0, refpath.lastIndexOf("/"))
-        //     result = this.getScopeForDirectory(context, directory)
-        // }
         return result;
     }
     FRE_NODE: AstNodeDescription = {

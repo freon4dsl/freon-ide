@@ -138,9 +138,15 @@ SuperProjection:
 Projection:
     classifier=ClassifierType WS? CURLY_BEGIN WS?
         text_projection=TextProjection? table_projection=TableProjection? 
-        (fragment=FragmentProjection)?
-        (referenceShortcut='referenceShortcut' WS? '=' WS? PROPERTY_REF_BEGIN WS? ('self' WS? DOT WS?)? propName=[Property] WS? CURLY_END  WS?)?
-        (trigger='trigger' WS? '=' WS? STRING WS?)?
+        (fragment+=FragmentProjection)*
+        (
+            (referenceShortcut+='referenceShortcut' WS? '=' WS? PROPERTY_REF_BEGIN WS? ('self' WS? DOT WS?)? propName=[Property] WS? CURLY_END  WS?)
+            (trigger+='trigger' WS? '=' WS? STRING WS?)?
+        )?
+        (
+            (trigger+='trigger' WS? '=' WS? STRING WS?)
+            (referenceShortcut+='referenceShortcut' WS? '=' WS? PROPERTY_REF_BEGIN WS? ('self' WS? DOT WS?)? propName=[Property] WS? CURLY_END  WS?)?
+        )?
         (symbol='symbol' WS? '=' WS? STRING WS?)?
     CURLY_END WS?;
 
@@ -148,9 +154,9 @@ Projection:
 //     normal=TextProjection   table=TableProjection? ;
 
 TableProjection:
-    kind=TABLE WS? PROJECTION_BEGIN WS?
+    kind='table' WS? PROJECTION_BEGIN WS?
         (th=TableHeader WS?)?
-        p=Property_projection WS? (PROJECTION_SEPARATOR WS? pp+=Property_projection)*
+        p+=Property_projection WS? (PROJECTION_SEPARATOR WS? p+=Property_projection)*
     PROJECTION_END WS?;
 
 PropertyRefOnly: 
@@ -172,8 +178,8 @@ LineWithoutOptional:
     ( t+=TextItem | p+=Property_projection | frag+=FragmentReference | ext+=Simple_external| u+=SuperProjection | WS | NEWLINE )+;
 
 TextItemWithoutSeparator :
-    text=(COLON | CURLY_BEGIN | CURLY_END |SEMI| INT | COMMA | DOT | EXCL | AT | 
-    PAR_OPEN | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE | BACK_QUOTE | '=' | PLUS | MINUS | SLASH | BACK_SLASH 
+    text=(COLON | CURLY_BEGIN | CURLY_END |SEMI| INT | COMMA | DOT | EXCL | AT | '%' | '^'
+    | PAR_OPEN | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE | BACK_QUOTE | '=' | PLUS | MINUS | SLASH | BACK_SLASH 
     | EscapedChar 
     | '?'
     | PROJECTION_BEGIN | Comparator
@@ -186,24 +192,27 @@ TextItemWithoutSeparator :
 TextItem: TextItemWithoutSeparator | PROJECTION_SEPARATOR ;
 
 TableTextItem:
-    text=(COLON | CURLY_BEGIN | CURLY_END |SEMI| INT | COMMA | DOT | EXCL | AT |
-    PAR_OPEN | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE | BACK_QUOTE | '=' | PLUS | MINUS | SLASH | BACK_SLASH | EscapedChar 
+    text=(COLON | CURLY_BEGIN | CURLY_END |SEMI| INT | COMMA | DOT | EXCL | AT | '%' | '^'
+    | PAR_OPEN | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE | BACK_QUOTE | '=' | PLUS | MINUS | SLASH | BACK_SLASH | EscapedChar 
     | PROJECTION_BEGIN | Comparator
     | ListInfoType | ListDirection
     | PrimitiveType
-    | Identifier)
-    ;
+    | Identifier
+    | Keyword
+    );
 
 Identifier returns string:  
       ID 
     // | Keyword
-    | TABLE
+    | 'table'
+    | 'typeof'
     | DisplayType;
 
 PropertyIdentifier returns string:  
       ID 
     | Keyword
-    | TABLE
+    | 'table'
+    | TEXT
     | PrimitiveType
     | DisplayType;
 
@@ -216,8 +225,9 @@ Keyword returns string:
     // | 'istype' | 'hastype' | 'type'
     | 'scoper' | 'namespace_addition' | 'isnamespace' | 'scope'
     | 'validIdentifier' |'notEmpty' |'typecheck' | 'equalsType' | 'typecheck' | 'conformsTo' | 'isunique' | 'property'
-    | 'typer' | 'anytype' | 'infertype' | 'conformsto' | 'equalsto' | 'new' | 'where'
+    | 'typer' | 'anytype' | 'infertype' | 'conformsto' | 'equalsto' | 'new' | 'where' | 'let'
     | FunctionName
+    // | 'text'
     // | 'self'
     ;
 
@@ -228,18 +238,25 @@ OptionalProjection:
 Simple_external:
     '[external' WS? '=' WS? name=Identifier WS? p+=Parameter* PROJECTION_END;
 
-Parameter: key=Identifier WS? '=' WS? value=STRING WS?;
+Parameter: key=PropertyIdentifier WS? '=' WS? value=STRING WS?;
 
 FragmentReference:
-    kind=FRAGMENT WS? fregment=Identifier WS? PROJECTION_END;
+    kind=FRAGMENT WS? fregment=Identifier WS? ('wrap' WS? '=' WS? name=Identifier WS?)?  PROJECTION_END;
 
 Property_projection:
-    SingleProperty ;//|  l=ListProperty;// | button_projection;
+    // SingleProperty 
+    //|  l=ListProperty;// 
+    Button_projection
+    | SingleProperty 
+    ;
+
+Button_projection: BUTTON_START WS? (TEXT WS? '=' WS? s+=STRING WS?)? 'boxRole' WS? '=' WS? s+=STRING WS? PROJECTION_END WS?;
 
 SingleProperty:
     PROPERTY_REF_BEGIN WS?
-        ('self' WS? (DOT WS?))? propName=[Property] (COLON projName=Identifier)? WS? 
-        (ListInfo WS?)? 
+        ('self' WS? (DOT WS?)?)? propName=[Property] (COLON projName=Identifier)? WS? 
+        (ListInfo WS?)?
+        (TEXT WS?)?
         (DisplayType WS?)?  KeywordDecl? ExternalInfo?
     CURLY_END WS?;
 
@@ -248,14 +265,15 @@ SingleProperty:
 //         "self."? propName=[Property] WS? (COLON WS? projName=Identifier WS?)? (ListInfo WS?)? (DisplayType WS?)?  KeywordDecl? ExternalInfo?
 //     CURLY_END WS?;
 
+terminal TEXT:/\btext\b/;
 terminal DisplayType:
-    'text' | 'checkbox' | 'radio' | 'switch' | 'inner-switch' | 'slider';
+     'checkbox' | 'radio' | 'switch' | 'inner-switch' | 'slider';
 
 ListInfo:
     t=TableInfo | l=ListNoTableInfo;
 
 TableInfo:
-    kind=TABLE WS? ((r='rows' | c='columns') WS?)?;
+    kind='table' WS? ((r='rows' | c='columns') WS?)?;
 
 ListNoTableInfo:
     (dir=ListDirection WS?)? (type=ListInfoType WS? PROJECTION_BEGIN (t+=TextItem+ | s+=WS)+ PROJECTION_END WS? )?;
@@ -270,9 +288,9 @@ KeywordDecl:
     PROJECTION_BEGIN WS? t+=TextItemWithoutSeparator+ WS? (PROJECTION_SEPARATOR WS? tt+=TextItemWithoutSeparator+ WS?)? PROJECTION_END WS?;
 
 ExternalInfo:
-    ("wrap" WS? '=' WS? wrap=Identifier WS? (params+=Key_value_pair WS?)*)
+    ('wrap' WS? '=' WS? wrap=Identifier WS? (params+=Key_value_pair WS?)*)
     | 
-    ("replace" WS? '=' WS? replace=Identifier WS?  (params+=Key_value_pair WS?)*);
+    ('replace' WS? '=' WS? replace=Identifier WS?  (params+=Key_value_pair WS?)*);
 
 Key_value_pair:
     key=Identifier WS? '=' WS? STRING WS? ;
@@ -499,6 +517,7 @@ terminal DOT: '.';
 terminal COMMA: ',';
 terminal EXCL: '!';
 terminal AT: '@';
+terminal BUTTON_START: '[button';
 terminal FRAGMENT: '[fragment';
 terminal OPTIONAL: '[?';
 terminal SUPER: '[=>';
@@ -514,7 +533,7 @@ terminal CURLY_END: '}';
 terminal COLON: ':';
 terminal PROPERTY_REF_BEGIN: '${';
 terminal SEMI: ';';
-terminal TABLE:'table';
+terminal TABLE:/\btable\b/;
 terminal NEWLINE: '\n';
 // terminal ANY_CHAR: /[*a-zA-Z0-9'\-[\]\|+<>=#$_.,!?@~%^&*-=+(){}:;<>?]/;
 

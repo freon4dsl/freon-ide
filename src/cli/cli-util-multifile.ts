@@ -8,12 +8,13 @@
 import chalk from 'chalk';
 import path from 'path';
 import fs from 'fs';
-import { LangiumDocument, LangiumCoreServices } from 'langium';
+import { LangiumDocument, LangiumCoreServices, AstNode } from 'langium';
 // CHANGED import { LangiumDocument, LangiumServices } from 'langium';
 import { URI } from 'vscode-uri';
 // import { isTestModel, RequirementModel, TestModel } from '../language-server/generated/ast';
-import { WorkspaceFolder } from 'vscode-languageclient';
+import { Diagnostic, WorkspaceFolder } from 'vscode-languageclient';
 import { Freon, isFreon } from '../language/generated/ast.js';
+// import { LangiumGrammarDefinitionProvider } from 'langium/grammar';
 
 /**
  * Read a requirement document with the complete workspace (with requirements and
@@ -23,20 +24,16 @@ import { Freon, isFreon } from '../language/generated/ast.js';
  * @returns a tuple with the document indicated by the fileName and a list of
  *          documents from the workspace.
  */
-export async function extractDocuments(fileName: string, services: LangiumCoreServices): Promise<LangiumDocument[]> {
-    const extensions = services.LanguageMetaData.fileExtensions;
-    if (!extensions.includes(path.extname(fileName))) {
-        console.error(chalk.yellow(`Please choose a file with one of these extensions: ${extensions}.`));
-        process.exit(1);
-    }
+export async function extractDocuments(dirName: string, services: LangiumCoreServices): Promise<LangiumDocument[]> {
+    // const extensions = services.LanguageMetaData.fileExtensions;
 
-    if (!fs.existsSync(fileName)) {
-        console.error(chalk.red(`File ${fileName} does not exist.`));
+    if (!fs.existsSync(dirName)) {
+        console.error(chalk.red(`Folder ${dirName} does not exist.`));
         process.exit(1);
     }
 
     const folders: WorkspaceFolder[] = [{
-        uri: URI.file(path.resolve(path.dirname(fileName))).toString(),
+        uri: URI.file(path.resolve(dirName)).toString(),
         name: 'main'
     }];
     await services.shared.workspace.WorkspaceManager.initializeWorkspace(folders);
@@ -44,21 +41,43 @@ export async function extractDocuments(fileName: string, services: LangiumCoreSe
     const documents = services.shared.workspace.LangiumDocuments.all.toArray();
     await services.shared.workspace.DocumentBuilder.build(documents, { validation: true });
 
+    // documents.forEach(document=>{
+    //     const validationErrors = (document.diagnostics ?? []).filter(e => e.severity === 1);
+    //     if (validationErrors.length > 0) {
+    //         console.error(chalk.red('There are validation errors:'));
+    //         for (const validationError of validationErrors) {
+    //             console.error(chalk.red(
+    //                 `file ${document.uri.fsPath} line ${validationError.range.start.line + 1}: ${validationError.message} [${document.textDocument.getText(validationError.range)}]`
+    //             ));
+    //         }
+    //         // process.exit(1);
+    //     }
+    // });
+
+    return documents;
+}
+
+type ValidationError = {
+    document: LangiumDocument<AstNode>,
+    diagnostic: Diagnostic
+}
+
+export function validateDocuments(documents: LangiumDocument[]): ValidationError[] {
+    const result: ValidationError[] = [];
     documents.forEach(document=>{
         const validationErrors = (document.diagnostics ?? []).filter(e => e.severity === 1);
         if (validationErrors.length > 0) {
-            console.error(chalk.red('There are validation errors:'));
+            // console.error(chalk.red('There are validation errors:'));
             for (const validationError of validationErrors) {
-                console.error(chalk.red(
-                    `line ${validationError.range.start.line + 1}: ${validationError.message} [${document.textDocument.getText(validationError.range)}]`
-                ));
+                result.push( {document: document, diagnostic: validationError})
+                // console.error(chalk.red(
+                //     `file ${document.uri.fsPath} line ${validationError.range.start.line + 1}: ${validationError.message} [${document.textDocument.getText(validationError.range)}]`
+                // ));
             }
-            process.exit(1);
+            // process.exit(1);
         }
     });
-    // const mainDocument = services.shared.workspace.LangiumDocuments.getOrCreateDocument(URI.file(path.resolve(fileName)));
-
-    return documents;
+    return result
 }
 
 /**
@@ -68,8 +87,9 @@ export async function extractDocuments(fileName: string, services: LangiumCoreSe
  * @returns a tuple with the model indicated by the fileName and a list of
  *          test models from the workspace.
 chr */
-export async function extractFreonModels(fileName: string, services: LangiumCoreServices): Promise<Freon[]> {
-    const allDocuments = await extractDocuments(fileName, services);
+export async function extractFreonModels(dirName: string, services: LangiumCoreServices): Promise<Freon[]> {
+    const allDocuments = await extractDocuments(dirName, services);
+    validateDocuments(allDocuments)
     return  allDocuments
             .filter(d=>isFreon(d.parseResult?.value))
             .map(d=>d.parseResult?.value as Freon)

@@ -1,0 +1,18 @@
+{
+	"private": true,
+	"name": "scripts",
+	"type": "module",
+	"bin": {
+		"navTree": "dist/NavTreeFiller.js"
+	},
+	"scripts": {
+		"build": "tsc",
+		"install-examples": "tsc && node dist/InstallCodeExamples.js",
+		"md2svelte": "tsc && node dist/Generator.js",
+		"buildSite": "npm run embedExamples && npm run md2svelte",
+		"install-local": "npm install --registry http://localhost:4873"
+	},
+	"dependencies": {
+		"typescript": "5.7.3"
+	}
+}

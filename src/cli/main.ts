@@ -15,11 +15,24 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const packagePath = path.resolve(__dirname, '..', '..', 'package.json');
 const packageContent = await fs.readFile(packagePath, 'utf-8');
 
+export type ConfigType = {
+    repositories: 
+        {
+            source   : string,
+            target   : string,
+            languages: string[]
+        }[]
+}
+
 export const generateAction = async (fileName: string, opts: GenerateOptions): Promise<void> => {
-    console.log("!!!!!")
+
     const services = createFreonServices(NodeFileSystem).Freon;
-    // const model = await extractAstNode<Model>(fileName, services);
-    const models = await extractFreonModels('./src/freon2/ProjectY.ast', services)
+    const configFile = await fs.readFile("./scripts/test-languages.json", 'utf-8');
+    const config = JSON.parse(configFile) as ConfigType
+
+    console.log(`Repo ${config.repositories[1].languages.join(" ")}`)
+
+    const models = await extractFreonModels('./src/defs', services)
     models.forEach( m => {
         if (m.ast !== undefined) {
             console.log("Ast model " + m.ast.name)
@@ -27,8 +40,18 @@ export const generateAction = async (fileName: string, opts: GenerateOptions): P
         if (m.edit !== undefined) {
             console.log("Edit model " + m.edit.name)
         }
+        if (m.scoper !== undefined) {
+            console.log("Edit model " + m.scoper.name)
+        }
+        if (m.typer !== undefined) {
+            console.log("Edit model " + m.typer)
+        }
+        if (m.validator !== undefined) {
+            console.log("Edit model " + m.validator)
+        }
+
     })
-    console.log(chalk.green(`JavaScript code generated successfully`));
+    console.log(chalk.green(`DONE`));
 };
 
 export type GenerateOptions = {
