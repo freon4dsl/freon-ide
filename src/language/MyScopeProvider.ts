@@ -94,7 +94,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 // console.log("nextPropName")
                 const typerExp = this.containerOfType(context.container, "TyperExp")
                 if (isTyperExp(typerExp)) {
-                    const previous: Property | undefined = typerExp?.propName?.ref
+                    const previous: Property | undefined = typerExp?.self?.propName?.ref
                     if (previous !== undefined) {
                         const previousTypeRef: ClassifierType | PrimitiveType | undefined = previous.propertyType
                         if (isClassifierType(previousTypeRef)) {

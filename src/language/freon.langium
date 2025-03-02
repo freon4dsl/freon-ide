@@ -139,16 +139,42 @@ Projection:
     classifier=ClassifierType WS? CURLY_BEGIN WS?
         text_projection=TextProjection? table_projection=TableProjection? 
         (fragment+=FragmentProjection)*
-        (
-            (referenceShortcut+='referenceShortcut' WS? '=' WS? PROPERTY_REF_BEGIN WS? ('self' WS? DOT WS?)? propName=[Property] WS? CURLY_END  WS?)
-            (trigger+='trigger' WS? '=' WS? STRING WS?)?
-        )?
-        (
-            (trigger+='trigger' WS? '=' WS? STRING WS?)
-            (referenceShortcut+='referenceShortcut' WS? '=' WS? PROPERTY_REF_BEGIN WS? ('self' WS? DOT WS?)? propName=[Property] WS? CURLY_END  WS?)?
-        )?
-        (symbol='symbol' WS? '=' WS? STRING WS?)?
+        ex=ExtraClassifierInfo?
     CURLY_END WS?;
+
+Trigger:           (trigger+='trigger' WS? '=' WS? STRING WS?);
+ReferenceShortcut: (referenceShortcut+='referenceShortcut' WS? '=' WS? PROPERTY_REF_BEGIN WS? ('self' WS? DOT WS?)? propName=[Property] WS? CURLY_END  WS?);
+// Symbols is reserved JS word, not allowed by Langium
+SymbolK:            (symbol='symbol' WS? '=' WS? STRING WS?);
+
+/* rules that make the order of extra info flexible */
+ExtraClassifierInfo:
+    trigger=Trigger
+    sub=ExtraChoiceSub1?
+    | symbol=SymbolK
+      sub=ExtraChoiceSub2?
+    | referenceShortcut=ReferenceShortcut
+      sub=ExtraChoiceSub3?;
+
+ExtraChoiceSub1: 
+    referenceShortcut=ReferenceShortcut
+    symbol=SymbolK?
+    | symbol=SymbolK
+      referenceShortcut=ReferenceShortcut?;
+
+ExtraChoiceSub2: 
+    referenceShortcut=ReferenceShortcut
+    trigger=Trigger?
+    | trigger=Trigger
+      referenceShortcut=ReferenceShortcut?;
+
+ExtraChoiceSub3: 
+    symbol=SymbolK
+    trigger=Trigger?
+    | trigger=Trigger
+      symbol=SymbolK?
+      ;
+/* END of rules that make order of extra info flexible */
 
 // TableOrNormal:
 //     normal=TextProjection   table=TableProjection? ;
@@ -178,13 +204,14 @@ LineWithoutOptional:
     ( t+=TextItem | p+=Property_projection | frag+=FragmentReference | ext+=Simple_external| u+=SuperProjection | WS | NEWLINE )+;
 
 TextItemWithoutSeparator :
-    text=(COLON | CURLY_BEGIN | CURLY_END |SEMI| INT | COMMA | DOT | EXCL | AT | '%' | '^'
-    | PAR_OPEN | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE | BACK_QUOTE | '=' | PLUS | MINUS | SLASH | BACK_SLASH 
-    | EscapedChar 
-    | '?'
-    | PROJECTION_BEGIN | Comparator
+    text=(
+    COLON | CURLY_BEGIN | CURLY_END | SEMI 
+    | INT | COMMA | DOT | EXCL 
+    | AT | '%' | '^' | PAR_OPEN 
+    | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE 
+    | BACK_QUOTE | PLUS | MINUS | SLASH 
+    | EscapedChar | '?' | PROJECTION_BEGIN | Comparator
     | ListInfoType | ListDirection
-    | PrimitiveType
     | PropertyIdentifier
     | 'self'
     );
@@ -210,13 +237,19 @@ Identifier returns string:
 
 PropertyIdentifier returns string:  
       ID 
-    | Keyword
+    | KeywordAllowedAsProperty
     | 'table'
-    | TEXT
     | PrimitiveType
     | DisplayType;
 
 Keyword returns string:
+    KeywordAllowedAsProperty
+    // | 'istype' | 'hastype' | 'type'
+    | 'anytype' 
+    | 'self'
+    ;
+
+KeywordAllowedAsProperty returns string:
     'base' | 'implements' | 'concept' | 'model' | 'modelunit' | 'language' | 'editor' | 'trigger' | 'referenceShortcut' | 'symbol' 
     | 'interface' | 'private'
     | 'abstract' | 'precedence' | 'priority' | 'reference' | 'true' | 'false' | 'for' | 'in'
@@ -225,10 +258,10 @@ Keyword returns string:
     // | 'istype' | 'hastype' | 'type'
     | 'scoper' | 'namespace_addition' | 'isnamespace' | 'scope'
     | 'validIdentifier' |'notEmpty' |'typecheck' | 'equalsType' | 'typecheck' | 'conformsTo' | 'isunique' | 'property'
-    | 'typer' | 'anytype' | 'infertype' | 'conformsto' | 'equalsto' | 'new' | 'where' | 'let'
+    | 'typer' 
+    | 'infertype' | 'conformsto' | 'equalsto' | 'new' | 'where' | 'let'
     | FunctionName
-    // | 'text'
-    // | 'self'
+    | TEXT
     ;
 
 
@@ -255,9 +288,13 @@ Button_projection: BUTTON_START WS? (TEXT WS? '=' WS? s+=STRING WS?)? 'boxRole' 
 SingleProperty:
     PROPERTY_REF_BEGIN WS?
         ('self' WS? (DOT WS?)?)? propName=[Property] (COLON projName=Identifier)? WS? 
-        (ListInfo WS?)?
+        // (ListInfo WS?)?
         (TEXT WS?)?
-        (DisplayType WS?)?  KeywordDecl? ExternalInfo?
+        (DisplayType WS?)? 
+        KeywordDecl?
+        ExternalInfo?
+        ('table' WS? ((r='rows' | c='columns') WS?)?)?
+        (dir=ListDirection WS?)? (type=ListInfoType WS? PROJECTION_BEGIN (t+=TextItem+ | s+=WS)+ PROJECTION_END WS? )?
     CURLY_END WS?;
 
 // ListProperty:
@@ -268,15 +305,6 @@ SingleProperty:
 terminal TEXT:/\btext\b/;
 terminal DisplayType:
      'checkbox' | 'radio' | 'switch' | 'inner-switch' | 'slider';
-
-ListInfo:
-    t=TableInfo | l=ListNoTableInfo;
-
-TableInfo:
-    kind='table' WS? ((r='rows' | c='columns') WS?)?;
-
-ListNoTableInfo:
-    (dir=ListDirection WS?)? (type=ListInfoType WS? PROJECTION_BEGIN (t+=TextItem+ | s+=WS)+ PROJECTION_END WS? )?;
 
 ListDirection returns string:
     'horizontal' | 'vertical';
@@ -441,7 +469,7 @@ TyperStatement: FretInferenceRule
 FretInferenceRule: kind='infertype' WS? exp=TyperExp WS? SEMI WS?;
 FretConformanceRule: kind='conformsto' WS? exp=TyperExp WS? SEMI WS? ;
 FretEqualsRule: kind='equalsto' WS? exp=TyperExp WS? SEMI WS?;
-FretLimitedRule: (ie+=InstanceRuleExpression WS?)* 'conformsto' WS? (TyperExp | InstanceRuleExpression) WS? SEMI WS?;
+FretLimitedRule: (ie+=InstanceRuleExpression WS?) 'conformsto' WS? (TyperExp | InstanceRuleExpression) WS? SEMI WS?;
 
 TyperExp: (
          self=TyperSelfExp 
@@ -451,16 +479,11 @@ TyperExp: (
         | f=FretFunctionCallExp
         | l=FretLimitedInstanceExp
     )
-    (
-        // (DOT WS? propName+=[Property] WS?)* 
-        (  (DOT WS? propName=[Property] WS? (DOT WS? nextPropName+=[Property] WS?)* )  WS?)?
-        
-    )
     ;
 
 InstanceRuleExpression: (conceptName=[Limited] WS? type=COLON WS?)? instance=[Instance] WS?;
 
-TyperSelfExp: kind='self' WS?;
+TyperSelfExp: kind='self' WS? (  (DOT WS? propName=[Property] WS? (DOT WS? nextPropName+=[Property] WS?)* ) )?;
 AnyTypeExp: kind='anytype' WS? ;
 
 // FretVarCallExp: p=[Property] WS?;
@@ -482,8 +505,8 @@ FretFunctionCallExp: i=FunctionName WS? PAR_OPEN WS? (f+=TyperExp WS? (COMMA  WS
 FunctionName returns string: 'typeof' | 'commonSuperType' | 'ownerOfType';
 
 VarRef: var=[FretVarDecl] WS? DOT WS? varPropName=[Property] WS?;
-WhereTyperExp: VarRef | TyperExp;
-Binary_FretExp: l=WhereTyperExp (BinaryTypeOperator WS? r+=WhereTyperExp WS?)+;
+WhereTyperExp: VarRef | TyperSelfExp | AnyTypeExp;
+Binary_FretExp: l=WhereTyperExp (BinaryTypeOperator WS? r+=WhereTyperExp WS?);
 
 BinaryTypeOperator returns string: 'conformsto' | 'equalsto' ;
 
