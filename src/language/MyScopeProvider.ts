@@ -206,6 +206,8 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
      */
     protected getGlobalScopeForDirectory(referenceType: string, _context: ReferenceInfo, dir: string): Scope {
 
+        // TODO Find the uri's of the files in the current directory first and give that as secpond parameter to the indexManager.allElemen(tS9)...)
+        
         const elements: AstNodeDescription[] = this.indexManager.allElements(referenceType).filter(elem => {
             const same = this.dir(elem) === dir
             return same
