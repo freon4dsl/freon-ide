@@ -1,0 +1,15 @@
+{
+	"private": true,
+	"name": "scripts",
+	"type": "module",
+	"bin": {
+		"navTree": "dist/InstallTestData.js"
+	},
+	"scripts": {
+		"build": "tsc",
+		"install-test-data": "tsc && node dist/InstallTestData.js"
+	},
+	"dependencies": {
+		"typescript": "5.7.3"
+	}
+}

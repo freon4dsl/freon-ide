@@ -1,0 +1,51 @@
+{
+    "repositories": [
+        {
+            "source": "https://github.com/freon4dsl/Freon4dsl/packages/samples",
+            "target": "./test-cases/samples",
+            "languages": [
+                "Calculator",
+                "CourseSchedule",
+                "CustomizationsProject",
+                "Education",
+                "Example",
+                "ExternalTester",
+                "Insurance",
+                "MpsExpressions",
+                "Octopus",
+                "PiLanguage",
+                "RulesLanguage",
+                "TaxRules",
+                "UndoTester"
+            ]
+        },
+        {
+            "source": "https://github.com/freon4dsl/Freon4dsl/packages/test/src",
+            "target": "./test-cases/freon-tests",
+            "languages": [
+                "demo",
+                "octopus-small",
+                "parser-basic-concepts",
+                "parser-basic-properties",
+                "parser_gen",
+                "testCircularImports",
+                "testDefaultScoper",
+                "testDefinedScoper",
+                "testLangConstructs",
+                "NoParserAvailable",
+                "testPrimPropsGeneration",
+                "testproject",
+                "typer-test8",
+                "UndoTester",
+                "vehicles"
+            ]
+        },
+        {
+            "source": "https://github.com/freon4dsl/create-freon-languages/languages",
+            "target": "./test-cases/create-languages",
+            "languages": [
+                "CourseSchedule", "CustomizationsProject", "Education", "EducationInterpreter", "Expressions", "Insurance", "TyperExample"            
+            ]
+        }
+    ]
+}

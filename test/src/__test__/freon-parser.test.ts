@@ -1,11 +1,11 @@
-import { beforeAll, describe, expect, test, assert } from "vitest";
+import { beforeAll, describe, test } from "vitest";
 import { type LangiumDocument } from "langium";
 import { parseHelper } from "langium/test";
-import { createFreonServices } from "../src/language/freon-module.js";
-import { Freon, Model } from "../src/language/generated/ast.js";
-import { extractDocuments, extractFreonModels } from "../src/cli/cli-util-multifile.js";
+import { createFreonServices } from "../../../src/language/freon-module.js";
+import { Model } from "../../../src/language/generated/ast.js";
+import { extractDocuments } from "../../../src/cli/cli-util-multifile.js";
 import { NodeFileSystem } from "langium/node";
-import { ConfigType, getConfig } from "./text-config.js";
+import { ConfigType, getConfig } from "../text-config.js";
 
 // let services: ReturnType<typeof createFreonServices>;
 let parse:    ReturnType<typeof parseHelper<Model>>;
@@ -35,7 +35,7 @@ config.repositories.forEach(repo => {
                     const diags = doc.diagnostics
                     if (diags !== undefined && diags.length > 0) {
                         diags.forEach(diag => {
-                            console.error(`=============== ${doc.uri} ${diag.range.start.line}-${diag.range.start.character}: ${diag.message}`)
+                            console.error(`=============== ${doc.uri} ${diag.range.start.line+1}-${diag.range.start.character+1}: ${diag.message}`)
                             // assert(false, `${doc.uri} ${diag.range.start.line}-${diag.range.start.character}: ${diag.message}`)
                         })
                     }
