@@ -1,5 +1,5 @@
 import { DefaultScopeComputation, AstNode, LangiumDocument, AstNodeDescription } from "langium";
-import { Classifier, Freon, Instance, isLimited, Limited } from "./generated/ast.js";
+import { Classifier, ExternalDeclaration, Freon, Instance, isLimited, Limited } from "./generated/ast.js";
 // import { isOk } from "./MyScopeProvider.js";
 
 
@@ -21,6 +21,14 @@ export class MyScopeComputation extends DefaultScopeComputation {
             const instances = freon.ast.classifiers.filter(c => isLimited(c)).flatMap(lim => (lim as Limited).instances)
             result.push( ...instances.flatMap(p => (instanceHasName(p) ? this.descriptions.createDescription(p, p.name) : [])))
             this.logResult(document, result)
+            return result;
+        } else if (freon.edit!== null) {
+            const external: ExternalDeclaration[] | undefined = freon.edit?.globals?.flatMap(glob => (glob?.externals ? glob.externals : []))
+            if (external !== undefined) {
+                result.push(...external.map(ext => this.descriptions.createDescription(ext, ext.name)))
+            }
+            const superresult = await super.computeExports(document)
+            result.push(...superresult)
             return result;
         } else {
             const superresult = await super.computeExports(document)

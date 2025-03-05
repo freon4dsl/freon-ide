@@ -86,7 +86,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 if (isFretWhereExp(whereExp)) {
                     result = this.getProperties(whereExp.var.cref)
                 } else {
-                    console.log("ERROR 2")
+                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 2`)
                 }
                 break
             }
@@ -100,13 +100,13 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                         if (isClassifierType(previousTypeRef)) {
                             result = this.getProperties(previousTypeRef)
                         } else {
-                            console.log("ERROR 5")
+                            console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 5`)
                         }
                     } else {
-                        console.log("ERROR 7")
+                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 7`)
                     }
                 } else {
-                    console.log("ERROR 1")
+                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 1`)
                 }
                 break;
             }
@@ -115,7 +115,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 const uniqueExp = this.containerOfType(context.container, "IsUniqueRule")
                 const ruleExp = this.containerOfType(context.container, "ConceptRule")
                 if (isConceptRule(ruleExp) && isIsUniqueRule(uniqueExp)) {
-                    const list: Property | undefined= uniqueExp.propName?.ref
+                    const list: Property | undefined = uniqueExp.propName?.ref
                     // console.log("    isunique list " + list)
                     if (list !== undefined) {
                         const contextTypeRef: ClassifierType | PrimitiveType | undefined = list.propertyType
@@ -123,13 +123,13 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                         if (isClassifierType(contextTypeRef)) {
                             result = this.getProperties(contextTypeRef)
                         } else {
-                            console.log("ERROR 8")
+                            console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 8`)
                         }
                     } else {
-                        console.log("ERROR 9")
+                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 9`)
                     }
                 } else {
-                    console.log("ERROR 33")
+                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 33`)
                 }
                 break
             }

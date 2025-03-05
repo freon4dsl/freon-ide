@@ -80,7 +80,8 @@ Interface:
     CURLY_END WS?;
 
 Property:
-    ('private' WS?)? (reference?='reference' WS)? name=PropertyIdentifier WS? (optional?='?' WS?)? COLON WS? (propertyType=ClassifierType | propertyPrimiytiveType=PrimitiveType) WS? (list?='[]' WS?)? (InitialValue WS?)?SEMI WS?;
+    ('private' WS?)? (reference?='reference' WS)? name=PropertyIdentifier WS? (optional?='?' WS?)? 
+    COLON WS? (propertyType=ClassifierType | propertyPrimiytiveType=PrimitiveType) WS? (list?='[]' WS?)? (InitialValue WS?)?SEMI WS?;
 
 Implements:
     kind='implements' WS intfaces+=[Interface] WS? (COMMA WS? intfaces+=[Interface] WS?)*  ;
@@ -110,7 +111,7 @@ InitialValue: '=' WS? value=PropValue;
  *****************************************************************************/
 FreonEditor:
     'editor' WS name=Identifier WS ('precedence' WS precedence=INT WS?)?
-     ('global' WS CURLY_BEGIN WS list+=SingleGlobalProjection* WS? CURLY_END WS?)?
+     ('global' WS CURLY_BEGIN WS globals+=SingleGlobalProjection* WS? CURLY_END WS?)?
     (projections+=Projection)*;
 
 SingleGlobalProjection:
@@ -122,11 +123,10 @@ SingleGlobalProjection:
     |
     'limited' PROJECTION_BEGIN PROJECTION_END WS (kind=DisplayType WS?)?
     |
-    'external' WS? CURLY_BEGIN WS? list=ListOfExternals WS? CURLY_END WS?
+    'external' WS? CURLY_BEGIN WS? externals+=ExternalDeclaration (COMMA WS? externals+=ExternalDeclaration)* CURLY_END WS?
     ;
 
-ListOfExternals:
-    id+=Identifier WS? (COMMA WS? id+=Identifier WS?)*;
+ExternalDeclaration: name=Identifier WS?;
 
 FragmentProjection:
     'fragment' WS? name=Identifier WS?
@@ -213,6 +213,7 @@ TextItemWithoutSeparator :
     | EscapedChar | '?' | PROJECTION_BEGIN | Comparator
     | ListInfoType | ListDirection
     | PropertyIdentifier
+    
     | 'self'
     );
 
@@ -245,7 +246,7 @@ PropertyIdentifier returns string:
 Keyword returns string:
     KeywordAllowedAsProperty
     // | 'istype' | 'hastype' | 'type'
-    | 'anytype' 
+    // | 'anytype' 
     | 'self'
     ;
 
@@ -255,21 +256,22 @@ KeywordAllowedAsProperty returns string:
     | 'abstract' | 'precedence' | 'priority' | 'reference' | 'true' | 'false' | 'for' | 'in'
     | 'rows' | 'columns' | 'wrap' | 'replace' | 'expression' | 'binary' | 'limited'
     | 'fragment' | 'external' | 'type' | 'file-extension'
-    // | 'istype' | 'hastype' | 'type'
+    | 'istype' | 'hastype' | 'anytype'
     | 'scoper' | 'namespace_addition' | 'isnamespace' | 'scope'
-    | 'validIdentifier' |'notEmpty' |'typecheck' | 'equalsType' | 'typecheck' | 'conformsTo' | 'isunique' | 'property'
-    | 'typer' 
+    | 'validIdentifier' |'notEmpty' |'typecheck' | 'equalsType' | 'conformsTo' | 'isunique' | 'property'
+    | 'typer' | 'validator'
     | 'infertype' | 'conformsto' | 'equalsto' | 'new' | 'where' | 'let'
     | FunctionName
+    | ListInfoType
     | TEXT
     ;
 
 
 OptionalProjection:
-    kind=OPTIONAL (lines+=LineWithoutOptional)* PROJECTION_END;
+    kind=OPTIONAL (lines+=LineWithoutOptional)* PROJECTION_END WS?;
 
 Simple_external:
-    '[external' WS? '=' WS? name=Identifier WS? p+=Parameter* PROJECTION_END;
+    '[external' WS? '=' WS? external=[ExternalDeclaration] WS? p+=Parameter* PROJECTION_END WS?;
 
 Parameter: key=PropertyIdentifier WS? '=' WS? value=STRING WS?;
 
@@ -469,7 +471,7 @@ TyperStatement: FretInferenceRule
 FretInferenceRule: kind='infertype' WS? exp=TyperExp WS? SEMI WS?;
 FretConformanceRule: kind='conformsto' WS? exp=TyperExp WS? SEMI WS? ;
 FretEqualsRule: kind='equalsto' WS? exp=TyperExp WS? SEMI WS?;
-FretLimitedRule: (ie+=InstanceRuleExpression WS?) 'conformsto' WS? (TyperExp | InstanceRuleExpression) WS? SEMI WS?;
+FretLimitedRule: (ie+=InstanceRuleExpression WS?) 'conformsto' WS? (TyperExp ) WS? SEMI WS?;
 
 TyperExp: (
          self=TyperSelfExp 
@@ -477,11 +479,12 @@ TyperExp: (
         | w=FretWhereExp 
         | c=FretCreateExp
         | f=FretFunctionCallExp
-        | l=FretLimitedInstanceExp
+        | l=InstanceRuleExpression
     )
     ;
 
 InstanceRuleExpression: (conceptName=[Limited] WS? type=COLON WS?)? instance=[Instance] WS?;
+// FretLimitedInstanceExp: conceptName=[Limited] COLON i=PropertyIdentifier WS?;
 
 TyperSelfExp: kind='self' WS? (  (DOT WS? propName=[Property] WS? (DOT WS? nextPropName+=[Property] WS?)* ) )?;
 AnyTypeExp: kind='anytype' WS? ;
@@ -492,7 +495,7 @@ FretCreateExp: kind='new' WS? cref=ClassifierType WS? CURLY_BEGIN WS? (i+=FretPr
 
 FretPropInstance: propInstanceName=[Property] WS? COLON WS? e=TyperExp WS?;
 
-FretLimitedInstanceExp: l=[Limited] COLON i=PropertyIdentifier WS?;
+
 
 FretWhereExp: var=FretVarDecl 'where' WS? CURLY_BEGIN WS?
 	 ( b+=Binary_FretExp SEMI WS? )*
@@ -516,7 +519,7 @@ BinaryTypeOperator returns string: 'conformsto' | 'equalsto' ;
 //     char+=ID+ ;
 
 EscapedChar returns string: 
-    ESCAPED | BACK_SLASH | ESCAPED_PROJECTION_BEGIN | ESCAPED_PROJECTION_END;
+    ESCAPED | BACK_SLASH | ESCAPED_PROJECTION_BEGIN | ESCAPED_PROJECTION_END | ESCAPED_DOLLAR;
 
 hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\// WS?;
 hidden terminal SL_COMMENT: /\/\/[^\n\r]*/ WS?;
@@ -527,6 +530,7 @@ terminal SLASH: '/';
 terminal ESCAPED: '\\"';
 terminal ESCAPED_PROJECTION_BEGIN: '\\[';
 terminal ESCAPED_PROJECTION_END: '\\]';
+terminal ESCAPED_DOLLAR: '\\$';
 terminal BACK_SLASH: '\\';
 
 // terminal EQUALS: '=';
