@@ -13,8 +13,15 @@ Install the `freon-ide` extension from the VSCode Marketplace.
 
 ## Installation in WebStorm / IntelliJ IDE's
 
-Install the Red Hat LSP plugin: [https://plugins.jetbrains.com/plugin/23257-lsp4ij](https://plugins.jetbrains.com/plugin/23257-lsp4ij)
-Open the settings for this plugin:
+Dpownload the freon-ide release
+
+- Download the latest freon-ide release from [https://github.com/freon4dsl/freon-ide/releases](https://github.com/freon4dsl/freon-ide/releases)
+- Unzip the release file into a folder, this folder should not be a tmp folder, its needs to stay available.
+
+Install the LPS plugin
+
+- Install the Red Hat LSP plugin: [https://plugins.jetbrains.com/plugin/23257-lsp4ij](https://plugins.jetbrains.com/plugin/23257-lsp4ij)
+  Open the settings for this plugin:
 
 - Goto WebStorm => Settings => Languages & Frameworks => Select Language Servers
 
