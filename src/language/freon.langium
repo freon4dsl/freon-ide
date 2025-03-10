@@ -185,8 +185,8 @@ TableProjection:
         p+=Property_projection WS? (PROJECTION_SEPARATOR WS? p+=Property_projection)*
     PROJECTION_END WS?;
 
-PropertyRefOnly: 
-    PROPERTY_REF_BEGIN WS? propName=[Property] (COLON Identifier)? WS? CURLY_END  WS?;
+// PropertyRefOnly: 
+//     PROPERTY_REF_BEGIN WS? propName=[Property] (COLON Identifier)? WS? CURLY_END  WS?;
 TableHeader:
     t+=TableTextItem WS? (t+=TableTextItem WS?)* (PROJECTION_SEPARATOR WS? t+=TableTextItem WS? (t+=TableTextItem WS?)*)*;
 
@@ -410,11 +410,11 @@ Severity: 'severity' WS? COLON WS? value=Identifier WS? ;
 
 Errormessage: 'message' WS? COLON WS? content=STRING WS? ;
 
-MessageContent: head=MessagePart WS? (WS v+=MessagePart WS? )*;
+// MessageContent: head=MessagePart WS? (WS v+=MessagePart WS? )*;
 
-MessagePart: ref=ModelReference ;
+// MessagePart: ref=ModelReference ;
 
-ModelReference: PROPERTY_REF_BEGIN WS? exp=Expression WS? CURLY_END WS? ;
+// ModelReference: PROPERTY_REF_BEGIN WS? exp=Expression WS? CURLY_END WS? ;
 
 ValidNameRule: 'validIdentifier' WS? property=LangExpression? extra=RuleExtras? ;
 
@@ -536,9 +536,9 @@ terminal BACK_SLASH: '\\';
 // terminal EQUALS: '=';
 terminal PLUS: '+';
 terminal MINUS: '-';
-terminal UNDERSCORE: '_';
+// terminal UNDERSCORE: '_';
 terminal SINGLE_QUOTE: "'";
-terminal DOUBLE_QUOTE: '"';
+// terminal DOUBLE_QUOTE: '"';
 terminal BACK_QUOTE: "`";
 terminal DOT: '.';
 terminal COMMA: ',';
@@ -560,7 +560,7 @@ terminal CURLY_END: '}';
 terminal COLON: ':';
 terminal PROPERTY_REF_BEGIN: '${';
 terminal SEMI: ';';
-terminal TABLE:/\btable\b/;
+// terminal TABLE:/\btable\b/;
 terminal NEWLINE: '\n';
 // terminal ANY_CHAR: /[*a-zA-Z0-9'\-[\]\|+<>=#$_.,!?@~%^&*-=+(){}:;<>?]/;
 

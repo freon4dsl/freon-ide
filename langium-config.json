@@ -4,6 +4,6 @@
         "id": "freon",
         "grammar": "src/language/freon.langium",
         "fileExtensions": [".ast", ".edit", ".scope", ".type", ".valid"]
-    }],
+    }], 
     "out": "src/language/generated"
 }
