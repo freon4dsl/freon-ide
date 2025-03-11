@@ -1,7 +1,7 @@
 {
     "name": "freon-ide",
     "description": "IDE Support for Freon Definition Languages",
-    "version": "0.0.1",
+    "version": "0.0.51",
     "repository": "https://github.com/freon4dsl/freon-ide.git",
     "icon": "images/freonlogo.png",
     "type": "module",
@@ -11,7 +11,7 @@
         "build": "tsc -b tsconfig.src.json && node esbuild.mjs",
         "build:lsp": "./node_modules/esbuild/bin/esbuild ./src/language/main.ts --bundle --platform=node --format=iife --outfile=./public/freonLanguageServer.cjs",
         "watch": "concurrently -n tsc,esbuild -c blue,yellow \"tsc -b tsconfig.src.json --watch\" \"node esbuild.mjs --watch\"",
-        "install:freon": "code --install-extension freon-ide-0.0.1.vsix",
+        "install:freon": "code --install-extension freon-ide-0.0.51.vsix",
         "uninstall:freon": "code --uninstall-extension freon.freon-ide",
         "lint": "eslint src --ext ts",
         "langium:generate": "langium generate",
@@ -21,7 +21,8 @@
         "test": "vitest run",
         "update-version": "node ./src/utils/UpdatePackage.cjs",
         "testl": "node ./out/cli/main.js generate freon2 -d ./test",
-        "install-test-data": "cd test && tsc && cd .. && node test/dist/InstallTestData.js"
+        "install-test-data": "cd test && tsc && cd .. && node test/dist/InstallTestData.js",
+        "package:lsp": "zip freon-ide.zip package.json public/freonLanguageServer.cjs freon-ide-0.0.1.vsix syntaxes/freon.tmLanguage.json"
     },
     "dependencies": {
         "@types/vscode": "1.97.0",
@@ -84,7 +85,7 @@
     },
     "activationEvents": [],
     "provider": "Jos",
-    "publisher": "freon", 
+    "publisher": "freon",
     "main": "./out/extension/main.cjs",
     "bin": {
         "freon-cli": "./bin/cli.js"

@@ -256,14 +256,20 @@ KeywordAllowedAsProperty returns string:
     | 'abstract' | 'precedence' | 'priority' | 'reference' | 'true' | 'false' | 'for' | 'in'
     | 'rows' | 'columns' | 'wrap' | 'replace' | 'expression' | 'binary' | 'limited'
     | 'fragment' | 'external' | 'type' | 'file-extension'
-    | 'istype' | 'hastype' | 'anytype'
     | 'scoper' | 'namespace_addition' | 'isnamespace' | 'scope'
-    | 'validIdentifier' |'notEmpty' |'typecheck' | 'equalsType' | 'conformsTo' | 'isunique' | 'property'
     | 'typer' | 'validator'
-    | 'infertype' | 'conformsto' | 'equalsto' | 'new' | 'where' | 'let'
-    | FunctionName
     | ListInfoType
     | TEXT
+    | 'istype' | 'hastype' | 'anytype'
+    | 'validIdentifier' |'notEmpty' |'typecheck' 
+    | 'equalsType' | 'isunique'
+    | 'infertype' 
+    | 'conformsto' 
+    | 'equalsto' 
+    // | 'new' 
+    | 'where' 
+    // | 'is'
+    | FunctionName
     ;
 
 
@@ -372,7 +378,7 @@ InstanceExpression: conceptName=[Limited] WS? type=COLON WS? instance=[Instance]
 
 Expression: sourceName=('self' | 'container') WS? (appliedfeature=DotExpression)?;
 
-DotExpression: DOT WS? propName=[Property] WS? (appliedfeature=DotExpression?)?  ;
+DotExpression: DOT WS? propName=[Property:PropertyIdentifier] WS? (DOT WS? nextPropName+=[Property:PropertyIdentifier] WS?)*  ;
 
 FunctionExpression: 
     sourceName=Identifier PAR_OPEN ( WS?
@@ -432,7 +438,7 @@ ExpressionRule:
      exp1=LangExpression Comparator WS? exp2=LangExpression extra=RuleExtras? ;
 
 IsUniqueRule:
-    'isunique' WS? 'in' WS? 'self' WS? DOT WS? propName=[Property] WS? 'property' WS? isUniqueName=[Property] WS? extra=RuleExtras? ;
+    'in' WS? 'self' WS? DOT WS? propName=[Property] WS? 'isunique' WS? isUniqueName=[Property] WS? extra=RuleExtras? ;
     // 'isunique' WS? isUniqueName=[Property] WS? 'in' WS? 'self' WS? DOT WS? propName=[Property]  WS?  extra=RuleExtras? ;
 
 Comparator returns string: "<=" | '=' | ">=" | ">" | "<";
@@ -471,29 +477,30 @@ TyperStatement: FretInferenceRule
 FretInferenceRule: kind='infertype' WS? exp=TyperExp WS? SEMI WS?;
 FretConformanceRule: kind='conformsto' WS? exp=TyperExp WS? SEMI WS? ;
 FretEqualsRule: kind='equalsto' WS? exp=TyperExp WS? SEMI WS?;
-FretLimitedRule: (ie+=InstanceRuleExpression WS?) 'conformsto' WS? (TyperExp ) WS? SEMI WS?;
+FretLimitedRule: (ie+=LimitedRule WS?) 'conformsto' WS? (TyperExp ) WS? SEMI WS?;
 
 TyperExp: (
-         self=TyperSelfExp 
+         self=Expression 
         | any=AnyTypeExp
         | w=FretWhereExp 
         | c=FretCreateExp
         | f=FretFunctionCallExp
-        | l=InstanceRuleExpression
+        | l=LimitedValueExpression
     )
     ;
+LimitedRule: instance=[Instance] WS?;
 
-InstanceRuleExpression: (conceptName=[Limited] WS? type=COLON WS?)? instance=[Instance] WS?;
+LimitedValueExpression: 'limited' WS? (conceptName=[Limited:Identifier] WS? type=COLON WS?)? instance=[Instance] WS?;
 // FretLimitedInstanceExp: conceptName=[Limited] COLON i=PropertyIdentifier WS?;
 
-TyperSelfExp: kind='self' WS? (  (DOT WS? propName=[Property] WS? (DOT WS? nextPropName+=[Property] WS?)* ) )?;
+// TyperSelfExp: kind='self' WS? (  (DOT WS? propName=[Property] WS? (DOT WS? nextPropName+=[Property] WS?)* ) );
 AnyTypeExp: kind='anytype' WS? ;
 
 // FretVarCallExp: p=[Property] WS?;
 
-FretCreateExp: kind='new' WS? cref=ClassifierType WS? CURLY_BEGIN WS? (i+=FretPropInstance WS? (COMMA WS? i+=FretPropInstance WS?)* ) CURLY_END WS? ;
+FretCreateExp:  cref=ClassifierType WS? CURLY_BEGIN WS? (i+=FretPropInstance WS? (COMMA WS? i+=FretPropInstance WS?)* ) CURLY_END WS? ;
 
-FretPropInstance: propInstanceName=[Property] WS? COLON WS? e=TyperExp WS?;
+FretPropInstance: propInstanceName=[Property:PropertyIdentifier] WS? COLON WS? e=TyperExp WS?;
 
 
 
@@ -501,15 +508,16 @@ FretWhereExp: var=FretVarDecl 'where' WS? CURLY_BEGIN WS?
 	 ( b+=Binary_FretExp SEMI WS? )*
 	 CURLY_END WS? ;
 
-FretVarDecl: 'let' WS? name=Identifier WS? COLON WS? cref=ClassifierType WS? ;
+FretVarDecl: name=Identifier WS? COLON WS? cref=ClassifierType WS? ;
 
 FretFunctionCallExp: i=FunctionName WS? PAR_OPEN WS? (f+=TyperExp WS? (COMMA  WS? t+=TyperExp WS?)*)? PAR_CLOSE WS?;
 
 FunctionName returns string: 'typeof' | 'commonSuperType' | 'ownerOfType';
 
 VarRef: var=[FretVarDecl] WS? DOT WS? varPropName=[Property] WS?;
-WhereTyperExp: VarRef | TyperSelfExp | AnyTypeExp;
-Binary_FretExp: l=WhereTyperExp (BinaryTypeOperator WS? r+=WhereTyperExp WS?);
+LeftWhereTyperExp: VarRef | Expression; // | AnyTypeExp;
+RightWhereTyperExp: VarRef | Expression | AnyTypeExp;
+Binary_FretExp: l=LeftWhereTyperExp (BinaryTypeOperator WS? r+=RightWhereTyperExp WS?);
 
 BinaryTypeOperator returns string: 'conformsto' | 'equalsto' ;
 

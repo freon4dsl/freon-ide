@@ -1,7 +1,8 @@
 import { ReferenceInfo, Scope, ScopeProvider, AstUtils, LangiumCoreServices, AstNodeDescriptionProvider,
      MapScope, EMPTY_SCOPE, DefaultScopeProvider, AstNode, Reference, AstNodeDescription } from "langium";
 import { Classifier, ClassifierType, Concept, ExpressionConcept, Interface, isClassifier, isClassifierType, isClassifierTypeSpec, isConcept,
-     isConceptDefinition, isConceptRule, isExpressionConcept, isFreonModel, isFretCreateExp, isFretWhereExp, isInterface, isIsUniqueRule, isModelUnit, isProjection, isTyperExp, Limited, ModelUnit, PrimitiveType, Property, 
+        isConceptDefinition, isConceptRule, isDotExpression, isExpressionConcept, isFreonModel, isFretCreateExp, isFretWhereExp, isInterface,
+         isIsUniqueRule, isModelUnit, isProjection, Limited, ModelUnit, PrimitiveType, Property, 
      TypeConcept} from "./generated/ast.js";
 import { visitAndMap } from "../utils/graphs.js";
 import * as LANGIUM from 'langium';
@@ -72,10 +73,11 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 break
             }
             case 'propInstanceName': {
-                // console.log("propInstanceName")
+                console.log("propInstanceName")
                 const createExp = this.containerOfType(context.container, "FretCreateExp")
                 if (isFretCreateExp(createExp)) {
-                    result = this.getProperties(createExp.cref)
+                    result = this.getProperties(createExp.cref, true)
+                    console.log(`inside create exp: ${createExp?.cref?.conceptType?.$refText}`)
                 } else {
                     console.log("ERROR 4")
                 }
@@ -92,9 +94,9 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
             }
             case 'nextPropName': {
                 // console.log("nextPropName")
-                const typerExp = this.containerOfType(context.container, "TyperExp")
-                if (isTyperExp(typerExp)) {
-                    const previous: Property | undefined = typerExp?.self?.propName?.ref
+                const typerExp = this.containerOfType(context.container, "DotExpression")
+                if (isDotExpression(typerExp)) {
+                    const previous: Property | undefined = typerExp?.propName?.ref
                     if (previous !== undefined) {
                         const previousTypeRef: ClassifierType | PrimitiveType | undefined = previous.propertyType
                         if (isClassifierType(previousTypeRef)) {
@@ -142,7 +144,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
         }
         if (context.property === "conceptType") {
             if (this.containerOfType(context.container, "TypeConcept") !== undefined) {
-                // console.log("ADDING FreType")
+                console.log("ADDING FreType")
                 result = new MapScope(result.getAllElements().toArray().concat(this.FRE_NODE))
             }
         }
@@ -224,11 +226,14 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
     }
 
 
-    private getProperties(cref: ClassifierType) {
+    private getProperties(cref: ClassifierType, log: boolean = false) {
         const classifierReference = getClassifierType(cref);
         const classifierRef = classifierReference?.ref;
         if (isClassifier(classifierRef)) {
             const descriptions = allProperties(classifierRef).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
+            if (log) {
+                console.log("   getProperties isClassifier: " + descriptions.map(d => d.name).join(", "))
+            }
             if (isModelUnit(classifierRef) && !descriptions.some(d => d.name === "name")) {
                 const MODELUNIT_NAME: AstNodeDescription = {
                     name: "name",
@@ -241,7 +246,10 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
             }
             return new MapScope(descriptions);
         }
-        return EMPTY_SCOPE;
+        if (log) {
+            console.log("   getProperties is NOT Classifier ================================ ")
+        }
+    return EMPTY_SCOPE;
     }
 
     dir(desc: AstNodeDescription): string {
