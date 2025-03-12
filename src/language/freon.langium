@@ -270,6 +270,7 @@ KeywordAllowedAsProperty returns string:
     | 'where' 
     // | 'is'
     | FunctionName
+    | SeverityKind
     ;
 
 
@@ -282,7 +283,7 @@ Simple_external:
 Parameter: key=PropertyIdentifier WS? '=' WS? value=STRING WS?;
 
 FragmentReference:
-    kind=FRAGMENT WS? fregment=Identifier WS? ('wrap' WS? '=' WS? name=Identifier WS?)?  PROJECTION_END;
+    kind=FRAGMENT WS? fregment=[FragmentProjection] WS? ('wrap' WS? '=' WS? name=[ExternalDeclaration] WS?)?  PROJECTION_END;
 
 Property_projection:
     // SingleProperty 
@@ -324,9 +325,9 @@ KeywordDecl:
     PROJECTION_BEGIN WS? t+=TextItemWithoutSeparator+ WS? (PROJECTION_SEPARATOR WS? tt+=TextItemWithoutSeparator+ WS?)? PROJECTION_END WS?;
 
 ExternalInfo:
-    ('wrap' WS? '=' WS? wrap=Identifier WS? (params+=Key_value_pair WS?)*)
+    ('wrap' WS? '=' WS? wrap=[ExternalDeclaration] WS? (params+=Key_value_pair WS?)*)
     | 
-    ('replace' WS? '=' WS? replace=Identifier WS?  (params+=Key_value_pair WS?)*);
+    ('replace' WS? '=' WS? replace=[ExternalDeclaration] WS?  (params+=Key_value_pair WS?)*);
 
 Key_value_pair:
     key=Identifier WS? '=' WS? STRING WS? ;
@@ -412,7 +413,9 @@ RuleExtras:
     CURLY_BEGIN WS? severity=Severity WS? (COMMA WS? e=Errormessage WS?)? CURLY_END WS? 
     | CURLY_BEGIN WS? message=Errormessage WS? (COMMA WS? s+=Severity WS?)? CURLY_END WS?;
 
-Severity: 'severity' WS? COLON WS? value=Identifier WS? ;
+Severity: 'severity' WS? COLON WS? value=SeverityKind WS? ;
+
+SeverityKind returns string: 'error' | 'warning' | 'hint' | 'improvement' | 'todo' | 'info';
 
 Errormessage: 'message' WS? COLON WS? content=STRING WS? ;
 
@@ -480,7 +483,7 @@ FretEqualsRule: kind='equalsto' WS? exp=TyperExp WS? SEMI WS?;
 FretLimitedRule: (ie+=LimitedRule WS?) 'conformsto' WS? (TyperExp ) WS? SEMI WS?;
 
 TyperExp: (
-         self=Expression 
+         self=SelfExpression 
         | any=AnyTypeExp
         | w=FretWhereExp 
         | c=FretCreateExp
@@ -513,10 +516,11 @@ FretVarDecl: name=Identifier WS? COLON WS? cref=ClassifierType WS? ;
 FretFunctionCallExp: i=FunctionName WS? PAR_OPEN WS? (f+=TyperExp WS? (COMMA  WS? t+=TyperExp WS?)*)? PAR_CLOSE WS?;
 
 FunctionName returns string: 'typeof' | 'commonSuperType' | 'ownerOfType';
+SelfExpression: sourceName='self' WS? (appliedfeature=DotExpression)?;
 
 VarRef: var=[FretVarDecl] WS? DOT WS? varPropName=[Property] WS?;
-LeftWhereTyperExp: VarRef | Expression; // | AnyTypeExp;
-RightWhereTyperExp: VarRef | Expression | AnyTypeExp;
+LeftWhereTyperExp: VarRef | SelfExpression; // | AnyTypeExp;
+RightWhereTyperExp: VarRef | SelfExpression | AnyTypeExp;
 Binary_FretExp: l=LeftWhereTyperExp (BinaryTypeOperator WS? r+=RightWhereTyperExp WS?);
 
 BinaryTypeOperator returns string: 'conformsto' | 'equalsto' ;

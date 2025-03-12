@@ -65,7 +65,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                             if (isClassifierTypeSpec(typeSpec)) {
                                 result = this.getProperties(typeSpec.cref);
                             } else {
-                                console.log("ERROR 6")
+                                console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected Projection, ConceptDefinition, ConceptRule or ClassifierTypeSpec for 'propName'`)
                             }
                         }
                     }
@@ -73,13 +73,12 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 break
             }
             case 'propInstanceName': {
-                console.log("propInstanceName")
+                // console.log("propInstanceName")
                 const createExp = this.containerOfType(context.container, "FretCreateExp")
                 if (isFretCreateExp(createExp)) {
-                    result = this.getProperties(createExp.cref, true)
-                    console.log(`inside create exp: ${createExp?.cref?.conceptType?.$refText}`)
+                    result = this.getProperties(createExp.cref)
                 } else {
-                    console.log("ERROR 4")
+                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: expected Create Expression for 'propInstanceName'`)
                 }
                 break
             }
@@ -88,7 +87,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 if (isFretWhereExp(whereExp)) {
                     result = this.getProperties(whereExp.var.cref)
                 } else {
-                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 2`)
+                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected Where Expression for 'varPropName'`)
                 }
                 break
             }
@@ -102,13 +101,13 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                         if (isClassifierType(previousTypeRef)) {
                             result = this.getProperties(previousTypeRef)
                         } else {
-                            console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 5`)
+                            console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected previous property type to be a Classifier for 'nextPropName'`)
                         }
                     } else {
-                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 7`)
+                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected previous PropertyRef for 'nextPropName'`)
                     }
                 } else {
-                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 1`)
+                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected DotExpression for 'nextPropName'`)
                 }
                 break;
             }
@@ -118,20 +117,18 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 const ruleExp = this.containerOfType(context.container, "ConceptRule")
                 if (isConceptRule(ruleExp) && isIsUniqueRule(uniqueExp)) {
                     const list: Property | undefined = uniqueExp.propName?.ref
-                    // console.log("    isunique list " + list)
                     if (list !== undefined) {
                         const contextTypeRef: ClassifierType | PrimitiveType | undefined = list.propertyType
-                        // console.log("    type " + contextTypeRef)
                         if (isClassifierType(contextTypeRef)) {
                             result = this.getProperties(contextTypeRef)
                         } else {
-                            console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 8`)
+                            console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected ClassifierType for 'isUniqueName'`)
                         }
                     } else {
-                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 9`)
+                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected Property for 'isUniqueName'`)
                     }
                 } else {
-                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: ERROR 33`)
+                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected IsUniqueRule and ConceptRule for 'isUniqueName'`)
                 }
                 break
             }
@@ -144,7 +141,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
         }
         if (context.property === "conceptType") {
             if (this.containerOfType(context.container, "TypeConcept") !== undefined) {
-                console.log("ADDING FreType")
+                // console.log("ADDING FreType")
                 result = new MapScope(result.getAllElements().toArray().concat(this.FRE_NODE))
             }
         }

@@ -1,13 +1,13 @@
 # Freon IDE Integration
 
-**NB** The current release 0.0.1 is a prerelease, and syntactically diverges from the Freon languages.
+**NB** The current release 0.0.2 is a **prerelease**, and syntactically diverges from the Freon languages in tyhe .valid and .type files.
 
 For developing Freon using the Freon specification languages, you can use the ingrated IDE
 support. For Visual Studio Code (VSCode) there is an extention to be installed, for Jetbrains
 IDE's like WebStorm an LSP language server is available.
 
 The IDE support has ben developed using Langium.
-Nota that is a first version (0.0.1), please report any problems or feedback,
+Nota that is a preliminary version, please report any problems or feedback,
 prefeerably as an issue in the giothub project: [https://github.com/freon4dsl/freon-ide.git](https://github.com/freon4dsl/freon-ide.git)
 
 ## Installation in VSCode

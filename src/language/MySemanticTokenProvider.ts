@@ -7,7 +7,6 @@ export class MySemanticTokenProvider extends AbstractSemanticTokenProvider {
 
     constructor(services: LangiumServices) {
         super(services)
-        console.log("Freon Language Server 0.0.1")
     }
     protected override highlightElement(node: AstNode, acceptor: SemanticTokenAcceptor): void {
     
