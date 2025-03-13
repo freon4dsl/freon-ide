@@ -50,7 +50,7 @@ Once the extension is installed both should work.
 
 ## Syntax Highlighting in WebStorm
 The Redhat LSP plugin only supports the typical LSP functionality, but no syntax highlighting.
-To install the syntax highlighting you need to use the WebStorn textmate support.
+To install the syntax highlighting you need to use the WebStorm textmate support.
 
 - Goto WebStorm => Settings => Editor => TextMate bundles
 - Click `+` to add a new bundle
