@@ -8,7 +8,7 @@ IDE's like WebStorm an LSP language server is available.
 
 The IDE support has ben developed using Langium.
 Nota that is a first version (0.0.1), please report any problems or feedback,
-prefeerably as an issue in the giothub project: [https://github.com/freon4dsl/freon-ide.git](https://github.com/freon4dsl/freon-ide.git)
+preferably as an issue in the github project: [https://github.com/freon4dsl/freon-ide.git](https://github.com/freon4dsl/freon-ide.git)
 
 ## Installation in VSCode
 Install the `freon-ide` extension from the VSCode Marketplace.
@@ -17,7 +17,7 @@ Install the `freon-ide` extension from the VSCode Marketplace.
 
 Dpownload the freon-ide release
 
-- Download the latest freon-ide release from [https://github.com/freon4dsl/freon-ide/releases](https://github.com/freon4dsl/freon-ide/releases)
+- Download the latest freon-ide release (freon-ide-<version>.zip) from the assets in [https://github.com/freon4dsl/freon-ide/releases](https://github.com/freon4dsl/freon-ide/releases).
 - Unzip the release file into a folder, this folder should not be a tmp folder, its needs to stay available.
 
 Install the LPS plugin
@@ -25,15 +25,15 @@ Install the LPS plugin
 - Install the Red Hat LSP plugin: [https://plugins.jetbrains.com/plugin/23257-lsp4ij](https://plugins.jetbrains.com/plugin/23257-lsp4ij)
   Open the settings for this plugin:
 
-- Goto WebStorm => Settings => Languages & Frameworks => Select Language Servers
+- Goto WebStorm => Settings => Languages & Frameworks => Language Servers.
 
-- Fill in the name: `freon`
+- Add a Language Server with the name: `freon`.
 
-- Under command fill with `node <path-to-freon-ide-directory>/freonLanguageServer.cjs --stdio`
+- Under 'Command' write `node <path-to-freon-ide-directory>/public/freonLanguageServer.cjs --stdio`.
 
-- Under the Mappings tab create mappings for *.ast, *.edit, *.type, *.valid and *.scope to langauge id `freon`
+- Under the Mappings tab select File name patterns, and create mappings for *.ast, *.edit, *.type, *.valid and *.scope with Language Id `freon`.
 
-- Save and done
+- Click OK.
 
 You can open the Language Servers tool window through the menu View => Tools Windows => Language Servers.
 Now the toolw wiondows opens and you can see the Freon language server.
