@@ -1,6 +1,6 @@
 # Freon IDE Integration
 
-**NB** The current release 0.0.2 is a **prerelease**, and syntactically diverges from the Freon languages in tyhe .valid and .type files.
+**NB** The current release 0.0.3 is a **prerelease**, and syntactically diverges from the Freon languages in tyhe .valid and .type files.
 
 For developing Freon using the Freon specification languages, you can use the ingrated IDE
 support. For Visual Studio Code (VSCode) there is an extention to be installed, for Jetbrains
