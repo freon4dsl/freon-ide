@@ -15,7 +15,7 @@ Install the `freon-ide` extension from the VSCode Marketplace.
 
 ## Installation in WebStorm / IntelliJ IDE's
 
-Dpownload the freon-ide release
+Download the freon-ide release
 
 - Download the latest freon-ide release (freon-ide-<version>.zip) from the assets in [https://github.com/freon4dsl/freon-ide/releases](https://github.com/freon4dsl/freon-ide/releases).
 - Unzip the release file into a folder, this folder should not be a tmp folder, its needs to stay available.
@@ -36,7 +36,7 @@ Install the LPS plugin
 - Click OK.
 
 You can open the Language Servers tool window through the menu View => Tools Windows => Language Servers.
-Now the toolw wiondows opens and you can see the Freon language server.
+Now the tool windows opens and you can see the Freon language server.
 If there are any *.ast, *.edit, *.type, *.valid and *.scope files in the project, you can see that the
 Freon language server is started and you can see the log output window.
 You can also stop and restart the language server.
