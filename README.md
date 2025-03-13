@@ -7,17 +7,17 @@ support. For Visual Studio Code (VSCode) there is an extention to be installed, 
 IDE's like WebStorm an LSP language server is available.
 
 The IDE support has ben developed using Langium.
-Nota that is a preliminary version, please report any problems or feedback,
-prefeerably as an issue in the giothub project: [https://github.com/freon4dsl/freon-ide.git](https://github.com/freon4dsl/freon-ide.git)
+Note that is a first version please report any problems or feedback,
+preferably as an issue in the github project: [https://github.com/freon4dsl/freon-ide.git](https://github.com/freon4dsl/freon-ide.git)
 
 ## Installation in VSCode
 Install the `freon-ide` extension from the VSCode Marketplace.
 
 ## Installation in WebStorm / IntelliJ IDE's
 
-Dpownload the freon-ide release
+Download the freon-ide release
 
-- Download the latest freon-ide release from [https://github.com/freon4dsl/freon-ide/releases](https://github.com/freon4dsl/freon-ide/releases)
+- Download the latest freon-ide release (freon-ide-<version>.zip) from the assets in [https://github.com/freon4dsl/freon-ide/releases](https://github.com/freon4dsl/freon-ide/releases).
 - Unzip the release file into a folder, this folder should not be a tmp folder, its needs to stay available.
 
 Install the LPS plugin
@@ -25,18 +25,18 @@ Install the LPS plugin
 - Install the Red Hat LSP plugin: [https://plugins.jetbrains.com/plugin/23257-lsp4ij](https://plugins.jetbrains.com/plugin/23257-lsp4ij)
   Open the settings for this plugin:
 
-- Goto WebStorm => Settings => Languages & Frameworks => Select Language Servers
+- Goto WebStorm => Settings => Languages & Frameworks => Language Servers.
 
-- Fill in the name: `freon`
+- Add a Language Server with the name: `freon`.
 
-- Under command fill with `node <path-to-freon-ide-directory>/freonLanguageServer.cjs --stdio`
+- Under 'Command' write `node <path-to-freon-ide-directory>/public/freonLanguageServer.cjs --stdio`.
 
-- Under the Mappings tab create mappings for *.ast, *.edit, *.type, *.valid and *.scope to langauge id `freon`
+- Under the Mappings tab select File name patterns, and create mappings for *.ast, *.edit, *.type, *.valid and *.scope with Language Id `freon`.
 
-- Save and done
+- Click OK.
 
 You can open the Language Servers tool window through the menu View => Tools Windows => Language Servers.
-Now the toolw wiondows opens and you can see the Freon language server.
+Now the tool windows opens and you can see the Freon language server.
 If there are any *.ast, *.edit, *.type, *.valid and *.scope files in the project, you can see that the
 Freon language server is started and you can see the log output window.
 You can also stop and restart the language server.
@@ -50,7 +50,7 @@ Once the extension is installed both should work.
 
 ## Syntax Highlighting in WebStorm
 The Redhat LSP plugin only supports the typical LSP functionality, but no syntax highlighting.
-To install the syntax highlighting you need to use the WebStorn textmate support.
+To install the syntax highlighting you need to use the WebStorm textmate support.
 
 - Goto WebStorm => Settings => Editor => TextMate bundles
 - Click `+` to add a new bundle
