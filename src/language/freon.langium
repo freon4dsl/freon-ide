@@ -257,7 +257,7 @@ KeywordAllowedAsProperty returns string:
     | 'abstract' | 'precedence' | 'priority' | 'reference' | 'true' | 'false' | 'for' | 'in'
     | 'rows' | 'columns' | 'wrap' | 'replace' | 'expression' | 'binary' | 'limited'
     | 'fragment' | 'external' | 'type' | 'file-extension'
-    | 'scoper' | 'namespace_addition' | 'isnamespace' | 'scope'
+    | 'scoper' | 'namespace_addition' | 'isnamespace' | 'namespace-replacement'
     | 'typer' | 'validator'
     | ListInfoType
     | TEXT
