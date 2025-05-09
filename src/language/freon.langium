@@ -213,14 +213,15 @@ TextItemWithoutSeparator :
     | EscapedChar | '?' | PROJECTION_BEGIN | Comparator
     | ListInfoType | ListDirection
     | PropertyIdentifier
-    
+    | '#' 
     | 'self'
+    | 'anytype'
     );
 
 TextItem: TextItemWithoutSeparator | PROJECTION_SEPARATOR ;
 
 TableTextItem:
-    text=(COLON | CURLY_BEGIN | CURLY_END |SEMI| INT | COMMA | DOT | EXCL | AT | '%' | '^'
+    text=(COLON | CURLY_BEGIN | CURLY_END |SEMI| INT | COMMA | DOT | EXCL | AT | '%' | '^' | '#'
     | PAR_OPEN | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE | BACK_QUOTE | '=' | PLUS | MINUS | SLASH | BACK_SLASH | EscapedChar 
     | PROJECTION_BEGIN | Comparator
     | ListInfoType | ListDirection
@@ -246,7 +247,7 @@ PropertyIdentifier returns string:
 Keyword returns string:
     KeywordAllowedAsProperty
     // | 'istype' | 'hastype' | 'type'
-    // | 'anytype' 
+    | 'anytype' 
     | 'self'
     ;
 
@@ -260,7 +261,7 @@ KeywordAllowedAsProperty returns string:
     | 'typer' | 'validator'
     | ListInfoType
     | TEXT
-    | 'istype' | 'hastype' | 'anytype'
+    | 'istype' | 'hastype' 
     | 'validIdentifier' |'notEmpty' |'typecheck' 
     | 'equalsType' | 'isunique'
     | 'infertype' 
@@ -283,7 +284,7 @@ Simple_external:
 Parameter: key=PropertyIdentifier WS? '=' WS? value=STRING WS?;
 
 FragmentReference:
-    kind=FRAGMENT WS? fregment=[FragmentProjection] WS? ('wrap' WS? '=' WS? name=[ExternalDeclaration] WS?)?  PROJECTION_END;
+    kind=FRAGMENT WS? fregment=[FragmentProjection] WS? ('wrap' WS? '=' WS? external=[ExternalDeclaration] WS?)?  PROJECTION_END;
 
 Property_projection:
     // SingleProperty 
@@ -370,12 +371,13 @@ AlternativeScope:
  ****************************************************************/
 LangExpression:
     ( functionExpression=FunctionExpression  
-    | instanceExpression=InstanceExpression 
+    | instanceExpression=LimitedValueExpression 
     | expression=Expression                 
     | simpleExpression=SimpleExpression) WS? ;
     // FunctionExpression |InstanceExpression | Expression | SimpleExpression;
 
-InstanceExpression: conceptName=[Limited] WS? type=COLON WS? instance=[Instance] WS?;
+// InstanceExpression: '#'conceptName=[Limited] WS? type=COLON WS? instance=[Instance] WS?;
+// LimitedValueExpression: '#' (cref=LimitedType WS? type=COLON WS?) limitedInstance=[Instance] WS?;
 
 Expression: sourceName=('self' | 'container') WS? (appliedfeature=DotExpression)?;
 
@@ -493,7 +495,9 @@ TyperExp: (
     ;
 LimitedRule: instance=[Instance] WS?;
 
-LimitedValueExpression: 'limited' WS? (conceptName=[Limited:Identifier] WS? type=COLON WS?)? instance=[Instance] WS?;
+LimitedType: conceptType=[Limited];
+
+LimitedValueExpression: '#' (cref=LimitedType WS? type=COLON WS?) limitedInstance=[Instance] WS?;
 // FretLimitedInstanceExp: conceptName=[Limited] COLON i=PropertyIdentifier WS?;
 
 // TyperSelfExp: kind='self' WS? (  (DOT WS? propName=[Property] WS? (DOT WS? nextPropName+=[Property] WS?)* ) );

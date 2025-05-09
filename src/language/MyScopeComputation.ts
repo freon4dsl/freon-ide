@@ -3,6 +3,8 @@ import { Classifier, ExternalDeclaration, Freon, Instance, isLimited, Limited } 
 // import { isOk } from "./MyScopeProvider.js";
 
 
+
+
 export class MyScopeComputation extends DefaultScopeComputation {
 
     /**
@@ -30,6 +32,14 @@ export class MyScopeComputation extends DefaultScopeComputation {
             const superresult = await super.computeExports(document)
             result.push(...superresult)
             return result;
+        // } else if (freon.typer !== null) {
+            // const types: TypeConcept[] | undefined = freon.typer?.tc
+            // if (types !== undefined) {
+                // result.push(...types.map(tt => this.descriptions.createDescription(tt, tt.name)))
+            // }
+            // const superresult = await super.computeExports(document)
+            // result.push(...superresult)
+            // return result;
         } else {
             const superresult = await super.computeExports(document)
             this.logResult(document, superresult)

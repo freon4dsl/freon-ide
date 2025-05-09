@@ -1,8 +1,8 @@
 import { ReferenceInfo, Scope, ScopeProvider, AstUtils, LangiumCoreServices, AstNodeDescriptionProvider,
      MapScope, EMPTY_SCOPE, DefaultScopeProvider, AstNode, Reference, AstNodeDescription } from "langium";
-import { Classifier, ClassifierType, Concept, ExpressionConcept, Interface, isClassifier, isClassifierType, isClassifierTypeSpec, isConcept,
+import { Classifier, ClassifierType, ClassifierTypeSpec, Concept, ExpressionConcept, Instance, Interface, isClassifier, isClassifierType, isClassifierTypeSpec, isConcept,
         isConceptDefinition, isConceptRule, isDotExpression, isExpressionConcept, isFreonModel, isFretCreateExp, isFretWhereExp, isInterface,
-         isIsUniqueRule, isModelUnit, isProjection, Limited, ModelUnit, PrimitiveType, Property, 
+         isIsUniqueRule, isLimited, isLimitedValueExpression, isModelUnit, isProjection, Limited, LimitedType, ModelUnit, PrimitiveType, Property, 
      TypeConcept} from "./generated/ast.js";
 import { visitAndMap } from "../utils/graphs.js";
 import * as LANGIUM from 'langium';
@@ -61,7 +61,8 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                         if (isConceptRule(validDef)) {
                             result = this.getProperties(validDef.conceptRef)
                         } else {
-                            const typeSpec = this.containerOfType(context.container, "ClassifierTypeSpec")
+                            const typeSpec = this.containerOfType(context.container, "ClassifierTypeSpec") as ClassifierTypeSpec
+                            // console.log("ClassifierTypeSpec for property propName: " + typeSpec)
                             if (isClassifierTypeSpec(typeSpec)) {
                                 result = this.getProperties(typeSpec.cref);
                             } else {
@@ -125,15 +126,28 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                             console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected ClassifierType for 'isUniqueName'`)
                         }
                     } else {
-                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected Property for 'isUniqueName'`)
+                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected Property for 'isUniqueName', propName is ${uniqueExp.propName} `)
+                        console.log(`context ${context.container?.$cstNode?.length}, ${context.container?.$cstNode?.offset}, ${context.container?.$cstNode?.range}, ${context.container?.$cstNode?.end}`)
                     }
                 } else {
                     console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected IsUniqueRule and ConceptRule for 'isUniqueName'`)
                 }
                 break
             }
+            case 'limitedInstance': { // limited instance reference in typer
+                const limitedValueExpression = this.containerOfType(context.container, "LimitedValueExpression")
+                if (isLimitedValueExpression(limitedValueExpression)) {
+                    const cref = limitedValueExpression.cref
+                    if (cref !== undefined) {
+                        result = this.getInstances(cref)
+                    }
+                } else {
+                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected LimitedValueExpression for 'limitedInstance'`)
+                }
+                break
+            }
             default: {
-                const refpath = LANGIUM.AstUtils.getDocument(context.container).uri.fsPath
+                const refpath = LANGIUM.AstUtils.getDocument(context.container).uri.path
                 const directory = refpath?.substring(0, refpath.lastIndexOf("/"))
                 result = this.getScopeForDirectory(context, directory)
                 // result = super.getScope(context)
@@ -223,13 +237,13 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
     }
 
 
-    private getProperties(cref: ClassifierType, log: boolean = false) {
+    private getProperties(cref: ClassifierType, log: boolean = false): Scope {
         const classifierReference = getClassifierType(cref);
         const classifierRef = classifierReference?.ref;
         if (isClassifier(classifierRef)) {
             const descriptions = allProperties(classifierRef).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
             if (log) {
-                console.log("   getProperties isClassifier: " + descriptions.map(d => d.name).join(", "))
+                console.log("   getProperties isClassifier:     " + descriptions.map(d => d.name).join(", "))
             }
             if (isModelUnit(classifierRef) && !descriptions.some(d => d.name === "name")) {
                 const MODELUNIT_NAME: AstNodeDescription = {
@@ -246,11 +260,27 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
         if (log) {
             console.log("   getProperties is NOT Classifier ================================ ")
         }
-    return EMPTY_SCOPE;
+        return EMPTY_SCOPE;
+    }
+
+    private getInstances(lt: LimitedType, log: boolean = false): Scope {
+        const limitedReference = lt.conceptType;
+        const limitedRef = limitedReference?.ref;
+        if (isLimited(limitedRef)) {
+            const descriptions = allInstances(limitedRef).flatMap(p => (isOkInstance(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
+            if (log) {
+                console.log("   getInstances:     " + descriptions.map(d => d.name).join(", "))
+            }
+            return new MapScope(descriptions);
+        }
+        if (log) {
+            console.log("   getIntsancesis NOT Classifier ================================ ")
+        }
+        return EMPTY_SCOPE;       
     }
 
     dir(desc: AstNodeDescription): string {
-        const path = desc.documentUri.fsPath
+        const path = desc.documentUri.path
         return path?.substring(0, path.lastIndexOf("/"))
     }
 
@@ -275,6 +305,9 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
 export function     isOk(p: Property): boolean {
     return (p !== undefined && p !== null && p.name !== undefined)
 }
+export function     isOkInstance(p: Instance): boolean {
+    return (p !== undefined && p !== null && p.name !== undefined)
+}
 
 function allProperties(classifier: Classifier | undefined): Property[] {
     if (classifier === undefined) {
@@ -285,6 +318,21 @@ function allProperties(classifier: Classifier | undefined): Property[] {
     allSuperClassifiers(classifier).forEach(cref =>
         result.push(...cref.properties)
     )
+    // console.log(`All proprties of ${classifier.name}: ${result.map(p => p.name)}`)
+    return result;
+}
+
+function allInstances(limited: Limited | undefined): Instance[] {
+    if (limited === undefined) {
+        return [];
+    }
+    const result: Instance[] = []
+    result.push(...limited.instances)
+    allSuperClassifiers(limited).forEach(cref => {
+        if (isLimited(cref)) {
+            result.push(...cref.instances)
+        }
+    })
     // console.log(`All proprties of ${classifier.name}: ${result.map(p => p.name)}`)
     return result;
 }
