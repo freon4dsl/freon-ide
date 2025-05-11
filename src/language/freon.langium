@@ -19,8 +19,10 @@ ModelUnit:
         ('file-extension' WS? '=' WS? STRING WS? SEMI WS?)?
     CURLY_END WS?;
 
+ClassifierNoLimited:
+    Concept | Interface | ExpressionConcept | ModelUnit | TypeConcept;
 Classifier:
-    Concept | Interface | ExpressionConcept | Limited | ModelUnit | TypeConcept;
+    ClassifierNoLimited | Limited;
 
 Limited:
     kind='limited' WS? name=Identifier WS? ('base' WS cbase=[ConceptOrLimited] WS)? implements=Implements? CURLY_BEGIN WS?
@@ -454,7 +456,7 @@ TyperDefinition:
     'typer' WS?
 
     is=IsType?
-    tc+=TypeConcept*
+    (typeConcepts+=TypeConcept)*
     has=HasType?
     a=AnyTypeRule?
     c+=ClassifierTypeSpec*
@@ -470,6 +472,7 @@ TypeConcept: kind='type' WS? name=Identifier WS? CURLY_BEGIN WS?
 
 AnyTypeRule: kind='anytype' WS? CURLY_BEGIN WS? r+=TyperStatement* WS? CURLY_END WS?;
 // const validFunctionNames: string[] = ["conformsTo", "equalsType", "typeof", "commonSuperTypeOf", "ancestor"];
+
 
 ClassifierTypeSpec : cref=ClassifierType WS? CURLY_BEGIN WS? rule+=TyperStatement* CURLY_END WS? ;
 
@@ -493,7 +496,7 @@ TyperExp: (
         | l=LimitedValueExpression
     )
     ;
-LimitedRule: instance=[Instance] WS?;
+LimitedRule: limitedInstance=[Instance] WS?;
 
 LimitedType: conceptType=[Limited];
 

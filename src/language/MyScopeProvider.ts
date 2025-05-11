@@ -142,7 +142,17 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                         result = this.getInstances(cref)
                     }
                 } else {
-                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected LimitedValueExpression for 'limitedInstance'`)
+                    // simple limited instance in FretLimitedRule
+                    const typeSpec = this.containerOfType(context.container, "ClassifierTypeSpec")
+                    if (isClassifierTypeSpec(typeSpec)) {
+                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: typespec ${typeSpec.cref?.conceptType}`)
+                        if (isLimited(typeSpec.cref?.conceptType?.ref)) {
+                            console.log("LIMITED~")
+                            result = this.getLimitedInstances(typeSpec.cref?.conceptType?.ref)
+                        }
+                    } else {
+                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected LimitedValueExpression for 'limitedInstance'`)
+                    }
                 }
                 break
             }
@@ -278,7 +288,14 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
         }
         return EMPTY_SCOPE;       
     }
-
+    private getLimitedInstances(lt: Limited, log: boolean = false): Scope {
+        const descriptions = allInstances(lt).flatMap(p => (isOkInstance(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
+        if (log) {
+            console.log("   getInstances:     " + descriptions.map(d => d.name).join(", "))
+        }
+        return new MapScope(descriptions);
+    }
+    
     dir(desc: AstNodeDescription): string {
         const path = desc.documentUri.path
         return path?.substring(0, path.lastIndexOf("/"))
