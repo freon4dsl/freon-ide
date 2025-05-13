@@ -123,6 +123,8 @@ SingleGlobalProjection:
     |
     'number' WS (kind=DisplayType WS?)?
     |
+    'limited[]' PROJECTION_BEGIN PROJECTION_END WS (kind=DisplayType WS?)?
+    |
     'limited' PROJECTION_BEGIN PROJECTION_END WS (kind=DisplayType WS?)?
     |
     'external' WS? CURLY_BEGIN WS? externals+=ExternalDeclaration (COMMA WS? externals+=ExternalDeclaration)* CURLY_END WS?
@@ -199,11 +201,11 @@ TextProjection:
 
 LineWithOptional:
     // WS? items+=( TextItem | OptionalProjection | Simple_external | Fragment_projection | Property_projection | SuperProjection | NEWLINE )+;
-    ( t+=TextItem |  p+=Property_projection | o+=OptionalProjection | frag+=FragmentReference | ext+=Simple_external | u+=SuperProjection | WS | NEWLINE )+;
+    ( t+=TextItem |  p+=Property_projection | o+=OptionalProjection | frag+=FragmentReference | ext+=Simple_external | u+=SuperProjection | WS | NEWLINE )*;
 
 LineWithoutOptional:
     // items+=(TextItem | Simple_external | Fragment_projection | Property_projection | SuperProjection | NEWLINE | WS)+;
-    ( t+=TextItem | p+=Property_projection | frag+=FragmentReference | ext+=Simple_external| u+=SuperProjection | WS | NEWLINE )+;
+    ( t+=TextItem | p+=Property_projection | frag+=FragmentReference | ext+=Simple_external| u+=SuperProjection | WS | NEWLINE )*;
 
 TextItemWithoutSeparator :
     text=(
@@ -212,10 +214,10 @@ TextItemWithoutSeparator :
     | AT | '%' | '^' | PAR_OPEN 
     | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE 
     | BACK_QUOTE | PLUS | MINUS | SLASH 
-    | EscapedChar | '?' | PROJECTION_BEGIN | Comparator
-    | ListInfoType | ListDirection
-    | PropertyIdentifier
-    | '#' 
+    | EscapedChar | PROJECTION_BEGIN | Comparator | ListInfoType 
+    | ListDirection | PropertyIdentifier | '#' 
+    | '$'
+    | '?'
     | 'self'
     | 'anytype'
     );
@@ -223,7 +225,7 @@ TextItemWithoutSeparator :
 TextItem: TextItemWithoutSeparator | PROJECTION_SEPARATOR ;
 
 TableTextItem:
-    text=(COLON | CURLY_BEGIN | CURLY_END |SEMI| INT | COMMA | DOT | EXCL | AT | '%' | '^' | '#'
+    text=(COLON | CURLY_BEGIN | CURLY_END |SEMI| INT | COMMA | DOT | EXCL | AT | '%' | '^' | '#' | '?'
     | PAR_OPEN | PAR_CLOSE | AMPERSAND | MULTI | SINGLE_QUOTE | BACK_QUOTE | '=' | PLUS | MINUS | SLASH | BACK_SLASH | EscapedChar 
     | PROJECTION_BEGIN | Comparator
     | ListInfoType | ListDirection
@@ -259,7 +261,7 @@ KeywordAllowedAsProperty returns string:
     | 'abstract' | 'precedence' | 'priority' | 'reference' | 'true' | 'false' | 'for' | 'in'
     | 'rows' | 'columns' | 'wrap' | 'replace' | 'expression' | 'binary' | 'limited'
     | 'fragment' | 'external' | 'type' | 'file-extension'
-    | 'scoper' | 'namespace_addition' | 'isnamespace' | 'namespace-replacement'
+    | 'scoper' | 'namespace_addition' | 'isnamespace' | 'namespace_replacement'
     | 'typer' | 'validator'
     | ListInfoType
     | TEXT
@@ -267,8 +269,10 @@ KeywordAllowedAsProperty returns string:
     | 'validIdentifier' |'notEmpty' |'typecheck' 
     | 'equalsType' | 'isunique'
     | 'infertype' 
-    | 'conformsto' 
+    | 'message'
+    | 'conformsto' | 'conformsTo' 
     | 'equalsto' 
+    | 'severity'
     // | 'new' 
     | 'where' 
     // | 'is'
@@ -278,6 +282,7 @@ KeywordAllowedAsProperty returns string:
 
 
 OptionalProjection:
+    // kind=OPTIONAL (lines+=LineWithoutOptional)* PROJECTION_END WS?;
     kind=OPTIONAL (lines+=LineWithoutOptional)* PROJECTION_END WS?;
 
 Simple_external:
@@ -325,7 +330,7 @@ ListInfoType returns string:
     'separator' | 'terminator' | 'initiator';
 
 KeywordDecl:
-    PROJECTION_BEGIN WS? t+=TextItemWithoutSeparator+ WS? (PROJECTION_SEPARATOR WS? tt+=TextItemWithoutSeparator+ WS?)? PROJECTION_END WS?;
+    PROJECTION_BEGIN (WS? t+=TextItemWithoutSeparator)+ WS? (PROJECTION_SEPARATOR WS? tt+=TextItemWithoutSeparator+ WS?)? PROJECTION_END WS?;
 
 ExternalInfo:
     ('wrap' WS? '=' WS? wrap=[ExternalDeclaration] WS? (params+=Key_value_pair WS?)*)
@@ -366,7 +371,7 @@ Expressionlist:
 // TODO
 AlternativeScope:
     // kind='scope' WS? EQUALS (WS | t+=DummyItem)* SEMI WS?;
-    kind='scope' WS? '=' WS? exp=LangExpression SEMI WS?;
+    kind='namespace_replacement' WS? '=' WS? exp=LangExpression SEMI WS?;
 
 /****************************************************************
  *                           Expressions
@@ -439,7 +444,7 @@ TypeEqualsRule:
 
 // TODO change this grammar rule into something else than a function call
 TypeConformsRule:
-     'typecheck' WS? "conformsTo" WS? PAR_OPEN WS? type1=LangExpression WS? COMMA WS? type2=LangExpression PAR_CLOSE WS? extra=RuleExtras? ;
+     'typecheck' WS? 'conformsTo' WS? PAR_OPEN WS? type1=LangExpression WS? COMMA WS? type2=LangExpression PAR_CLOSE WS? extra=RuleExtras? ;
 
 ExpressionRule:
      exp1=LangExpression Comparator WS? exp2=LangExpression extra=RuleExtras? ;
@@ -508,7 +513,7 @@ AnyTypeExp: kind='anytype' WS? ;
 
 // FretVarCallExp: p=[Property] WS?;
 
-FretCreateExp:  cref=ClassifierType WS? CURLY_BEGIN WS? (i+=FretPropInstance WS? (COMMA WS? i+=FretPropInstance WS?)* ) CURLY_END WS? ;
+FretCreateExp:  cref=ClassifierType WS? CURLY_BEGIN WS? (i+=FretPropInstance WS? (COMMA WS? i+=FretPropInstance WS?)* )? CURLY_END WS? ;
 
 FretPropInstance: propInstanceName=[Property:PropertyIdentifier] WS? COLON WS? e=TyperExp WS?;
 
@@ -538,7 +543,7 @@ BinaryTypeOperator returns string: 'conformsto' | 'equalsto' ;
 //     char+=ID+ ;
 
 EscapedChar returns string: 
-    ESCAPED | BACK_SLASH | ESCAPED_PROJECTION_BEGIN | ESCAPED_PROJECTION_END | ESCAPED_DOLLAR;
+    ESCAPED_DOUBLE_QUOTE | BACK_SLASH | ESCAPED_PROJECTION_BEGIN | ESCAPED_PROJECTION_END | ESCAPED_DOLLAR;
 
 hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\// WS?;
 hidden terminal SL_COMMENT: /\/\/[^\n\r]*/ WS?;
@@ -546,7 +551,8 @@ hidden terminal SL_COMMENT: /\/\/[^\n\r]*/ WS?;
 // terminal GREATER_THAN: '>';
 // terminal LESS_THAN: '<';
 terminal SLASH: '/';
-terminal ESCAPED: '\\"';
+terminal ESCAPED_DOUBLE_QUOTE: '\\"';
+terminal ESCAPED_QUESTION: '\\?';
 terminal ESCAPED_PROJECTION_BEGIN: '\\[';
 terminal ESCAPED_PROJECTION_END: '\\]';
 terminal ESCAPED_DOLLAR: '\\$';

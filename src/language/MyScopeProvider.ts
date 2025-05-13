@@ -145,9 +145,9 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                     // simple limited instance in FretLimitedRule
                     const typeSpec = this.containerOfType(context.container, "ClassifierTypeSpec")
                     if (isClassifierTypeSpec(typeSpec)) {
-                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: typespec ${typeSpec.cref?.conceptType}`)
+                        // console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: typespec ${typeSpec.cref?.conceptType}`)
                         if (isLimited(typeSpec.cref?.conceptType?.ref)) {
-                            console.log("LIMITED~")
+                            // console.log("LIMITED~")
                             result = this.getLimitedInstances(typeSpec.cref?.conceptType?.ref)
                         }
                     } else {
