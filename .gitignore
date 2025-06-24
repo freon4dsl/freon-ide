@@ -6,3 +6,6 @@ node_modules/
 out/
 src/language/generated/
 syntaxes/
+public/.DS_Store
+.DS_Store
+public/freonServerWorker.cjs

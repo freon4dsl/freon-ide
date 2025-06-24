@@ -1,6 +1,6 @@
 # Freon IDE Integration
 
-**NB** The current release 0.0.3 is a **prerelease**, and syntactically diverges from the Freon languages in the .valid and .type files.
+Current release 0.0.4.
 
 For developing Freon using the Freon specification languages, you can use the ingrated IDE
 support. For Visual Studio Code (VSCode) there is an extention to be installed, for Jetbrains
@@ -29,9 +29,9 @@ Install the LPS plugin
 
 - Add a Language Server with the name: `freon`.
 
-- Under 'Command' write `node <path-to-freon-ide-directory>/public/freonLanguageServer.cjs --stdio`.
+- Under 'Command' write `node <path-to-unzipped-freon-ide-directory>/public/freonLanguageServer.cjs --stdio`.
 
-- Under the Mappings tab select File name patterns, and create mappings for *.ast, *.edit, *.type, *.valid and *.scope with Language Id `freon`.
+- Under the Mappings tab select File name patterns, and create mappings for `*.ast, *.edit`, `*.type`, `*.valid` and `*.scope` with Language Id `freon`.
 
 - Click OK.
 
@@ -45,12 +45,12 @@ You can also stop and restart the language server.
 Syntax highlighting in the IDE is not part of the Language Server Protocol.
 
 ## Syntax Highlighting in VSCode
-The VSCode extension includes both the LSP support, and also the syntx highlighting.
+The VSCode extension includes both the LSP support, and also the syntax highlighting.
 Once the extension is installed both should work.
 
 ## Syntax Highlighting in WebStorm
 The Redhat LSP plugin only supports the typical LSP functionality, but no syntax highlighting.
-To install the syntax highlighting you need to use the WebStorm textmate support.
+To install the syntax highlighting you need to use the WebStorm builtin textmate support.
 
 - Goto WebStorm => Settings => Editor => TextMate bundles
 - Click `+` to add a new bundle
