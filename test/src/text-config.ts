@@ -4,6 +4,7 @@ export type ConfigType = {
     repositories: 
         {
             source   : string,
+            branch   : string,
             target   : string,
             languages: string[]
         }[]

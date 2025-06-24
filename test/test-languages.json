@@ -2,6 +2,7 @@
     "repositories": [
         {
             "source": "https://github.com/freon4dsl/Freon4dsl/packages/samples",
+            "branch": "syntax-issues",
             "target": "./test-cases/samples",
             "languages": [
                 "Calculator",
@@ -21,6 +22,7 @@
         },
         {
             "source": "https://github.com/freon4dsl/Freon4dsl/packages/test/src",
+            "branch": "syntax-issues",
             "target": "./test-cases/freon-tests",
             "languages": [
                 "demo",
@@ -38,13 +40,6 @@
                 "typer-test8",
                 "UndoTester",
                 "vehicles"
-            ]
-        },
-        {
-            "source": "https://github.com/freon4dsl/create-freon-languages/languages",
-            "target": "./test-cases/create-languages",
-            "languages": [
-                "CourseSchedule", "CustomizationsProject", "Education", "EducationInterpreter", "Expressions", "Insurance", "TyperExample"            
             ]
         }
     ]
