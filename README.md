@@ -1,6 +1,6 @@
 # Freon IDE Integration
 
-Current release 0.0.4.
+**May 13, 2025: Released 0.0.4**
 
 For developing Freon using the Freon specification languages, you can use the ingrated IDE
 support. For Visual Studio Code (VSCode) there is an extention to be installed, for Jetbrains
@@ -12,6 +12,7 @@ preferably as an issue in the github project: [https://github.com/freon4dsl/freo
 
 ## Installation in VSCode
 Install the `freon-ide` extension from the VSCode Marketplace.
+See [freon-ide](https://marketplace.visualstudio.com/items?itemName=freon.freon-ide). 
 
 ## Installation in WebStorm / IntelliJ IDE's
 
