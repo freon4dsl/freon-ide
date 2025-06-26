@@ -1,0 +1,79 @@
+{
+  "name": "freon",
+  "scopeName": "source.freon",
+  "fileTypes": [
+    ".ast",
+    ".edit",
+    ".scope",
+    ".type",
+    ".valid"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "name": "keyword.control.freon",
+      "match": "\\b(abstract|base|binary|columns|concept|conformsTo|container|editor|equalsType|expression|external|false|file-extension|for|fragment|global|hastype|horizontal|identifier|implements|in|initiator|interface|isnamespace|istype|isunique|language|let|limited|message|model|modelunit|namespace_addition|new|notEmpty|number|precedence|priority|reference|referenceSeparator|referenceShortcut|replace|rows|scope|scoper|self|separator|severity|string|symbol|terminator|trigger|true|typecheck|typer|validIdentifier|validator|vertical|where|conformsto|equalsto|infertype|wrap)\\b|\\B(\\[external)\\b"
+    },
+    {
+      "name": "variable.language.freon",
+      "match": "\\b(identifier|boolean)\\b"
+    },
+    {
+      "name": "string.quoted.double.freon",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "include": "#string-character-escape"
+        }
+      ]
+    },
+    {
+      "name": "string.quoted.single.freon",
+      "begin": "'",
+      "end": "'",
+      "patterns": [
+        {
+          "include": "#string-character-escape"
+        }
+      ]
+    }
+
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "begin": "/\\*",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.freon"
+            }
+          },
+          "end": "(?=$)",
+          "name": "comment.line.freon"
+        },
+        {
+          "begin": "//",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.freon"
+            }
+          },
+          "end": "(?=$)",
+          "name": "comment.line.freon"
+        }
+      ]
+    },
+    "string-character-escape": {
+      "name": "constant.character.escape.freon",
+      "match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|u\\{[0-9A-Fa-f]+\\}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.|$)"
+    },
+    "projection-escape": {
+      "name": "constant.character.escape.propjection.freon",
+      "match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|u\\{[0-9A-Fa-f]+\\}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.|$)"
+    }
+  }
+}

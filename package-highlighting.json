@@ -38,7 +38,7 @@
             {
                 "language": "freon",
                 "scopeName": "source.freon",
-                "path": "./syntaxes/freon.tmLanguage.json"
+                "path": "./syntaxes/ast/freon.tmLanguage.json"
             }
         ]
     },
