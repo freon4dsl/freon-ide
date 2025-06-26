@@ -21,7 +21,7 @@
         "test": "vitest run",
         "update-version": "node ./src/utils/UpdatePackage.cjs",
         "testl": "node ./out/cli/main.js generate freon2 -d ./test",
-        "install-test-data": "cd test && tsc && cd .. && node test/dist/InstallTestData.js",
+        "install-test-data": "node ./out/__tests__/InstallTestData.js",
         "package:lsp": "zip freon-ide-0.0.4.zip package.json public/freonLanguageServer.cjs freon-ide-0.0.4.vsix syntaxes/freon.tmLanguage.json"
     },
     "dependencies": {

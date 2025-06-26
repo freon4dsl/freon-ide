@@ -2,7 +2,7 @@
     "repositories": [
         {
             "source": "https://github.com/freon4dsl/Freon4dsl/packages/samples",
-            "branch": "syntax-issues",
+            "branch": "development",
             "target": "./test-cases/samples",
             "languages": [
                 "Calculator",
@@ -16,13 +16,15 @@
                 "Octopus",
                 "PiLanguage",
                 "RulesLanguage",
+                "ScoperTest",
+                "ScoperTryout",
                 "TaxRules",
                 "UndoTester"
             ]
         },
         {
             "source": "https://github.com/freon4dsl/Freon4dsl/packages/test/src",
-            "branch": "syntax-issues",
+            "branch": "development",
             "target": "./test-cases/freon-tests",
             "languages": [
                 "demo",
@@ -30,6 +32,7 @@
                 "parser-basic-concepts",
                 "parser-basic-properties",
                 "parser_gen",
+                "qualifiedNameScoper",
                 "testCircularImports",
                 "testDefaultScoper",
                 "testDefinedScoper",

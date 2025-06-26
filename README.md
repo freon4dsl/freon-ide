@@ -1,5 +1,23 @@
 # Freon IDE Integration
 
+## How to use this repo
+
+run `npm install`
+
+### Npm Scripts
+
+**update-version** This script increases the version of the generated VS Code extension.
+This is used to ensure that at each build there is a new extension with a higher version number so we can install a new version in VSCode.
+
+**langium:generate** Generated all Langium artefacts.
+
+**install-test-data** Makes a copy of test data into this project.
+The data sources are git repos, described in `test/test-languages.json`.
+Currently it copies all samples and test languages from the main Freon repository.
+
+**test** runs all tests, which means all installed test languages will be parsed. When output contains parser errors, there is something to fix.
+Note that this does not test whether code completion, syntax coloring etc is ok.
+
 **May 13, 2025: Released 0.0.4**
 
 For developing Freon using the Freon specification languages, you can use the ingrated IDE
@@ -12,7 +30,7 @@ preferably as an issue in the github project: [https://github.com/freon4dsl/freo
 
 ## Installation in VSCode
 Install the `freon-ide` extension from the VSCode Marketplace.
-See [freon-ide](https://marketplace.visualstudio.com/items?itemName=freon.freon-ide). 
+See [freon-ide](https://marketplace.visualstudio.com/items?itemName=freon.freon-ide).
 
 ## Installation in WebStorm / IntelliJ IDE's
 
@@ -55,7 +73,7 @@ To install the syntax highlighting you need to use the WebStorm builtin textmate
 
 - Goto WebStorm => Settings => Editor => TextMate bundles
 - Click `+` to add a new bundle
-- Select the folder where the unzipped freon-ide resides. 
+- Select the folder where the unzipped freon-ide resides.
 - There should now be an entry `freon-ide`
 
 ## Other IDE's

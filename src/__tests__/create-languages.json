@@ -1,0 +1,8 @@
+        {
+            "source": "https://github.com/freon4dsl/create-freon-languages/languages",
+            "branch": "main",
+            "target": "./test-cases/create-languages",
+            "languages": [
+                "CourseSchedule", "CustomizationsProject", "Education", "EducationInterpreter", "Expressions", "Insurance", "TyperExample"            
+            ]
+        }

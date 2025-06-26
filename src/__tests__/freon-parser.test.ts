@@ -1,15 +1,15 @@
 import { beforeAll, describe, test } from "vitest";
-import { type LangiumDocument } from "langium";
-import { parseHelper } from "langium/test";
-import { createFreonServices } from "../../../src/language/freon-module.js";
-import { Model } from "../../../src/language/generated/ast.js";
-import { extractDocuments } from "../../../src/cli/cli-util-multifile.js";
+// import { type LangiumDocument } from "langium";
+// import { parseHelper } from "langium/test";
+import { createFreonServices } from "../language/freon-module.js";
+// import { Model } from "../../../src/language/generated/ast.js";
+import { extractDocuments } from "../cli/cli-util-multifile.js";
 import { NodeFileSystem } from "langium/node";
-import { ConfigType, getConfig } from "../text-config.js";
+import { ConfigType, getConfig } from "./text-config.js";
 
 // let services: ReturnType<typeof createFreonServices>;
-let parse:    ReturnType<typeof parseHelper<Model>>;
-let document: LangiumDocument<Model> | undefined;
+// let parse:    ReturnType<typeof parseHelper<Model>>;
+// let document: LangiumDocument<Model> | undefined;
 
 // sm.install()
 

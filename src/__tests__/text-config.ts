@@ -11,6 +11,6 @@ export type ConfigType = {
 }
 
 export function getConfig(): ConfigType {
-    const configFile = fs.readFileSync("./test/test-languages.json", 'utf-8');
+    const configFile = fs.readFileSync("./src/__tests__/test-languages.json", 'utf-8');
     return JSON.parse(configFile) as ConfigType
 }
