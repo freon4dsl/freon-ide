@@ -1,9 +1,11 @@
 import { ReferenceInfo, Scope, ScopeProvider, AstUtils, LangiumCoreServices, AstNodeDescriptionProvider,
      MapScope, EMPTY_SCOPE, DefaultScopeProvider, AstNode, Reference, AstNodeDescription } from "langium";
 import { Classifier, ClassifierType, ClassifierTypeSpec, Concept, ExpressionConcept, Instance, Interface, isClassifier, isClassifierType, isClassifierTypeSpec, isConcept,
-        isConceptDefinition, isConceptRule, isDotExpression, isExpressionConcept, isFreonModel, isFretCreateExp, isFretWhereExp, isInterface,
+        isConceptDefinition, isConceptRule, isDotExpression, isScoperDotExpression, isExpressionConcept, isFreonModel, isFretCreateExp, isFretWhereExp, isInterface,
          isIsUniqueRule, isLimited, isLimitedValueExpression, isModelUnit, isProjection, Limited, LimitedType, ModelUnit, PrimitiveType, Property, 
-     TypeConcept} from "./generated/ast.js";
+     TypeConcept,
+     isAppliedExpression,
+     ScoperDotExpression} from "./generated/ast.js";
 import { visitAndMap } from "../utils/graphs.js";
 import * as LANGIUM from 'langium';
 
@@ -55,7 +57,14 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                 } else {
                     const scopeDef = this.containerOfType(context.container, "ConceptDefinition")
                     if (isConceptDefinition(scopeDef)) {
-                        result = this.getProperties(scopeDef.cref)
+                        // Check whether this propName comes after a dot
+                        const dotExp = this.containerOfType(context.container, "ScoperDotExpression")
+                        if (isScoperDotExpression(dotExp)) {
+                            result = this.getScopeFromDotExpression(dotExp, context);
+                        }
+                        else {
+                            result = this.getProperties(scopeDef.cref)
+                        }
                     } else {
                         const validDef = this.containerOfType(context.container, "ConceptRule")
                         if (isConceptRule(validDef)) {
@@ -178,6 +187,73 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
         path: ""
     }
 
+    // Get the scope for the dot expression in the ConceptDefinition of the Freon scoper 
+    // (And later: in the ConceptRule of the Freon validator)
+    private getScopeFromDotExpression(dotExp: ScoperDotExpression, context: ReferenceInfo) {
+        let result: Scope = EMPTY_SCOPE
+        const appliedExp = this.containerOfType(dotExp, "AppliedExpression");
+        if (isAppliedExpression(appliedExp)) {
+            const referencedProperty: Property | undefined = appliedExp?.propName?.ref;
+            if (referencedProperty !== undefined) {
+                const referencedType: ClassifierType | PrimitiveType | undefined = referencedProperty.propertyType;
+                if (isClassifierType(referencedType)) {
+                    result = this.getProperties(referencedType);
+                } else {
+                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected referenced property type to be a Classifier for 'afterDotExp'`);
+                }
+            } else if (appliedExp?.appliedKwd !== undefined) {
+                switch (appliedExp?.appliedKwd) {
+                    case 'self': {
+                        const conceptDef = this.containerOfType(appliedExp, "ConceptDefinition");
+                        if (isConceptDefinition(conceptDef)) {
+                            result = this.getProperties(conceptDef?.cref);
+                        }
+                        break;
+                    }
+                    case 'if': {
+                        const typeParam = appliedExp?.typeParam;
+                        if (typeParam !== undefined) {
+                            result = this.getProperties(typeParam);
+                        }
+                        break;
+                    }
+                    case 'owner': {
+                        const conceptDef = this.containerOfType(appliedExp, "ConceptDefinition")
+                        if (isConceptDefinition(conceptDef)) {
+                            const conceptNode = conceptDef?.cref?.conceptType.ref
+                            // Find owners of this concept:  classifiers that have it as a property
+                            if (conceptNode !== undefined) {
+                                const ownerCandidates = AstUtils.findLocalReferences(conceptNode);
+                                ownerCandidates.forEach((oc) => {
+                                    if (oc.$refNode?.astNode !== undefined && isClassifierType(oc.$refNode?.astNode)) {
+                                        const propertyNode = this.containerOfType(oc.$refNode?.astNode, "Property");                                        
+                                        if (propertyNode !== undefined && !(propertyNode as Property).reference) {
+                                            console.log(`Debug referencing property: ${propertyNode?.$document}`);
+                                            const classifierNode = propertyNode.$container;
+                                            result = this.appendScopes(result, this.getPropertiesOfClassifier(classifierNode as Classifier));
+                                        }
+                                    }
+                                })                                
+                            }
+                            else {
+                                console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected to find Classifier node for the ClassifierDefinition`);
+                            }
+                        }
+                        break;
+                    }
+                    // There is no case of `type`, as type() may not be followed by '.'
+                    default:
+                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected one of the special keywords, but got ${appliedExp?.appliedKwd}`);
+                }
+            } else {
+                console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected property reference or a special keyword for 'afterDotExp'`);
+            }
+        } else {
+            console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected AppliedExpression for 'afterDotExp'`);
+        }
+        return result;
+    }
+
             // const instanceExpr = this.containerOfType(context.container, "InstanceExpression")
         // if (isInstanceExpression(instanceExpr)) {
         //     if (context.property="instance") {
@@ -246,7 +322,6 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
         return  this.globalScopeCache.get(referenceType, () => new MapScope(elements));
     }
 
-
     private getProperties(cref: ClassifierType, log: boolean = false): Scope {
         const classifierReference = getClassifierType(cref);
         const classifierRef = classifierReference?.ref;
@@ -271,6 +346,34 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
             console.log("   getProperties is NOT Classifier ================================ ")
         }
         return EMPTY_SCOPE;
+    }
+
+    private getPropertiesOfClassifier(classifier: Classifier, log: boolean = false): Scope {        
+        if (isClassifier(classifier)) {
+            const descriptions = allProperties(classifier).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
+            if (log) {
+                console.log("   getProperties isClassifier:     " + descriptions.map(d => d.name).join(", "))
+            }
+            if (isModelUnit(classifier) && !descriptions.some(d => d.name === "name")) {
+                const MODELUNIT_NAME: AstNodeDescription = {
+                    name: "name",
+                    documentUri: LANGIUM.AstUtils.getDocument(classifier).uri,
+                    type: "Property",
+                    path: ""
+                }
+            
+                descriptions.push(MODELUNIT_NAME )
+            }
+            return new MapScope(descriptions);
+        }
+        if (log) {
+            console.log("   getProperties is NOT Classifier ================================ ")
+        }
+        return EMPTY_SCOPE;
+    }
+
+    private appendScopes(scope1: Scope, scope2: Scope): Scope {
+        return new MapScope(scope1.getAllElements().concat(scope2.getAllElements()));
     }
 
     private getInstances(lt: LimitedType, log: boolean = false): Scope {

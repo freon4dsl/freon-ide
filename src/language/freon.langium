@@ -207,6 +207,9 @@ LineWithoutOptional:
     // items+=(TextItem | Simple_external | Fragment_projection | Property_projection | SuperProjection | NEWLINE | WS)+;
     ( t+=TextItem | p+=Property_projection | frag+=FragmentReference | ext+=Simple_external| u+=SuperProjection | WS | NEWLINE )*;
 
+// The "flat" text appearing in a projection is also parsed, as a sequence of tokens/lexems
+// Usual words are parsed as PropertyIdentifier, the rest of the alternatives allow for 
+// the other symbols (special in Freon definition) also to appear in the text
 TextItemWithoutSeparator :
     text=(
     COLON | CURLY_BEGIN | CURLY_END | SEMI 
@@ -220,6 +223,7 @@ TextItemWithoutSeparator :
     | '?'
     | 'self'
     | 'anytype'
+    | 'if'
     );
 
 TextItem: TextItemWithoutSeparator | PROJECTION_SEPARATOR ;
@@ -387,20 +391,18 @@ LangExpressionInScoper:
     | exp=LimitedValueExpression//InstanceExpression                  
     | exp=SimpleExpression);
 
-// TODO: only one parameter is enough?
 AppliedExpression:
-    ( name=PropertyIdentifier WS? PAR_OPEN WS? param=LangExpressionInScoper? WS? PAR_CLOSE
-        WS? (applied=ScoperDotExpression)?
-    | name='self' WS? (applied=ScoperDotExpression) 
-    | name=PropertyIdentifier WS? (applied=ScoperDotExpression)?
+    ( appliedKwd='self' WS? (applied=ScoperDotExpression)
+    | appliedKwd='if' WS? PAR_OPEN WS? typeParam=ClassifierType WS? PAR_CLOSE WS? (applied=ScoperDotExpression)?
+    | appliedKwd='owner' WS? PAR_OPEN WS? PAR_CLOSE WS? (applied=ScoperDotExpression)?
+    | appliedKwd='type' WS? PAR_OPEN WS? PAR_CLOSE
+    | propName=[Property:PropertyIdentifier] WS? PAR_OPEN WS? param=LangExpressionInScoper? WS? PAR_CLOSE
+                    WS? (applied=ScoperDotExpression)?
+    | propName=[Property:PropertyIdentifier] WS? (applied=ScoperDotExpression)?
     );
 
 ScoperDotExpression: 
-    DOT WS? exp=AppliedExpression WS?;
-
-// TODO: what is the difference between LimitedValueExpression and instanceExpression (from pegjs)
-// See below! Is instanceExpression only about Limited type?
-// LimitedValueExpression: '#' (cref=LimitedType WS? type=COLON WS?) limitedInstance=[Instance] WS?;
+    DOT WS? afterDotExp=AppliedExpression WS?;
 
 /****************************************************************
  *                           Expressions
