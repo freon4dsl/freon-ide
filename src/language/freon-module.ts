@@ -1,4 +1,4 @@
-import {  type Module, inject } from 'langium';
+import {  DeepPartial, type Module, inject } from 'langium';
 import { createDefaultModule, createDefaultSharedModule, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
 import { FreonAstGeneratedModule, FreonGeneratedSharedModule } from './generated/module.js';
 import { FreonValidator, registerValidationChecks } from './freon-validator.js';
@@ -6,6 +6,8 @@ import { MyScopeProvider2 } from './MyScopeProvider.js';
 import { MyScopeComputation } from './MyScopeComputation.js';
 // import { MyCompletionProvider } from './MyCompletionProvider.js';
 import { MySemanticTokenProvider } from './MySemanticTokenProvider.js';
+import { FreonWorkspaceManager } from './FreonWorkspaceManager.js';
+// import { FreonWorkspaceManager } from './FreonWorkspaceManager.js';
 // import { MyCompletionProvider } from './MyCompletionProvider.js';
 // import { MyScopeComputation, MyScopeProvider } from './MyScopeProvider.js';
 
@@ -43,7 +45,22 @@ export const FreonModule: Module<FreonServices, PartialLangiumServices & FreonAd
         // CompletionProvider: (services) => new MyCompletionProvider(services),
         SemanticTokenProvider: (services) => new MySemanticTokenProvider(services)
     }
+    // ,
+    // shared: {
+    //     workspace: {
+    //         WorkspaceManager: (services) => new FreonWorkspaceManager(services.shared),
+    //     }
+    // }
 };
+/**
+ * installl our own workspace manager
+ */
+export type FreonSharedServices = LangiumSharedServices
+export const FreonSharedModule: Module<FreonSharedServices, DeepPartial<FreonSharedServices>> = {
+    workspace: {
+        WorkspaceManager: (services) => new FreonWorkspaceManager(services)
+    }
+}
 
 /**
  * Create the full set of services required by Langium.
@@ -66,12 +83,13 @@ export function createFreonServices(context: DefaultSharedModuleContext): {
 } {
     const shared = inject(
         createDefaultSharedModule(context),
-        FreonGeneratedSharedModule
+        FreonGeneratedSharedModule,
+        FreonSharedModule
     );
     const Freon = inject(
         createDefaultModule({ shared }),
         FreonAstGeneratedModule,
-        FreonModule
+        FreonModule,
     );
     shared.ServiceRegistry.register(Freon);
     registerValidationChecks(Freon);
