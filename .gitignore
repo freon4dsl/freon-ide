@@ -9,3 +9,11 @@ syntaxes/
 public/.DS_Store
 .DS_Store
 public/freonServerWorker.cjs
+test-cases/*
+
+.idea/.gitignore
+.idea/freon-ide.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/inspectionProfiles/Project_Default.xml
