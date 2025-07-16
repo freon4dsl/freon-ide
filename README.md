@@ -1,6 +1,8 @@
 # Freon IDE Integration
 
 test1
+test2
+
 
 ## How to use this repo
 
