@@ -5,7 +5,9 @@ import { Classifier, ClassifierType, ClassifierTypeSpec, Concept, ExpressionConc
          isIsUniqueRule, isLimited, isLimitedValueExpression, isModelUnit, isProjection, Limited, LimitedType, ModelUnit, PrimitiveType, Property, 
      TypeConcept,
      isAppliedExpression,
-     ScoperDotExpression} from "./generated/ast.js";
+     ScoperDotExpression,
+     Model,
+     isModel} from "./generated/ast.js";
 import { visitAndMap } from "../utils/graphs.js";
 import * as LANGIUM from 'langium';
 
@@ -61,8 +63,7 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                         const dotExp = this.containerOfType(context.container, "ScoperDotExpression")
                         if (isScoperDotExpression(dotExp)) {
                             result = this.getScopeFromDotExpression(dotExp, context);
-                        }
-                        else {
+                        } else {
                             result = this.getProperties(scopeDef.cref)
                         }
                     } else {
@@ -226,16 +227,19 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                                 const ownerCandidates = AstUtils.findLocalReferences(conceptNode);
                                 ownerCandidates.forEach((oc) => {
                                     if (oc.$refNode?.astNode !== undefined && isClassifierType(oc.$refNode?.astNode)) {
-                                        const propertyNode = this.containerOfType(oc.$refNode?.astNode, "Property");                                        
+                                        const propertyNode = this.containerOfType(oc.$refNode?.astNode, "Property");   
+
                                         if (propertyNode !== undefined && !(propertyNode as Property).reference) {
-                                            console.log(`Debug referencing property: ${propertyNode?.$document}`);
+                                            console.log(`Debug referencing property: ${propertyNode?.$document} = ${propertyNode.$cstNode?.text} -- ${propertyNode.$type}`);
                                             const classifierNode = propertyNode.$container;
-                                            result = this.appendScopes(result, this.getPropertiesOfClassifier(classifierNode as Classifier));
+                                            // This can be a classifier, but also a model (which is not a classifier)!
+                                            if (isClassifier(classifierNode) || isModel(classifierNode)) {
+                                                result = this.appendScopes(result, this.getPropertiesOfClassifier(classifierNode));
+                                            }
                                         }
                                     }
                                 })                                
-                            }
-                            else {
+                            } else {
                                 console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected to find Classifier node for the ClassifierDefinition`);
                             }
                         }
@@ -348,8 +352,8 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
         return EMPTY_SCOPE;
     }
 
-    private getPropertiesOfClassifier(classifier: Classifier, log: boolean = false): Scope {        
-        if (isClassifier(classifier)) {
+    private getPropertiesOfClassifier(classifier: Classifier | Model, log: boolean = false): Scope {        
+        if (isClassifier(classifier) || isModel(classifier)) {
             const descriptions = allProperties(classifier).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
             if (log) {
                 console.log("   getProperties isClassifier:     " + descriptions.map(d => d.name).join(", "))
@@ -429,15 +433,17 @@ export function     isOkInstance(p: Instance): boolean {
     return (p !== undefined && p !== null && p.name !== undefined)
 }
 
-function allProperties(classifier: Classifier | undefined): Property[] {
+function allProperties(classifier: Classifier | Model | undefined): Property[] {
     if (classifier === undefined) {
         return [];
     }
     const result: Property[] = []
     result.push(...classifier.properties)
+    if (isClassifier(classifier)) {
     allSuperClassifiers(classifier).forEach(cref =>
         result.push(...cref.properties)
     )
+}
     // console.log(`All proprties of ${classifier.name}: ${result.map(p => p.name)}`)
     return result;
 }
