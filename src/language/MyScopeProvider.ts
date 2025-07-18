@@ -219,30 +219,46 @@ export class MyScopeProvider2 extends DefaultScopeProvider {
                         break;
                     }
                     case 'owner': {
-                        const conceptDef = this.containerOfType(appliedExp, "ConceptDefinition")
-                        if (isConceptDefinition(conceptDef)) {
-                            const conceptNode = conceptDef?.cref?.conceptType.ref
-                            // Find owners of this concept:  classifiers that have it as a property
-                            if (conceptNode !== undefined) {
-                                const ownerCandidates = AstUtils.findLocalReferences(conceptNode);
-                                ownerCandidates.forEach((oc) => {
-                                    if (oc.$refNode?.astNode !== undefined && isClassifierType(oc.$refNode?.astNode)) {
-                                        const propertyNode = this.containerOfType(oc.$refNode?.astNode, "Property");   
-
-                                        if (propertyNode !== undefined && !(propertyNode as Property).reference) {
-                                            console.log(`Debug referencing property: ${propertyNode?.$document} = ${propertyNode.$cstNode?.text} -- ${propertyNode.$type}`);
-                                            const classifierNode = propertyNode.$container;
-                                            // This can be a classifier, but also a model (which is not a classifier)!
-                                            if (isClassifier(classifierNode) || isModel(classifierNode)) {
-                                                result = this.appendScopes(result, this.getPropertiesOfClassifier(classifierNode));
-                                            }
-                                        }
-                                    }
-                                })                                
-                            } else {
-                                console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected to find Classifier node for the ClassifierDefinition`);
+                        var conceptNode = undefined;    
+                        // Find for which classifier we invoke the owner()
+                        const previousAppliedExpr = this.containerOfType(appliedExp.$container, "AppliedExpression")
+                        if (isAppliedExpression(previousAppliedExpr)) {
+                            const referencedProperty: Property | undefined = previousAppliedExpr?.propName?.ref;
+                            if (referencedProperty !== undefined) {
+                                const referencedType: ClassifierType | PrimitiveType | undefined = referencedProperty.propertyType;
+                                if (isClassifierType(referencedType)) {
+                                    conceptNode = referencedType.conceptType.ref
+                                }
+                            }
+                        } else {
+                            const conceptDef = this.containerOfType(appliedExp, "ConceptDefinition")                            
+                            if (isConceptDefinition(conceptDef)) {
+                                conceptNode = conceptDef?.cref?.conceptType.ref
                             }
                         }
+                        
+                        // Find owners of this concept:  classifiers that have it as a property
+                        if (conceptNode !== undefined) {
+                            const ownerCandidates = AstUtils.findLocalReferences(conceptNode);
+                            // console.log(`   debug number of owner candidates: ${ownerCandidates.count()}`);
+                            ownerCandidates.forEach((oc) => {
+                                if (oc.$refNode?.astNode !== undefined && isClassifierType(oc.$refNode?.astNode)) {
+                                    const propertyNode = this.containerOfType(oc.$refNode?.astNode, "Property");   
+
+                                    if (propertyNode !== undefined && !(propertyNode as Property).reference) {
+                                        // console.log(`Debug referencing property: ${propertyNode?.$document} = ${propertyNode.$cstNode?.text} -- ${propertyNode.$type}`);
+                                        const classifierNode = propertyNode.$container;
+                                        // This can be a classifier, but also a model (which is not a classifier)!
+                                        if (isClassifier(classifierNode) || isModel(classifierNode)) {
+                                            result = this.appendScopes(result, this.getPropertiesOfClassifier(classifierNode));
+                                        }
+                                    }
+                                }
+                            })                                
+                        } else {
+                            console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected to find Classifier node for the ClassifierDefinition`);
+                        }
+                                                
                         break;
                     }
                     // There is no case of `type`, as type() may not be followed by '.'

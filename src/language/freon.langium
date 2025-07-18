@@ -396,8 +396,6 @@ AppliedExpression:
     | appliedKwd='if' WS? PAR_OPEN WS? typeParam=ClassifierType WS? PAR_CLOSE WS? (applied=ScoperDotExpression)?
     | appliedKwd='owner' WS? PAR_OPEN WS? PAR_CLOSE WS? (applied=ScoperDotExpression)?
     | appliedKwd='type' WS? PAR_OPEN WS? PAR_CLOSE
-    | propName=[Property:PropertyIdentifier] WS? PAR_OPEN WS? param=LangExpressionInScoper? WS? PAR_CLOSE
-                    WS? (applied=ScoperDotExpression)?
     | propName=[Property:PropertyIdentifier] WS? (applied=ScoperDotExpression)?
     );
 
