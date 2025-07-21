@@ -1,7 +1,7 @@
 import { AstNode } from 'langium';
 import { AbstractSemanticTokenProvider, LangiumServices, SemanticTokenAcceptor } from 'langium/lsp';
 import { SemanticTokenTypes } from 'vscode-languageserver';
-import { isClassifierType, isInterface, isProperty, isSingleProperty, isTextItem, isTextItemWithoutSeparator } from './generated/ast.js';
+import { isAppliedExpression, isClassifierType, isInterface, isProperty, isSingleProperty, isTextItem, isTextItemWithoutSeparator } from './generated/ast.js';
 
 export class MySemanticTokenProvider extends AbstractSemanticTokenProvider {
 
@@ -58,6 +58,12 @@ export class MySemanticTokenProvider extends AbstractSemanticTokenProvider {
             property: 'propName',
             type: SemanticTokenTypes.property
         });
-}
+    } else if (isAppliedExpression(node)){
+        acceptor({
+            node,
+            property: 'propName',
+            type: SemanticTokenTypes.property
+        });
+    }
     }
 }

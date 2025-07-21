@@ -41,13 +41,13 @@ export const generateAction = async (fileName: string, opts: GenerateOptions): P
             console.log("Edit model " + m.edit.name)
         }
         if (m.scoper !== undefined) {
-            console.log("Edit model " + m.scoper.name)
+            console.log("Scoper model " + m.scoper.languageName)
         }
         if (m.typer !== undefined) {
-            console.log("Edit model " + m.typer)
+            console.log("Type model " + m.typer)
         }
         if (m.validator !== undefined) {
-            console.log("Edit model " + m.validator)
+            console.log("Validator model " + m.validator)
         }
 
     })

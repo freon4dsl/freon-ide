@@ -207,6 +207,9 @@ LineWithoutOptional:
     // items+=(TextItem | Simple_external | Fragment_projection | Property_projection | SuperProjection | NEWLINE | WS)+;
     ( t+=TextItem | p+=Property_projection | frag+=FragmentReference | ext+=Simple_external| u+=SuperProjection | WS | NEWLINE )*;
 
+// The "flat" text appearing in a projection is also parsed, as a sequence of tokens/lexems
+// Usual words are parsed as PropertyIdentifier, the rest of the alternatives allow for 
+// the other symbols (special in Freon definition) also to appear in the text
 TextItemWithoutSeparator :
     text=(
     COLON | CURLY_BEGIN | CURLY_END | SEMI 
@@ -220,6 +223,7 @@ TextItemWithoutSeparator :
     | '?'
     | 'self'
     | 'anytype'
+    | 'if'
     );
 
 TextItem: TextItemWithoutSeparator | PROJECTION_SEPARATOR ;
@@ -261,7 +265,7 @@ KeywordAllowedAsProperty returns string:
     | 'abstract' | 'precedence' | 'priority' | 'reference' | 'true' | 'false' | 'for' | 'in'
     | 'rows' | 'columns' | 'wrap' | 'replace' | 'expression' | 'binary' | 'limited'
     | 'fragment' | 'external' | 'type' | 'file-extension'
-    | 'scoper' | 'namespace_addition' | 'isnamespace' | 'namespace_replacement'
+    | 'scoper' | 'imports' | 'isNamespace' | 'alternatives'
     | 'typer' | 'validator'
     | ListInfoType
     | TEXT
@@ -345,33 +349,58 @@ Key_value_pair:
  ****************************************************************/
 
 Scoper_Definition:
-    'scoper' WS name=Identifier WS 'for' WS 'language' WS languageName=Identifier WS ns=Namespaces WS? defs+=ConceptDefinition*;
+    'scoper' WS 'for' WS 'language' WS languageName=Identifier WS ns=Namespaces WS? defs+=ConceptDefinition*;
+
 
 Namespaces:
-    isnamespaceKey='isnamespace' WS? CURLY_BEGIN WS? 
-                                        head=[Classifier] WS?
-                                        (COMMA WS? v+=[Classifier] WS? )*
+    isnamespaceKey='isNamespace' WS? CURLY_BEGIN WS? 
+                                        (list+=[Classifier] WS?
+                                        (COMMA WS? list+=[Classifier] WS? )*)?
                                  CURLY_END WS?;
 
+// Addition and alternatives can go in a different order 
+// TODO: can we remove 'kind'-property from NamespaceImports (kind='imports') and NamespaceAlternatives (kind='alternatives')?
+// ClassifierType is a reference to a Classifier
 ConceptDefinition:
-    cref=ClassifierType WS? CURLY_BEGIN WS?
-        (nsDef=NamespaceAddition)? 
-        (alternativeScope=AlternativeScope?) 
+    cref=ClassifierType WS? CURLY_BEGIN WS? 
+        ((('imports' WS? nsAddition=NamespaceImports)
+          ('alternatives' WS? nsReplacement=NamespaceAlternatives)?) 
+        |(('alternatives' WS? nsReplacement=NamespaceAlternatives)
+          ('imports' WS? nsAddition=NamespaceImports)?))
     CURLY_END WS?;
 
-NamespaceAddition: 
-    kind='namespace_addition' WS? '=' WS? list=Expressionlist  SEMI WS?;
+fragment NsExpressionList:
+    CURLY_BEGIN WS?
+        (list+=SingleNamespaceExpression)*
+    CURLY_END WS?;
 
-// TODO
-Expressionlist:
-        // (WS | t+=DummyItem)+ ;
-      head=LangExpression WS?
-      (PLUS WS? v+=LangExpression)*;
+NamespaceImports: 
+    NsExpressionList;
 
-// TODO
-AlternativeScope:
-    // kind='scope' WS? EQUALS (WS | t+=DummyItem)* SEMI WS?;
-    kind='namespace_replacement' WS? '=' WS? exp=LangExpression SEMI WS?;
+NamespaceAlternatives:
+    NsExpressionList;
+
+SingleNamespaceExpression: 
+    (recursive ?= "recursive" WS?)? exp=LangExpressionInScoper SEMI WS?;
+
+/****************************************************************
+ *                     Expressions for Scoper
+ ****************************************************************/
+LangExpressionInScoper:
+    ( exp=AppliedExpression
+    | exp=LimitedValueExpression//InstanceExpression                  
+    | exp=SimpleExpression);
+
+AppliedExpression:
+    ( appliedKwd='self' WS? (applied=ScoperDotExpression)
+    | appliedKwd='if' WS? PAR_OPEN WS? typeParam=ClassifierType WS? PAR_CLOSE WS? (applied=ScoperDotExpression)?
+    | appliedKwd='owner' WS? PAR_OPEN WS? PAR_CLOSE WS? (applied=ScoperDotExpression)?
+    | appliedKwd='type' WS? PAR_OPEN WS? PAR_CLOSE
+    | propName=[Property:PropertyIdentifier] WS? (applied=ScoperDotExpression)?
+    );
+
+ScoperDotExpression: 
+    DOT WS? afterDotExp=AppliedExpression WS?;
 
 /****************************************************************
  *                           Expressions
@@ -386,9 +415,11 @@ LangExpression:
 // InstanceExpression: '#'conceptName=[Limited] WS? type=COLON WS? instance=[Instance] WS?;
 // LimitedValueExpression: '#' (cref=LimitedType WS? type=COLON WS?) limitedInstance=[Instance] WS?;
 
-Expression: sourceName=('self' | 'container') WS? (appliedfeature=DotExpression)?;
+Expression: 
+    sourceName=('self' | 'container') WS? (appliedfeature=DotExpression)?;
 
-DotExpression: DOT WS? propName=[Property:PropertyIdentifier] WS? (DOT WS? nextPropName+=[Property:PropertyIdentifier] WS?)*  ;
+DotExpression: 
+    DOT WS? propName=[Property:PropertyIdentifier] WS? (DOT WS? nextPropName+=[Property:PropertyIdentifier] WS?)*  ;
 
 FunctionExpression: 
     sourceName=Identifier PAR_OPEN ( WS?
