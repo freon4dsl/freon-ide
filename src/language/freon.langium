@@ -9,7 +9,7 @@ FreonModel:
     (models+=Model | classifiers+=Classifier)*;
 
 Model:
-    kind='model' WS name=Identifier WS? CURLY_BEGIN WS?
+    kind='model' WS name=Identifier WS? ('version' WS? version=STRING WS?)? CURLY_BEGIN WS?
         (properties+=Property)*
     CURLY_END WS;
 
@@ -266,7 +266,7 @@ KeywordAllowedAsProperty returns string:
     | 'rows' | 'columns' | 'wrap' | 'replace' | 'expression' | 'binary' | 'limited'
     | 'fragment' | 'external' | 'type' | 'file-extension'
     | 'scoper' | 'imports' | 'isNamespace' | 'alternatives'
-    | 'typer' | 'validator'
+    | 'typer' | 'validator' | 'version'
     | ListInfoType
     | TEXT
     | 'istype' | 'hastype' 
@@ -436,7 +436,7 @@ SimpleExpression:
  *                           VALIDATOR
  ****************************************************************/
 Validator_Definition:
-    'validator' WS validatorName=Identifier WS 'for' WS 'language' WS languageName=Identifier WS? cr+=(ConceptRule)*;
+    'validator' WS 'for' WS 'language' WS languageName=Identifier WS? cr+=(ConceptRule)*;
 
 ConceptRule:
     conceptRef=ClassifierType WS? CURLY_BEGIN WS? rules+=Rule* CURLY_END WS?;
