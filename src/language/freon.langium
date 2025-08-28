@@ -201,11 +201,11 @@ TextProjection:
 
 LineWithOptional:
     // WS? items+=( TextItem | OptionalProjection | Simple_external | Fragment_projection | Property_projection | SuperProjection | NEWLINE )+;
-    ( t+=TextItem |  p+=Property_projection | o+=OptionalProjection | frag+=FragmentReference | ext+=Simple_external | u+=SuperProjection | WS | NEWLINE )*;
+    ( t+=TextItem |  p+=Property_projection | o+=OptionalProjection | frag+=FragmentReference | ext+=Simple_external | u+=SuperProjection | WS | NEWLINE );
 
 LineWithoutOptional:
     // items+=(TextItem | Simple_external | Fragment_projection | Property_projection | SuperProjection | NEWLINE | WS)+;
-    ( t+=TextItem | p+=Property_projection | frag+=FragmentReference | ext+=Simple_external| u+=SuperProjection | WS | NEWLINE )*;
+    ( t+=TextItem | p+=Property_projection | frag+=FragmentReference | ext+=Simple_external| u+=SuperProjection | WS | NEWLINE );
 
 // The "flat" text appearing in a projection is also parsed, as a sequence of tokens/lexems
 // Usual words are parsed as PropertyIdentifier, the rest of the alternatives allow for 
@@ -295,7 +295,7 @@ Simple_external:
 Parameter: key=PropertyIdentifier WS? '=' WS? value=STRING WS?;
 
 FragmentReference:
-    kind=FRAGMENT WS? fregment=[FragmentProjection] WS? ('wrap' WS? '=' WS? external=[ExternalDeclaration] WS?)?  PROJECTION_END;
+    kind=FRAGMENT WS? fregment=[FragmentProjection] WS? ('wrap' WS? '=' WS? external=[ExternalDeclaration] WS? p+=Parameter*)?  PROJECTION_END;
 
 Property_projection:
     // SingleProperty 
