@@ -1,7 +1,7 @@
 {
     "projectName": "Freon",
     "languages": [{
-        "id": "freon",
+        "id": "Freon",
         "grammar": "src/language/freon.langium",
         "fileExtensions": [".ast", ".edit", ".scope", ".type", ".valid"]
     }], 

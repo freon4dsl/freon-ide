@@ -18,7 +18,7 @@ Currently it copies all samples and test languages from the main Freon repositor
 **test** runs all tests, which means all installed test languages will be parsed. When output contains parser errors, there is something to fix.
 Note that this does not test whether code completion, syntax coloring etc is ok.
 
-**October 11 2025, 2025: Released 0.0.5**
+**October 11 2025, 2025: Released 0.0.6**
 Takes into account all syntax changes in Freon 2.0.0-beta.3
 
 **May 13, 2025: Released 0.0.4**
@@ -53,7 +53,7 @@ Install the LPS plugin
 
 - Under 'Command' write `node <path-to-unzipped-freon-ide-directory>/public/freonLanguageServer.cjs --stdio`.
 
-- Under the Mappings tab select File name patterns, and create mappings for `*.ast, *.edit`, `*.type`, `*.valid` and `*.scope` with Language Id `freon`.
+- Under the Mappings tab select File name patterns, and create mappings for `*.ast, *.edit`, `*.type`, `*.valid` and `*.scope` with Language Id `Freon`.
 
 - Click OK.
 

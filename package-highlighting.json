@@ -1,14 +1,14 @@
 {
     "name": "freon-ide",
     "description": "IDE Support for Freon Definition Languages",
-    "version": "0.0.5",
+    "version": "6",
     "repository": "https://github.com/freon4dsl/freon-ide.git",
     "type": "module",
     "volta": {
         "node": "18.19.1",
         "npm": "10.2.4"
     },
-    "displayName": "freon",
+    "displayName": "Freon",
     "engines": {
         "vscode": "^1.67.0",
         "node": ">=18.0.0"
@@ -19,9 +19,9 @@
     "contributes": {
         "languages": [
             {
-                "id": "freon",
+                "id": "Freon",
                 "aliases": [
-                    "freon",
+                    "Freon",
                     "freon"
                 ],
                 "extensions": [
@@ -36,7 +36,7 @@
         ],
         "grammars": [
             {
-                "language": "freon",
+                "language": "Freon",
                 "scopeName": "source.freon",
                 "path": "./syntaxes/ast/freon.tmLanguage.json"
             }
@@ -44,5 +44,5 @@
     },
     "activationEvents": [],
     "provider": "Jos Warmer",
-    "publisher": "freon"
+    "publisher": "Freon"
 }
