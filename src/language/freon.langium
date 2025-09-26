@@ -250,7 +250,9 @@ PropertyIdentifier returns string:
     | KeywordAllowedAsProperty
     | 'table'
     | PrimitiveType
-    | DisplayType;
+    // | 'radio'
+    | DisplayType
+    ;
 
 Keyword returns string:
     KeywordAllowedAsProperty
@@ -324,7 +326,8 @@ SingleProperty:
 //     CURLY_END WS?;
 
 terminal TEXT:/\btext\b/;
-terminal DisplayType:
+
+DisplayType returns string:
      'checkbox' | 'radio' | 'switch' | 'inner-switch' | 'slider';
 
 ListDirection returns string:
@@ -334,7 +337,7 @@ ListInfoType returns string:
     'separator' | 'terminator' | 'initiator';
 
 KeywordDecl:
-    PROJECTION_BEGIN (WS? t+=TextItemWithoutSeparator)+ WS? (PROJECTION_SEPARATOR WS? tt+=TextItemWithoutSeparator+ WS?)? PROJECTION_END WS?;
+    PROJECTION_BEGIN (WS? t+=TextItemWithoutSeparator)+ WS? (PROJECTION_SEPARATOR WS? tt+=TextItemWithoutSeparator+ WS? (PROJECTION_SEPARATOR WS? tt+=TextItemWithoutSeparator+ WS?)?)? PROJECTION_END WS?;
 
 ExternalInfo:
     ('wrap' WS? '=' WS? wrap=[ExternalDeclaration] WS? (params+=Key_value_pair WS?)*)
@@ -583,7 +586,6 @@ hidden terminal SL_COMMENT: /\/\/[^\n\r]*/ WS?;
 // terminal LESS_THAN: '<';
 terminal SLASH: '/';
 terminal ESCAPED_DOUBLE_QUOTE: '\\"';
-terminal ESCAPED_QUESTION: '\\?';
 terminal ESCAPED_PROJECTION_BEGIN: '\\[';
 terminal ESCAPED_PROJECTION_END: '\\]';
 terminal ESCAPED_DOLLAR: '\\$';
