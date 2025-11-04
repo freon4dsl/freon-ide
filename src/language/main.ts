@@ -14,4 +14,4 @@ const { shared } = createFreonServices({ connection, ...NodeFileSystem });
 // Start the language server with the shared services
 startLanguageServer(shared);
 
-console.log("Freon Language Server 0.0.7 - compatible with Freon 2.0.0-beta.4")
+console.log("Freon Language Server 2.0.0 - compatible with Freon 2.0.0-beta.5")

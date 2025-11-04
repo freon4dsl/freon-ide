@@ -2,10 +2,10 @@ import {  type Module, inject } from 'langium';
 import { createDefaultModule, createDefaultSharedModule, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
 import { FreonAstGeneratedModule, FreonGeneratedSharedModule } from './generated/module.js';
 import { FreonValidator, registerValidationChecks } from './freon-validator.js';
-import { MyScopeProvider2 } from './MyScopeProvider.js';
-import { MyScopeComputation } from './MyScopeComputation.js';
+import { FreonScopeProvider } from './FreonScopeProvider.js';
+import { FreonScopeComputation } from './FreonScopeComputation.js';
 // import { MyCompletionProvider } from './MyCompletionProvider.js';
-import { MySemanticTokenProvider } from './MySemanticTokenProvider.js';
+import { FreonSemanticTokenProvider } from './FreonSemanticTokenProvider.js';
 // import { MyCompletionProvider } from './MyCompletionProvider.js';
 // import { MyScopeComputation, MyScopeProvider } from './MyScopeProvider.js';
 
@@ -35,13 +35,13 @@ export const FreonModule: Module<FreonServices, PartialLangiumServices & FreonAd
     },
     references: {
         // ScopeProvider: (services) => new MyScopeProvider(services),
-        ScopeProvider: (services) => new MyScopeProvider2(services),
+        ScopeProvider: (services) => new FreonScopeProvider(services),
         // ScopeComputation: (services) => new DefaultScopeComputation(services),
-        ScopeComputation: (services) => new MyScopeComputation(services),
+        ScopeComputation: (services) => new FreonScopeComputation(services),
     },
     lsp: {
         // CompletionProvider: (services) => new MyCompletionProvider(services),
-        SemanticTokenProvider: (services) => new MySemanticTokenProvider(services)
+        SemanticTokenProvider: (services) => new FreonSemanticTokenProvider(services)
     }
 };
 

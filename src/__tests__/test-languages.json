@@ -33,6 +33,7 @@
                 "parser-basic-properties",
                 "parser_gen",
                 "qualifiedNameScoper",
+                "scoperTest",
                 "testCircularImports",
                 "testDefaultScoper",
                 "testDefinedScoper",

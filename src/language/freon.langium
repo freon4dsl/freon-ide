@@ -328,7 +328,7 @@ SingleProperty:
 terminal TEXT:/\btext\b/;
 
 DisplayType returns string:
-     'checkbox' | 'radio' | 'switch' | 'inner-switch' | 'slider';
+     'checkbox' | 'radio' | 'switch' | 'inner-switch' | 'slider' | 'multiline' ;
 
 ListDirection returns string:
     'horizontal' | 'vertical';
@@ -390,7 +390,8 @@ SingleNamespaceExpression:
  *                     Expressions for Scoper
  ****************************************************************/
 LangExpressionInScoper:
-    ( exp=AppliedExpression
+    // ( exp=BaseExpression)
+    ( exp=AppliedExpression 
     | exp=LimitedValueExpression//InstanceExpression                  
     | exp=SimpleExpression);
 
@@ -404,7 +405,24 @@ AppliedExpression:
 
 ScoperDotExpression: 
     DOT WS? afterDotExp=AppliedExpression WS?;
+ 
+//  BaseExpression:
+//     (
+//         key='self'
+//         | key='owner' WS? PAR_OPEN WS? PAR_CLOSE 
+//         | propName=PropertyIdentifier
+//     ) 
+//     (applied += Applied)*
+//     ;
 
+// Applied:
+//     DOT (
+//         key='owner' WS? PAR_OPEN WS? PAR_CLOSE 
+//         | key='type' PAR_OPEN WS? PAR_CLOSE
+//         | propName=PropertyIdentifier
+//         | key='if' WS? PAR_OPEN WS? typeParam=ClassifierType WS? PAR_CLOSE 
+//     );
+    
 /****************************************************************
  *                           Expressions
  ****************************************************************/

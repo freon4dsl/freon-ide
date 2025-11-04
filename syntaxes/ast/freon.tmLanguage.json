@@ -14,7 +14,7 @@
     },
     {
       "name": "keyword.control.freon",
-      "match": "\\b(abstract|base|binary|columns|concept|conformsTo|container|editor|version|equalsType|expression|external|false|file-extension|for|fragment|global|hastype|horizontal|identifier|implements|in|initiator|interface|isnamespace|istype|isunique|language|let|limited|message|model|modelunit|namespace_addition|new|notEmpty|number|precedence|priority|reference|referenceSeparator|referenceShortcut|replace|rows|scope|scoper|self|separator|severity|string|symbol|terminator|trigger|true|typecheck|typer|validIdentifier|validator|vertical|where|conformsto|equalsto|infertype|wrap)\\b|\\B(\\[external)\\b"
+      "match": "\\b(abstract|base|binary|columns|concept|conformsTo|container|editor|checkbox|slider|multiline|radio|switch|inner-switch|version|equalsType|expression|external|false|file-extension|for|fragment|global|hastype|horizontal|identifier|implements|in|initiator|interface|isnamespace|istype|isunique|language|let|limited|message|model|modelunit|namespace_addition|new|notEmpty|number|precedence|priority|reference|referenceSeparator|referenceShortcut|replace|rows|scope|scoper|self|separator|severity|string|symbol|terminator|trigger|true|typecheck|typer|validIdentifier|validator|vertical|where|conformsto|equalsto|infertype|wrap)\\b|\\B(\\[external)\\b"
     },
     {
       "name": "variable.language.freon",
