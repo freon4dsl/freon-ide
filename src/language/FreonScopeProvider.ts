@@ -1,4 +1,6 @@
-import { ReferenceInfo, Scope, AstUtils, LangiumCoreServices, AstNodeDescriptionProvider,
+import { ReferenceInfo, Scope, 
+    // AstUtils,
+     LangiumCoreServices, AstNodeDescriptionProvider,
      MapScope, EMPTY_SCOPE, DefaultScopeProvider, AstNode, Reference, AstNodeDescription } from "langium";
 import { Classifier, ClassifierType, ClassifierTypeSpec, Concept, ExpressionConcept, Instance, Interface, isClassifier, isClassifierType, isClassifierTypeSpec, isConcept,
         isConceptDefinition, isConceptRule, isDotExpression, isScoperDotExpression, isExpressionConcept, isFretCreateExp, isFretWhereExp, isInterface,
@@ -8,10 +10,20 @@ import { Classifier, ClassifierType, ClassifierTypeSpec, Concept, ExpressionConc
      ScoperDotExpression,
      Model,
      isModel,
-     isFreonModel,
-     AppliedExpression} from "./generated/ast.js";
+    //  isFreonModel,
+     AppliedExpression,
+     isFreonModel} from "./generated/ast.js";
 import { visitAndMap } from "../utils/graphs.js";
 import * as LANGIUM from 'langium';
+// import { dot } from "node:test/reporters";
+
+const on: boolean = true
+let i = 1;
+function LOG(msg: string) {
+    if (on) {
+        console.log(i + " " + msg)
+    }
+}
 
 export class FreonScopeProvider extends DefaultScopeProvider {
     private astNodeDescriptionProvider: AstNodeDescriptionProvider;
@@ -23,11 +35,11 @@ export class FreonScopeProvider extends DefaultScopeProvider {
     }
 
     override getScope(context: ReferenceInfo): Scope {
-        // console.log(`getScope for ${context.property} ${context.container.$type}`)
+        LOG(`getScope for ${context.property} ${context.container.$type}`)
         let result: Scope = EMPTY_SCOPE
         switch(context.property) {
             case 'propName': {
-                // console.log(("propName"))
+                LOG((`getScope propName ${context.property}`))
                 const projection = this.containerOfType(context.container, "Projection")
                 if (isProjection(projection)) {
                     result = this.getProperties(projection.classifier)
@@ -37,7 +49,13 @@ export class FreonScopeProvider extends DefaultScopeProvider {
                         // Check whether this propName comes after a dot
                         const dotExp = this.containerOfType(context.container, "ScoperDotExpression")
                         if (isScoperDotExpression(dotExp)) {
-                            result = this.getScopeFromDotExpression(dotExp, context);
+                            LOG(`Scoper calling getClassifierForDotExpression !!! `)
+                            const classifier = this.getClassifierForDotExpression(dotExp);
+                            if (classifier !== undefined) {
+                                result = this.getPropertiesOfClassifier(classifier)
+                            } else {
+                                LOG(`getScope 8 result from getScopeFromDotExpression is undefined`)
+                            }
                         } else {
                             result = this.getProperties(scopeDef.cref)
                         }
@@ -51,7 +69,7 @@ export class FreonScopeProvider extends DefaultScopeProvider {
                             if (isClassifierTypeSpec(typeSpec)) {
                                 result = this.getProperties(typeSpec.cref);
                             } else {
-                                console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected Projection, ConceptDefinition, ConceptRule or ClassifierTypeSpec for 'propName'`)
+                                LOG(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected Projection, ConceptDefinition, ConceptRule or ClassifierTypeSpec for 'propName'`)
                             }
                         }
                     }
@@ -64,7 +82,7 @@ export class FreonScopeProvider extends DefaultScopeProvider {
                 if (isFretCreateExp(createExp)) {
                     result = this.getProperties(createExp.cref)
                 } else {
-                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: expected Create Expression for 'propInstanceName'`)
+                    LOG(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: expected Create Expression for 'propInstanceName'`)
                 }
                 break
             }
@@ -73,7 +91,7 @@ export class FreonScopeProvider extends DefaultScopeProvider {
                 if (isFretWhereExp(whereExp)) {
                     result = this.getProperties(whereExp.var.cref)
                 } else {
-                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected Where Expression for 'varPropName'`)
+                    LOG(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected Where Expression for 'varPropName'`)
                 }
                 break
             }
@@ -87,13 +105,13 @@ export class FreonScopeProvider extends DefaultScopeProvider {
                         if (isClassifierType(previousTypeRef)) {
                             result = this.getProperties(previousTypeRef)
                         } else {
-                            console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected previous property type to be a Classifier for 'nextPropName'`)
+                            LOG(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected previous property type to be a Classifier for 'nextPropName'`)
                         }
                     } else {
-                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected previous PropertyRef for 'nextPropName'`)
+                        LOG(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected previous PropertyRef for 'nextPropName'`)
                     }
                 } else {
-                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected DotExpression for 'nextPropName'`)
+                    LOG(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected DotExpression for 'nextPropName'`)
                 }
                 break;
             }
@@ -108,7 +126,7 @@ export class FreonScopeProvider extends DefaultScopeProvider {
                         if (isClassifierType(contextTypeRef)) {
                             result = this.getProperties(contextTypeRef)
                         } else {
-                            console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected ClassifierType for 'isUniqueName'`)
+                            LOG(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected ClassifierType for 'isUniqueName'`)
                         }
                     } else {
                         // The error below only seem to happen iof there is no .ast file, therefore commenting them.
@@ -116,7 +134,7 @@ export class FreonScopeProvider extends DefaultScopeProvider {
                         // console.log(`context ${context.container?.$cstNode?.length}, ${context.container?.$cstNode?.offset}, ${context.container?.$cstNode?.range}, ${context.container?.$cstNode?.end}`)
                     }
                 } else {
-                    console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected IsUniqueRule and ConceptRule for 'isUniqueName'`)
+                    LOG(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected IsUniqueRule and ConceptRule for 'isUniqueName'`)
                 }
                 break
             }
@@ -137,7 +155,7 @@ export class FreonScopeProvider extends DefaultScopeProvider {
                             result = this.getLimitedInstances(typeSpec.cref?.conceptType?.ref)
                         }
                     } else {
-                        console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected LimitedValueExpression for 'limitedInstance'`)
+                        LOG(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected LimitedValueExpression for 'limitedInstance'`)
                     }
                 }
                 break
@@ -164,87 +182,104 @@ export class FreonScopeProvider extends DefaultScopeProvider {
         path: ""
     }
 
+    i: number = 1
     // Get the scope for the dot expression in the ConceptDefinition of the Freon scoper 
     // (And later: in the ConceptRule of the Freon validator)
-    private getScopeFromDotExpression(dotExp: ScoperDotExpression, context: ReferenceInfo) {
-        console.log(`getScopeFromDotExpression ${dotExp?.afterDotExp?.appliedKwd}'`)
-        let result: Scope = EMPTY_SCOPE
+    /**
+     * 
+     * @param dotExp  The containing dot expression
+     * @param context The info for which we calculate the scope 
+     * @returns 
+     */
+    private getClassifierForDotExpression(dotExp: ScoperDotExpression): Classifier | undefined {
+        // if (this.i > 1000) {
+        //     return undefined
+        // }
+        // if (isScoperDotExpression(context.container)) {
+        //     // const dot: ScoperDotExpression = context.container
+        //     console.log(`getScopeFromDotExpression 1 for ${context.property} afterdot is ${dotExp?.afterDotExp?.appliedKwd}'`)
+        // } else {
+        //     console.log(`getScopeFromDotExpression 2 ERROR for ${context.property} is not a diot expression`)
+        // }
+        LOG(`getClassifierForDotExpression 1 '${dotExp?.afterDotExp?.appliedKwd}' cont ${dotExp.$container.propName}`)
         const appliedExp = this.containerOfType(dotExp, "AppliedExpression");
         if (isAppliedExpression(appliedExp)) {
+            LOG(`getClassifierForDotExpression 2 container of type applied '${appliedExp.appliedKwd}'`)
             const referencedProperty: Property | undefined = appliedExp?.propName?.ref;
             if (referencedProperty !== undefined) {
+                LOG(`getClassifierForDotExpression 2a property ref '${referencedProperty.name}'`)
                 const referencedType: ClassifierType | PrimitiveType | undefined = referencedProperty.propertyType;
                 if (isClassifierType(referencedType)) {
-                    result = this.getProperties(referencedType);
+                    return referencedType.conceptType.ref
+                    // result = this.getProperties(referencedType);
                 } else {
-                    // console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected referenced property type to be a Classifier for 'afterDotExp'`);
+                    LOG(`getClassifierForDotExpression 3 ${LANGIUM.AstUtils.getDocument(dotExp).uri.fsPath}: Expected referenced property type to be a Classifier for 'afterDotExp'`);
                 }
             } else if (appliedExp?.appliedKwd !== undefined) {
+                LOG(`getClassifierForDotExpression 2b applied with keyword '${appliedExp.appliedKwd}'`)
                 switch (appliedExp?.appliedKwd) {
                     case 'self': {
                         const conceptDef = this.containerOfType(appliedExp, "ConceptDefinition");
                         if (isConceptDefinition(conceptDef)) {
-                            result = this.getProperties(conceptDef?.cref);
+                            LOG(`getClassifierForDotExpression 20 returnign concept ${conceptDef.cref?.conceptType?.$refText}`)
+                            return conceptDef.cref.conceptType.ref;
+                        } else {
+                            LOG(`getClassifierForDotExpression 6 no concept for self`)
                         }
                         break;
                     }
                     case 'if': {
                         const typeParam = appliedExp?.typeParam;
                         if (typeParam !== undefined) {
-                            result = this.getProperties(typeParam);
+                            LOG(`getClassifierForDotExpression 13 if found ${typeParam.conceptType.ref?.name}`)
+                            return typeParam.conceptType.ref;
+                        } else {
+                            LOG(`getClassifierForDotExpression 7 no concept for if`)
                         }
                         break;
                     }
                     case 'owner': {
-                        console.log("FreonScopeProvider: owner")
-                        var conceptNode = undefined;    
+                        LOG(`getClassifierForDotExpression 5 FreonScopeProvider: owner`)
+                        // var conceptNode = undefined;    
                         // Find for which classifier we invoke the owner()
-                        const previousAppliedExpr = this.containerOfType(appliedExp.$container, "AppliedExpression")
-                        if (isAppliedExpression(previousAppliedExpr)) {
-                            console.log(`====== isPalliedExpression`)
-                            const referencedProperty: Property | undefined = previousAppliedExpr?.propName?.ref;
-                            if (referencedProperty !== undefined) {
-                                const referencedType: ClassifierType | PrimitiveType | undefined = referencedProperty.propertyType;
-                                if (isClassifierType(referencedType)) {
-                                    conceptNode = referencedType.conceptType.ref
-                                }
-                            }
-                        } else {
-                            console.log(`====== NOT isPalliedExpression`)
-                            const conceptDef = this.containerOfType(appliedExp, "ConceptDefinition")                            
-                            if (isConceptDefinition(conceptDef)) {
-                                conceptNode = conceptDef?.cref?.conceptType.ref
-                            }
-                            const modelDef = this.containerOfType(appliedExp, "Model")
-                            console.log(`====== Model container ${modelDef} connept ${conceptDef}`)                            
-                        }
-                        
-                        // Find owners of this concept:  classifiers that have it as a property
-                        if (conceptNode !== undefined) {
-                            const ownerCandidates = AstUtils.findLocalReferences(conceptNode);
-                            console.log(`FreonScopeProvider:   debug number of owner candidates: ${ownerCandidates.count()}`);
-                            ownerCandidates.forEach((oc) => {
-                                if (oc.$refNode?.astNode !== undefined) { 
-                                    if (isClassifierType(oc.$refNode?.astNode)) {
-                                        const propertyNode = this.containerOfType(oc.$refNode?.astNode, "Property");   
-
-                                        if (propertyNode !== undefined && !(propertyNode as Property).reference) {
-                                            // console.log(`Debug referencing property: ${propertyNode?.$document} = ${propertyNode.$cstNode?.text} -- ${propertyNode.$type}`);
-                                            const classifierNode = propertyNode.$container;
-                                            // This can be a classifier, but also a model (which is not a classifier)!
-                                            if (isClassifier(classifierNode) || isModel(classifierNode)) {
-                                                result = this.appendScopes(result, this.getPropertiesOfClassifier(classifierNode));
+                        const previousDotExp = this.containerOfType(appliedExp, "ScoperDotExpression")
+                        if (isScoperDotExpression(previousDotExp)) {
+                            const classifier = this.getClassifierForDotExpression(previousDotExp);
+                            if (classifier !== undefined) {
+                                // Find owners of this concept:  classifiers that have it as a property
+                                // TODO inheritance is not taken into account
+                                const ownerCandidates: LANGIUM.Stream<Reference<AstNode>> = LANGIUM.AstUtils.findLocalReferences(classifier);
+                                LOG(`getClassifierForDotExpression:   debug number of owner candidates: ${ownerCandidates.count()}`);
+                                let result = undefined
+                                ownerCandidates.forEach((oc) => {
+                                    if (oc.$refNode?.astNode !== undefined) { 
+                                        if (isClassifierType(oc.$refNode?.astNode)) {
+                                            const propertyNode = this.containerOfType(oc.$refNode?.astNode, "Property");   
+                                            if (propertyNode !== undefined && !(propertyNode as Property).reference) {
+                                                // console.log(`Debug referencing property: ${propertyNode?.$document} = ${propertyNode.$cstNode?.text} -- ${propertyNode.$type}`);
+                                                const classifierNode = propertyNode.$container;
+                                                // This can be a classifier, but also a model (which is not a classifier)!
+                                                if (isClassifier(classifierNode) || isModel(classifierNode)) {
+                                                    result = classifierNode;
+                                                }
                                             }
+                                        } else if (isFreonModel(oc.$refNode?.astNode)) {
+                                            LOG(`getClassifierForDotExpression    found model for ${oc.$refText}`)
                                         }
-                                    } else if (isFreonModel(oc.$refNode?.astNode)) {
-                                        console.log(`FreonScopeProvider    found model for ${oc.$refText}`)
                                     }
-                                }
-                            })                                
+                                })                                 
+                                return result
+                            } else {
+                                LOG(`getClassifierForDotExpression 9 result from getScopeFromDotExpression is undefined`)
+                            }
                         } else {
-                            // console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected to find Classifier node for the ClassifierDefinition`);
-                        }
-                                                
+                            const cd = this.containerOfType(dotExp, "ConceptDefinition")
+                            if (isConceptDefinition(cd)) {
+                                return cd.cref.conceptType.ref
+                            } else {
+                                LOG(`getClassifierForDotExpression 10 owner found in non-scoper definition`)
+                            }
+                        }                                               
                         break;
                     }
                     // There is no case of `type`, as type() may not be followed by '.'
@@ -252,12 +287,13 @@ export class FreonScopeProvider extends DefaultScopeProvider {
                         // console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected one of the special keywords, but got ${appliedExp?.appliedKwd}`);
                 }
             } else {
-                // console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected property reference or a special keyword for 'afterDotExp'`);
+                LOG(`getClassifierForDotExpression 4 ${LANGIUM.AstUtils.getDocument(dotExp).uri.fsPath}: Expected property reference or a special keyword for 'afterDotExp'`);
             }
         } else {
-            console.log(`${LANGIUM.AstUtils.getDocument(context.container).uri.fsPath}: Expected AppliedExpression for 'afterDotExp'`);
+            LOG(`getClassifierForDotExpression 11 ERROR ERROR`)
+            console.log(`${LANGIUM.AstUtils.getDocument(dotExp).uri.fsPath}: Expected AppliedExpression for 'afterDotExp'`);
         }
-        return result;
+        return undefined;
     }
 
             // const instanceExpr = this.containerOfType(context.container, "InstanceExpression")
@@ -282,6 +318,10 @@ export class FreonScopeProvider extends DefaultScopeProvider {
         // return default
 
 
+        /**
+         * @param appliedEx
+         * @returns 
+         */
     getClassifierOrModel(appliedExp: AppliedExpression): Classifier | Model| undefined {
         if (appliedExp.appliedKwd === "self") {
             // start of expression
@@ -403,9 +443,9 @@ export class FreonScopeProvider extends DefaultScopeProvider {
         return EMPTY_SCOPE;
     }
 
-    private appendScopes(scope1: Scope, scope2: Scope): Scope {
-        return new MapScope(scope1.getAllElements().concat(scope2.getAllElements()));
-    }
+    // private appendScopes(scope1: Scope, scope2: Scope): Scope {
+    //     return new MapScope(scope1.getAllElements().concat(scope2.getAllElements()));
+    // }
 
     private getInstances(lt: LimitedType, log: boolean = false): Scope {
         const limitedReference = lt.conceptType;

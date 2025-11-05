@@ -401,7 +401,9 @@ AppliedExpression:
     | appliedKwd='owner' WS? PAR_OPEN WS? PAR_CLOSE WS? (applied=ScoperDotExpression)?
     | appliedKwd='type' WS? PAR_OPEN WS? PAR_CLOSE
     | propName=[Property:PropertyIdentifier] WS? (applied=ScoperDotExpression)?
-    );
+    )
+    // DOT WS? afterDotExp=AppliedExpression WS?
+    ;
 
 ScoperDotExpression: 
     DOT WS? afterDotExp=AppliedExpression WS?;
