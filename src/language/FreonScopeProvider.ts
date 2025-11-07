@@ -17,7 +17,7 @@ import { visitAndMap } from "../utils/graphs.js";
 import * as LANGIUM from 'langium';
 // import { dot } from "node:test/reporters";
 
-const on: boolean = true
+const on: boolean = false
 let i = 1;
 function LOG(msg: string) {
     if (on) {
@@ -291,7 +291,7 @@ export class FreonScopeProvider extends DefaultScopeProvider {
             }
         } else {
             LOG(`getClassifierForDotExpression 11 ERROR ERROR`)
-            console.log(`${LANGIUM.AstUtils.getDocument(dotExp).uri.fsPath}: Expected AppliedExpression for 'afterDotExp'`);
+            LOG(`${LANGIUM.AstUtils.getDocument(dotExp).uri.fsPath}: Expected AppliedExpression for 'afterDotExp'`);
         }
         return undefined;
     }
@@ -393,14 +393,12 @@ export class FreonScopeProvider extends DefaultScopeProvider {
         return  this.globalScopeCache.get(referenceType, () => new MapScope(elements));
     }
 
-    private getProperties(cref: ClassifierType, log: boolean = false): Scope {
+    private getProperties(cref: ClassifierType): Scope {
         const classifierReference = getClassifierType(cref);
         const classifierRef = classifierReference?.ref;
         if (isClassifier(classifierRef)) {
             const descriptions = allProperties(classifierRef).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
-            if (log) {
-                console.log("   getProperties isClassifier:     " + descriptions.map(d => d.name).join(", "))
-            }
+            LOG("   getProperties isClassifier:     " + descriptions.map(d => d.name).join(", "))
             if (isModelUnit(classifierRef) && !descriptions.some(d => d.name === "name")) {
                 const MODELUNIT_NAME: AstNodeDescription = {
                     name: "name",
@@ -413,18 +411,14 @@ export class FreonScopeProvider extends DefaultScopeProvider {
             }
             return new MapScope(descriptions);
         }
-        if (log) {
-            console.log("   getProperties is NOT Classifier ================================ ")
-        }
+        LOG("   getProperties is NOT Classifier ================================ ")
         return EMPTY_SCOPE;
     }
 
-    private getPropertiesOfClassifier(classifier: Classifier | Model, log: boolean = false): Scope {        
+    private getPropertiesOfClassifier(classifier: Classifier | Model): Scope {        
         if (isClassifier(classifier) || isModel(classifier)) {
             const descriptions = allProperties(classifier).flatMap(p => (isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
-            if (log) {
-                console.log("   getProperties isClassifier:     " + descriptions.map(d => d.name).join(", "))
-            }
+            LOG("   getProperties isClassifier:     " + descriptions.map(d => d.name).join(", "))
             if (isModelUnit(classifier) && !descriptions.some(d => d.name === "name")) {
                 const MODELUNIT_NAME: AstNodeDescription = {
                     name: "name",
@@ -437,9 +431,7 @@ export class FreonScopeProvider extends DefaultScopeProvider {
             }
             return new MapScope(descriptions);
         }
-        if (log) {
-            console.log("   getProperties is NOT Classifier ================================ ")
-        }
+        LOG("   getProperties is NOT Classifier ================================ ")
         return EMPTY_SCOPE;
     }
 
@@ -452,21 +444,15 @@ export class FreonScopeProvider extends DefaultScopeProvider {
         const limitedRef = limitedReference?.ref;
         if (isLimited(limitedRef)) {
             const descriptions = allInstances(limitedRef).flatMap(p => (isOkInstance(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
-            if (log) {
-                console.log("   getInstances:     " + descriptions.map(d => d.name).join(", "))
-            }
+            LOG("   getInstances:     " + descriptions.map(d => d.name).join(", "))
             return new MapScope(descriptions);
         }
-        if (log) {
-            console.log("   getIntsancesis NOT Classifier ================================ ")
-        }
+        LOG("   getIntsancesis NOT Classifier ================================ ")
         return EMPTY_SCOPE;       
     }
     private getLimitedInstances(lt: Limited, log: boolean = false): Scope {
         const descriptions = allInstances(lt).flatMap(p => (isOkInstance(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []));
-        if (log) {
-            console.log("   getInstances:     " + descriptions.map(d => d.name).join(", "))
-        }
+        LOG("   getInstances:     " + descriptions.map(d => d.name).join(", "))
         return new MapScope(descriptions);
     }
     

@@ -1,7 +1,7 @@
 {
     "name": "freon-ide",
     "description": "IDE Support for Freon Definition Languages",
-    "version": "6",
+    "version": "2.0.0",
     "repository": "https://github.com/freon4dsl/freon-ide.git",
     "type": "module",
     "volta": {
