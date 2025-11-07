@@ -803,11 +803,11 @@
             return;
           }
           let foundCallbackWithDifferentContext = false;
-          for (let i = 0, len = this._callbacks.length; i < len; i++) {
-            if (this._callbacks[i] === callback) {
-              if (this._contexts[i] === context) {
-                this._callbacks.splice(i, 1);
-                this._contexts.splice(i, 1);
+          for (let i2 = 0, len = this._callbacks.length; i2 < len; i2++) {
+            if (this._callbacks[i2] === callback) {
+              if (this._contexts[i2] === context) {
+                this._callbacks.splice(i2, 1);
+                this._contexts.splice(i2, 1);
                 return;
               } else {
                 foundCallbackWithDifferentContext = true;
@@ -823,9 +823,9 @@
             return [];
           }
           const ret = [], callbacks = this._callbacks.slice(0), contexts = this._contexts.slice(0);
-          for (let i = 0, len = callbacks.length; i < len; i++) {
+          for (let i2 = 0, len = callbacks.length; i2 < len; i2++) {
             try {
-              ret.push(callbacks[i].apply(contexts[i], args));
+              ret.push(callbacks[i2].apply(contexts[i2], args));
             } catch (e) {
               (0, ral_1.default)().console.error(e);
             }
@@ -1517,8 +1517,8 @@ ${JSON.stringify(Object.fromEntries(headers))}`));
           if (headers.length < 2) {
             return result;
           }
-          for (let i = 0; i < headers.length - 2; i++) {
-            const header = headers[i];
+          for (let i2 = 0; i2 < headers.length - 2; i2++) {
+            const header = headers[i2];
             const index = header.indexOf(":");
             if (index === -1) {
               throw new Error(`Message header must separate key and value using ':'
@@ -2412,11 +2412,11 @@ ${JSON.stringify(message, null, 4)}`);
               break;
             default:
               result = [];
-              for (let i = 0; i < params.length && i < numberOfParams; i++) {
-                result.push(undefinedToNull(params[i]));
+              for (let i2 = 0; i2 < params.length && i2 < numberOfParams; i2++) {
+                result.push(undefinedToNull(params[i2]));
               }
               if (params.length < numberOfParams) {
-                for (let i = params.length; i < numberOfParams; i++) {
+                for (let i2 = params.length; i2 < numberOfParams; i2++) {
                   result.push(null);
                 }
               }
@@ -4661,8 +4661,8 @@ ${JSON.stringify(message, null, 4)}`);
               return diff;
             });
             var lastModifiedOffset = text.length;
-            for (var i = sortedEdits.length - 1; i >= 0; i--) {
-              var e = sortedEdits[i];
+            for (var i2 = sortedEdits.length - 1; i2 >= 0; i2--) {
+              var e = sortedEdits[i2];
               var startOffset = document.offsetAt(e.range.start);
               var endOffset = document.offsetAt(e.range.end);
               if (endOffset <= lastModifiedOffset) {
@@ -4686,20 +4686,20 @@ ${JSON.stringify(message, null, 4)}`);
             mergeSort2(right, compare);
             var leftIdx = 0;
             var rightIdx = 0;
-            var i = 0;
+            var i2 = 0;
             while (leftIdx < left.length && rightIdx < right.length) {
               var ret = compare(left[leftIdx], right[rightIdx]);
               if (ret <= 0) {
-                data[i++] = left[leftIdx++];
+                data[i2++] = left[leftIdx++];
               } else {
-                data[i++] = right[rightIdx++];
+                data[i2++] = right[rightIdx++];
               }
             }
             while (leftIdx < left.length) {
-              data[i++] = left[leftIdx++];
+              data[i2++] = left[leftIdx++];
             }
             while (rightIdx < right.length) {
-              data[i++] = right[rightIdx++];
+              data[i2++] = right[rightIdx++];
             }
             return data;
           }
@@ -4753,15 +4753,15 @@ ${JSON.stringify(message, null, 4)}`);
                 var lineOffsets = [];
                 var text = this._content;
                 var isLineStart = true;
-                for (var i = 0; i < text.length; i++) {
+                for (var i2 = 0; i2 < text.length; i2++) {
                   if (isLineStart) {
-                    lineOffsets.push(i);
+                    lineOffsets.push(i2);
                     isLineStart = false;
                   }
-                  var ch = text.charAt(i);
+                  var ch = text.charAt(i2);
                   isLineStart = ch === "\r" || ch === "\n";
-                  if (ch === "\r" && i + 1 < text.length && text.charAt(i + 1) === "\n") {
-                    i++;
+                  if (ch === "\r" && i2 + 1 < text.length && text.charAt(i2 + 1) === "\n") {
+                    i2++;
                   }
                 }
                 if (isLineStart && text.length > 0) {
@@ -5537,8 +5537,8 @@ ${JSON.stringify(message, null, 4)}`);
             if (one.length !== other.length) {
               return false;
             }
-            for (let i = 0; i < one.length; i++) {
-              if (!equalsMetadata(one[i], other[i])) {
+            for (let i2 = 0; i2 < one.length; i2++) {
+              if (!equalsMetadata(one[i2], other[i2])) {
                 return false;
               }
             }
@@ -5554,8 +5554,8 @@ ${JSON.stringify(message, null, 4)}`);
             if (!equalsMetadata(oneKeys, otherKeys)) {
               return false;
             }
-            for (let i = 0; i < oneKeys.length; i++) {
-              const prop = oneKeys[i];
+            for (let i2 = 0; i2 < oneKeys.length; i2++) {
+              const prop = oneKeys[i2];
               if (!equalsMetadata(one[prop], other[prop])) {
                 return false;
               }
@@ -7480,10 +7480,10 @@ ${JSON.stringify(message, null, 4)}`);
               }
               if (changedCells.data !== void 0) {
                 const cellUpdates = new Map(changedCells.data.map((cell) => [cell.document, cell]));
-                for (let i = 0; i <= notebookDocument.cells.length; i++) {
-                  const change2 = cellUpdates.get(notebookDocument.cells[i].document);
+                for (let i2 = 0; i2 <= notebookDocument.cells.length; i2++) {
+                  const change2 = cellUpdates.get(notebookDocument.cells[i2].document);
                   if (change2 !== void 0) {
-                    const old = notebookDocument.cells.splice(i, 1, change2);
+                    const old = notebookDocument.cells.splice(i2, 1, change2);
                     data.push({ old: old[0], new: change2 });
                     cellUpdates.delete(change2.document);
                     if (cellUpdates.size === 0) {
@@ -8346,8 +8346,8 @@ ${JSON.stringify(message, null, 4)}`);
           return void 0;
         }
         let segments = parsed.path.split("/");
-        for (var i = 0, len = segments.length; i < len; i++) {
-          segments[i] = decodeURIComponent(segments[i]);
+        for (var i2 = 0, len = segments.length; i2 < len; i2++) {
+          segments[i2] = decodeURIComponent(segments[i2]);
         }
         if (process.platform === "win32" && segments.length > 1) {
           let first2 = segments[0];
@@ -8715,10 +8715,10 @@ ${JSON.stringify(message, null, 4)}`);
           } catch (e) {
           }
         }
-        for (let i = 2; i < process.argv.length; i++) {
-          let arg = process.argv[i];
-          if (arg === argName && i + 1 < process.argv.length) {
-            runTimer(process.argv[i + 1]);
+        for (let i2 = 2; i2 < process.argv.length; i2++) {
+          let arg = process.argv[i2];
+          if (arg === argName && i2 + 1 < process.argv.length) {
+            runTimer(process.argv[i2 + 1]);
             return;
           } else {
             let args = arg.split("=");
@@ -8780,8 +8780,8 @@ ${JSON.stringify(message, null, 4)}`);
           let port = void 0;
           let pipeName = void 0;
           let argv = process.argv.slice(2);
-          for (let i = 0; i < argv.length; i++) {
-            let arg = argv[i];
+          for (let i2 = 0; i2 < argv.length; i2++) {
+            let arg = argv[i2];
             if (arg === "--node-ipc") {
               input = new node_1.IPCMessageReader(process);
               output = new node_1.IPCMessageWriter(process);
@@ -8792,10 +8792,10 @@ ${JSON.stringify(message, null, 4)}`);
               output = process.stdout;
               break;
             } else if (arg === "--socket") {
-              port = parseInt(argv[i + 1]);
+              port = parseInt(argv[i2 + 1]);
               break;
             } else if (arg === "--pipe") {
-              pipeName = argv[i + 1];
+              pipeName = argv[i2 + 1];
               break;
             } else {
               var args = arg.split("=");
@@ -10099,7 +10099,7 @@ ${stack}`);
     tail(skipCount = 1) {
       return new _StreamImpl(() => {
         const state = this.startFn();
-        for (let i = 0; i < skipCount; i++) {
+        for (let i2 = 0; i2 < skipCount; i2++) {
           const next = this.nextFn(state);
           if (next.done) {
             return state;
@@ -10388,8 +10388,8 @@ ${stack}`);
       }
       if (isRootCstNode(cstNode)) {
         const endIndex = cstNode.content.findIndex((e) => !e.hidden);
-        for (let i = endIndex - 1; i >= 0; i--) {
-          const child = cstNode.content[i];
+        for (let i2 = endIndex - 1; i2 >= 0; i2--) {
+          const child = cstNode.content[i2];
           if (isCommentNode(child, commentNames)) {
             return child;
           }
@@ -10508,9 +10508,9 @@ ${stack}`);
     const aParents = getParentChain(a2);
     const bParents = getParentChain(b);
     let current;
-    for (let i = 0; i < aParents.length && i < bParents.length; i++) {
-      const aParent = aParents[i];
-      const bParent = bParents[i];
+    for (let i2 = 0; i2 < aParents.length && i2 < bParents.length; i2++) {
+      const aParent = aParents[i2];
+      const bParent = bParents[i2];
       if (aParent.parent === bParent.parent) {
         current = {
           parent: aParent.parent,
@@ -10823,15 +10823,15 @@ ${stack}`);
 
   // node_modules/@chevrotain/regexp-to-ast/lib/src/character-classes.js
   var digitsCharCodes = [];
-  for (let i = cc("0"); i <= cc("9"); i++) {
-    digitsCharCodes.push(i);
+  for (let i2 = cc("0"); i2 <= cc("9"); i2++) {
+    digitsCharCodes.push(i2);
   }
   var wordCharCodes = [cc("_")].concat(digitsCharCodes);
-  for (let i = cc("a"); i <= cc("z"); i++) {
-    wordCharCodes.push(i);
+  for (let i2 = cc("a"); i2 <= cc("z"); i2++) {
+    wordCharCodes.push(i2);
   }
-  for (let i = cc("A"); i <= cc("Z"); i++) {
-    wordCharCodes.push(i);
+  for (let i2 = cc("A"); i2 <= cc("Z"); i2++) {
+    wordCharCodes.push(i2);
   }
   var whitespaceCodes = [
     cc(" "),
@@ -11488,7 +11488,7 @@ ${stack}`);
     }
     parseHexDigits(howMany) {
       let hexString = "";
-      for (let i = 0; i < howMany; i++) {
+      for (let i2 = 0; i2 < howMany; i2++) {
         const hexChar = this.popChar();
         if (hexDigitPattern.test(hexChar) === false) {
           throw Error("Expecting a HexDecimal digits");
@@ -11745,21 +11745,21 @@ ${stack}`);
       regex = new RegExp(regex);
     }
     const re = regex, source = regex.source;
-    let i = 0;
+    let i2 = 0;
     function process2() {
       let result = "", tmp;
       function appendRaw(nbChars) {
-        result += source.substr(i, nbChars);
-        i += nbChars;
+        result += source.substr(i2, nbChars);
+        i2 += nbChars;
       }
       function appendOptional(nbChars) {
-        result += "(?:" + source.substr(i, nbChars) + "|$)";
-        i += nbChars;
+        result += "(?:" + source.substr(i2, nbChars) + "|$)";
+        i2 += nbChars;
       }
-      while (i < source.length) {
-        switch (source[i]) {
+      while (i2 < source.length) {
+        switch (source[i2]) {
           case "\\":
-            switch (source[i + 1]) {
+            switch (source[i2 + 1]) {
               case "c":
                 appendOptional(3);
                 break;
@@ -11768,8 +11768,8 @@ ${stack}`);
                 break;
               case "u":
                 if (re.unicode) {
-                  if (source[i + 2] === "{") {
-                    appendOptional(source.indexOf("}", i) - i + 1);
+                  if (source[i2 + 2] === "{") {
+                    appendOptional(source.indexOf("}", i2) - i2 + 1);
                   } else {
                     appendOptional(6);
                   }
@@ -11780,13 +11780,13 @@ ${stack}`);
               case "p":
               case "P":
                 if (re.unicode) {
-                  appendOptional(source.indexOf("}", i) - i + 1);
+                  appendOptional(source.indexOf("}", i2) - i2 + 1);
                 } else {
                   appendOptional(2);
                 }
                 break;
               case "k":
-                appendOptional(source.indexOf(">", i) - i + 1);
+                appendOptional(source.indexOf(">", i2) - i2 + 1);
                 break;
               default:
                 appendOptional(2);
@@ -11795,7 +11795,7 @@ ${stack}`);
             break;
           case "[":
             tmp = /\[(?:\\.|.)*?\]/g;
-            tmp.lastIndex = i;
+            tmp.lastIndex = i2;
             tmp = tmp.exec(source) || [];
             appendOptional(tmp[0].length);
             break;
@@ -11809,7 +11809,7 @@ ${stack}`);
             break;
           case "{":
             tmp = /\{\d+,?\d*\}/g;
-            tmp.lastIndex = i;
+            tmp.lastIndex = i2;
             tmp = tmp.exec(source);
             if (tmp) {
               appendRaw(tmp[0].length);
@@ -11818,35 +11818,35 @@ ${stack}`);
             }
             break;
           case "(":
-            if (source[i + 1] === "?") {
-              switch (source[i + 2]) {
+            if (source[i2 + 1] === "?") {
+              switch (source[i2 + 2]) {
                 case ":":
                   result += "(?:";
-                  i += 3;
+                  i2 += 3;
                   result += process2() + "|$)";
                   break;
                 case "=":
                   result += "(?=";
-                  i += 3;
+                  i2 += 3;
                   result += process2() + ")";
                   break;
                 case "!":
-                  tmp = i;
-                  i += 3;
+                  tmp = i2;
+                  i2 += 3;
                   process2();
-                  result += source.substr(tmp, i - tmp);
+                  result += source.substr(tmp, i2 - tmp);
                   break;
                 case "<":
-                  switch (source[i + 3]) {
+                  switch (source[i2 + 3]) {
                     case "=":
                     case "!":
-                      tmp = i;
-                      i += 4;
+                      tmp = i2;
+                      i2 += 4;
                       process2();
-                      result += source.substr(tmp, i - tmp);
+                      result += source.substr(tmp, i2 - tmp);
                       break;
                     default:
-                      appendRaw(source.indexOf(">", i) - i + 1);
+                      appendRaw(source.indexOf(">", i2) - i2 + 1);
                       result += process2() + "|$)";
                       break;
                   }
@@ -11858,7 +11858,7 @@ ${stack}`);
             }
             break;
           case ")":
-            ++i;
+            ++i2;
             return result;
           default:
             appendOptional(1);
@@ -12054,12 +12054,12 @@ ${stack}`);
     if (isGroup(parent)) {
       const elements = parent.elements;
       const index = elements.indexOf(element);
-      for (let i = index - 1; i >= 0; i--) {
-        const item = elements[i];
+      for (let i2 = index - 1; i2 >= 0; i2--) {
+        const item = elements[i2];
         if (isAction(item)) {
           return item;
         } else {
-          const action = streamAllContents(elements[i]).find(isAction);
+          const action = streamAllContents(elements[i2]).find(isAction);
           if (action) {
             return action;
           }
@@ -12906,7 +12906,7 @@ ${stack}`);
           throw new TypeError("Path must be a string. Received " + JSON.stringify(t3));
       }
       function r2(t3, e3) {
-        for (var r3, n3 = "", i = 0, o = -1, s = 0, h = 0; h <= t3.length; ++h) {
+        for (var r3, n3 = "", i2 = 0, o = -1, s = 0, h = 0; h <= t3.length; ++h) {
           if (h < t3.length)
             r3 = t3.charCodeAt(h);
           else {
@@ -12918,21 +12918,21 @@ ${stack}`);
             if (o === h - 1 || 1 === s)
               ;
             else if (o !== h - 1 && 2 === s) {
-              if (n3.length < 2 || 2 !== i || 46 !== n3.charCodeAt(n3.length - 1) || 46 !== n3.charCodeAt(n3.length - 2)) {
+              if (n3.length < 2 || 2 !== i2 || 46 !== n3.charCodeAt(n3.length - 1) || 46 !== n3.charCodeAt(n3.length - 2)) {
                 if (n3.length > 2) {
                   var a2 = n3.lastIndexOf("/");
                   if (a2 !== n3.length - 1) {
-                    -1 === a2 ? (n3 = "", i = 0) : i = (n3 = n3.slice(0, a2)).length - 1 - n3.lastIndexOf("/"), o = h, s = 0;
+                    -1 === a2 ? (n3 = "", i2 = 0) : i2 = (n3 = n3.slice(0, a2)).length - 1 - n3.lastIndexOf("/"), o = h, s = 0;
                     continue;
                   }
                 } else if (2 === n3.length || 1 === n3.length) {
-                  n3 = "", i = 0, o = h, s = 0;
+                  n3 = "", i2 = 0, o = h, s = 0;
                   continue;
                 }
               }
-              e3 && (n3.length > 0 ? n3 += "/.." : n3 = "..", i = 2);
+              e3 && (n3.length > 0 ? n3 += "/.." : n3 = "..", i2 = 2);
             } else
-              n3.length > 0 ? n3 += "/" + t3.slice(o + 1, h) : n3 = t3.slice(o + 1, h), i = h - o - 1;
+              n3.length > 0 ? n3 += "/" + t3.slice(o + 1, h) : n3 = t3.slice(o + 1, h), i2 = h - o - 1;
             o = h, s = 0;
           } else
             46 === r3 && -1 !== s ? ++s : s = -1;
@@ -12940,24 +12940,24 @@ ${stack}`);
         return n3;
       }
       var n2 = { resolve: function() {
-        for (var t3, n3 = "", i = false, o = arguments.length - 1; o >= -1 && !i; o--) {
+        for (var t3, n3 = "", i2 = false, o = arguments.length - 1; o >= -1 && !i2; o--) {
           var s;
-          o >= 0 ? s = arguments[o] : (void 0 === t3 && (t3 = process.cwd()), s = t3), e2(s), 0 !== s.length && (n3 = s + "/" + n3, i = 47 === s.charCodeAt(0));
+          o >= 0 ? s = arguments[o] : (void 0 === t3 && (t3 = process.cwd()), s = t3), e2(s), 0 !== s.length && (n3 = s + "/" + n3, i2 = 47 === s.charCodeAt(0));
         }
-        return n3 = r2(n3, !i), i ? n3.length > 0 ? "/" + n3 : "/" : n3.length > 0 ? n3 : ".";
+        return n3 = r2(n3, !i2), i2 ? n3.length > 0 ? "/" + n3 : "/" : n3.length > 0 ? n3 : ".";
       }, normalize: function(t3) {
         if (e2(t3), 0 === t3.length)
           return ".";
-        var n3 = 47 === t3.charCodeAt(0), i = 47 === t3.charCodeAt(t3.length - 1);
-        return 0 !== (t3 = r2(t3, !n3)).length || n3 || (t3 = "."), t3.length > 0 && i && (t3 += "/"), n3 ? "/" + t3 : t3;
+        var n3 = 47 === t3.charCodeAt(0), i2 = 47 === t3.charCodeAt(t3.length - 1);
+        return 0 !== (t3 = r2(t3, !n3)).length || n3 || (t3 = "."), t3.length > 0 && i2 && (t3 += "/"), n3 ? "/" + t3 : t3;
       }, isAbsolute: function(t3) {
         return e2(t3), t3.length > 0 && 47 === t3.charCodeAt(0);
       }, join: function() {
         if (0 === arguments.length)
           return ".";
         for (var t3, r3 = 0; r3 < arguments.length; ++r3) {
-          var i = arguments[r3];
-          e2(i), i.length > 0 && (void 0 === t3 ? t3 = i : t3 += "/" + i);
+          var i2 = arguments[r3];
+          e2(i2), i2.length > 0 && (void 0 === t3 ? t3 = i2 : t3 += "/" + i2);
         }
         return void 0 === t3 ? "." : n2.normalize(t3);
       }, relative: function(t3, r3) {
@@ -12965,9 +12965,9 @@ ${stack}`);
           return "";
         if ((t3 = n2.resolve(t3)) === (r3 = n2.resolve(r3)))
           return "";
-        for (var i = 1; i < t3.length && 47 === t3.charCodeAt(i); ++i)
+        for (var i2 = 1; i2 < t3.length && 47 === t3.charCodeAt(i2); ++i2)
           ;
-        for (var o = t3.length, s = o - i, h = 1; h < r3.length && 47 === r3.charCodeAt(h); ++h)
+        for (var o = t3.length, s = o - i2, h = 1; h < r3.length && 47 === r3.charCodeAt(h); ++h)
           ;
         for (var a2 = r3.length - h, c = s < a2 ? s : a2, f = -1, u = 0; u <= c; ++u) {
           if (u === c) {
@@ -12977,16 +12977,16 @@ ${stack}`);
               if (0 === u)
                 return r3.slice(h + u);
             } else
-              s > c && (47 === t3.charCodeAt(i + u) ? f = u : 0 === u && (f = 0));
+              s > c && (47 === t3.charCodeAt(i2 + u) ? f = u : 0 === u && (f = 0));
             break;
           }
-          var l = t3.charCodeAt(i + u);
+          var l = t3.charCodeAt(i2 + u);
           if (l !== r3.charCodeAt(h + u))
             break;
           47 === l && (f = u);
         }
         var g = "";
-        for (u = i + f + 1; u <= o; ++u)
+        for (u = i2 + f + 1; u <= o; ++u)
           u !== o && 47 !== t3.charCodeAt(u) || (0 === g.length ? g += ".." : g += "/..");
         return g.length > 0 ? g + r3.slice(h + f) : (h += f, 47 === r3.charCodeAt(h) && ++h, r3.slice(h));
       }, _makeLong: function(t3) {
@@ -12994,20 +12994,20 @@ ${stack}`);
       }, dirname: function(t3) {
         if (e2(t3), 0 === t3.length)
           return ".";
-        for (var r3 = t3.charCodeAt(0), n3 = 47 === r3, i = -1, o = true, s = t3.length - 1; s >= 1; --s)
+        for (var r3 = t3.charCodeAt(0), n3 = 47 === r3, i2 = -1, o = true, s = t3.length - 1; s >= 1; --s)
           if (47 === (r3 = t3.charCodeAt(s))) {
             if (!o) {
-              i = s;
+              i2 = s;
               break;
             }
           } else
             o = false;
-        return -1 === i ? n3 ? "/" : "." : n3 && 1 === i ? "//" : t3.slice(0, i);
+        return -1 === i2 ? n3 ? "/" : "." : n3 && 1 === i2 ? "//" : t3.slice(0, i2);
       }, basename: function(t3, r3) {
         if (void 0 !== r3 && "string" != typeof r3)
           throw new TypeError('"ext" argument must be a string');
         e2(t3);
-        var n3, i = 0, o = -1, s = true;
+        var n3, i2 = 0, o = -1, s = true;
         if (void 0 !== r3 && r3.length > 0 && r3.length <= t3.length) {
           if (r3.length === t3.length && r3 === t3)
             return "";
@@ -13016,35 +13016,35 @@ ${stack}`);
             var c = t3.charCodeAt(n3);
             if (47 === c) {
               if (!s) {
-                i = n3 + 1;
+                i2 = n3 + 1;
                 break;
               }
             } else
               -1 === a2 && (s = false, a2 = n3 + 1), h >= 0 && (c === r3.charCodeAt(h) ? -1 == --h && (o = n3) : (h = -1, o = a2));
           }
-          return i === o ? o = a2 : -1 === o && (o = t3.length), t3.slice(i, o);
+          return i2 === o ? o = a2 : -1 === o && (o = t3.length), t3.slice(i2, o);
         }
         for (n3 = t3.length - 1; n3 >= 0; --n3)
           if (47 === t3.charCodeAt(n3)) {
             if (!s) {
-              i = n3 + 1;
+              i2 = n3 + 1;
               break;
             }
           } else
             -1 === o && (s = false, o = n3 + 1);
-        return -1 === o ? "" : t3.slice(i, o);
+        return -1 === o ? "" : t3.slice(i2, o);
       }, extname: function(t3) {
         e2(t3);
-        for (var r3 = -1, n3 = 0, i = -1, o = true, s = 0, h = t3.length - 1; h >= 0; --h) {
+        for (var r3 = -1, n3 = 0, i2 = -1, o = true, s = 0, h = t3.length - 1; h >= 0; --h) {
           var a2 = t3.charCodeAt(h);
           if (47 !== a2)
-            -1 === i && (o = false, i = h + 1), 46 === a2 ? -1 === r3 ? r3 = h : 1 !== s && (s = 1) : -1 !== r3 && (s = -1);
+            -1 === i2 && (o = false, i2 = h + 1), 46 === a2 ? -1 === r3 ? r3 = h : 1 !== s && (s = 1) : -1 !== r3 && (s = -1);
           else if (!o) {
             n3 = h + 1;
             break;
           }
         }
-        return -1 === r3 || -1 === i || 0 === s || 1 === s && r3 === i - 1 && r3 === n3 + 1 ? "" : t3.slice(r3, i);
+        return -1 === r3 || -1 === i2 || 0 === s || 1 === s && r3 === i2 - 1 && r3 === n3 + 1 ? "" : t3.slice(r3, i2);
       }, format: function(t3) {
         if (null === t3 || "object" != typeof t3)
           throw new TypeError('The "pathObject" argument must be of type Object. Received type ' + typeof t3);
@@ -13057,11 +13057,11 @@ ${stack}`);
         var r3 = { root: "", dir: "", base: "", ext: "", name: "" };
         if (0 === t3.length)
           return r3;
-        var n3, i = t3.charCodeAt(0), o = 47 === i;
+        var n3, i2 = t3.charCodeAt(0), o = 47 === i2;
         o ? (r3.root = "/", n3 = 1) : n3 = 0;
         for (var s = -1, h = 0, a2 = -1, c = true, f = t3.length - 1, u = 0; f >= n3; --f)
-          if (47 !== (i = t3.charCodeAt(f)))
-            -1 === a2 && (c = false, a2 = f + 1), 46 === i ? -1 === s ? s = f : 1 !== u && (u = 1) : -1 !== s && (u = -1);
+          if (47 !== (i2 = t3.charCodeAt(f)))
+            -1 === a2 && (c = false, a2 = f + 1), 46 === i2 ? -1 === s ? s = f : 1 !== u && (u = 1) : -1 !== s && (u = -1);
           else if (!c) {
             h = f + 1;
             break;
@@ -13071,9 +13071,9 @@ ${stack}`);
       n2.posix = n2, t2.exports = n2;
     } }, e = {};
     function r(n2) {
-      var i = e[n2];
-      if (void 0 !== i)
-        return i.exports;
+      var i2 = e[n2];
+      if (void 0 !== i2)
+        return i2.exports;
       var o = e[n2] = { exports: {} };
       return t[n2](o, o.exports, r), o.exports;
     }
@@ -13092,7 +13092,7 @@ ${stack}`);
         let e3 = navigator.userAgent;
         t2 = e3.indexOf("Windows") >= 0;
       }
-      const e2 = /^\w[\w\d+.-]*$/, i = /^\//, o = /^\/\//;
+      const e2 = /^\w[\w\d+.-]*$/, i2 = /^\//, o = /^\/\//;
       function s(t3, r2) {
         if (!t3.scheme && r2)
           throw new Error(`[UriError]: Scheme is missing: {scheme: "", authority: "${t3.authority}", path: "${t3.path}", query: "${t3.query}", fragment: "${t3.fragment}"}`);
@@ -13100,7 +13100,7 @@ ${stack}`);
           throw new Error("[UriError]: Scheme contains illegal characters.");
         if (t3.path) {
           if (t3.authority) {
-            if (!i.test(t3.path))
+            if (!i2.test(t3.path))
               throw new Error('[UriError]: If a URI contains an authority component, then the path component must either be empty or begin with a slash ("/") character');
           } else if (o.test(t3.path))
             throw new Error('[UriError]: If a URI does not contain an authority component, then the path cannot begin with two slash characters ("//")');
@@ -13116,7 +13116,7 @@ ${stack}`);
         path;
         query;
         fragment;
-        constructor(t3, e3, r2, n2, i2, o2 = false) {
+        constructor(t3, e3, r2, n2, i3, o2 = false) {
           "object" == typeof t3 ? (this.scheme = t3.scheme || h, this.authority = t3.authority || h, this.path = t3.path || h, this.query = t3.query || h, this.fragment = t3.fragment || h) : (this.scheme = /* @__PURE__ */ function(t4, e4) {
             return t4 || e4 ? t4 : "file";
           }(t3, o2), this.authority = e3 || h, this.path = function(t4, e4) {
@@ -13127,7 +13127,7 @@ ${stack}`);
                 e4 ? e4[0] !== a2 && (e4 = a2 + e4) : e4 = a2;
             }
             return e4;
-          }(this.scheme, r2 || h), this.query = n2 || h, this.fragment = i2 || h, s(this, o2));
+          }(this.scheme, r2 || h), this.query = n2 || h, this.fragment = i3 || h, s(this, o2));
         }
         get fsPath() {
           return m(this, false);
@@ -13135,8 +13135,8 @@ ${stack}`);
         with(t3) {
           if (!t3)
             return this;
-          let { scheme: e3, authority: r2, path: n2, query: i2, fragment: o2 } = t3;
-          return void 0 === e3 ? e3 = this.scheme : null === e3 && (e3 = h), void 0 === r2 ? r2 = this.authority : null === r2 && (r2 = h), void 0 === n2 ? n2 = this.path : null === n2 && (n2 = h), void 0 === i2 ? i2 = this.query : null === i2 && (i2 = h), void 0 === o2 ? o2 = this.fragment : null === o2 && (o2 = h), e3 === this.scheme && r2 === this.authority && n2 === this.path && i2 === this.query && o2 === this.fragment ? this : new l(e3, r2, n2, i2, o2);
+          let { scheme: e3, authority: r2, path: n2, query: i3, fragment: o2 } = t3;
+          return void 0 === e3 ? e3 = this.scheme : null === e3 && (e3 = h), void 0 === r2 ? r2 = this.authority : null === r2 && (r2 = h), void 0 === n2 ? n2 = this.path : null === n2 && (n2 = h), void 0 === i3 ? i3 = this.query : null === i3 && (i3 = h), void 0 === o2 ? o2 = this.fragment : null === o2 && (o2 = h), e3 === this.scheme && r2 === this.authority && n2 === this.path && i3 === this.query && o2 === this.fragment ? this : new l(e3, r2, n2, i3, o2);
         }
         static parse(t3, e3 = false) {
           const r2 = c.exec(t3);
@@ -13189,18 +13189,18 @@ ${stack}`);
       }
       const g = { 58: "%3A", 47: "%2F", 63: "%3F", 35: "%23", 91: "%5B", 93: "%5D", 64: "%40", 33: "%21", 36: "%24", 38: "%26", 39: "%27", 40: "%28", 41: "%29", 42: "%2A", 43: "%2B", 44: "%2C", 59: "%3B", 61: "%3D", 32: "%20" };
       function d(t3, e3, r2) {
-        let n2, i2 = -1;
+        let n2, i3 = -1;
         for (let o2 = 0; o2 < t3.length; o2++) {
           const s2 = t3.charCodeAt(o2);
           if (s2 >= 97 && s2 <= 122 || s2 >= 65 && s2 <= 90 || s2 >= 48 && s2 <= 57 || 45 === s2 || 46 === s2 || 95 === s2 || 126 === s2 || e3 && 47 === s2 || r2 && 91 === s2 || r2 && 93 === s2 || r2 && 58 === s2)
-            -1 !== i2 && (n2 += encodeURIComponent(t3.substring(i2, o2)), i2 = -1), void 0 !== n2 && (n2 += t3.charAt(o2));
+            -1 !== i3 && (n2 += encodeURIComponent(t3.substring(i3, o2)), i3 = -1), void 0 !== n2 && (n2 += t3.charAt(o2));
           else {
             void 0 === n2 && (n2 = t3.substr(0, o2));
             const e4 = g[s2];
-            void 0 !== e4 ? (-1 !== i2 && (n2 += encodeURIComponent(t3.substring(i2, o2)), i2 = -1), n2 += e4) : -1 === i2 && (i2 = o2);
+            void 0 !== e4 ? (-1 !== i3 && (n2 += encodeURIComponent(t3.substring(i3, o2)), i3 = -1), n2 += e4) : -1 === i3 && (i3 = o2);
           }
         }
-        return -1 !== i2 && (n2 += encodeURIComponent(t3.substring(i2))), void 0 !== n2 ? n2 : t3;
+        return -1 !== i3 && (n2 += encodeURIComponent(t3.substring(i3))), void 0 !== n2 ? n2 : t3;
       }
       function p(t3) {
         let e3;
@@ -13216,8 +13216,8 @@ ${stack}`);
       }
       function y(t3, e3) {
         const r2 = e3 ? p : d;
-        let n2 = "", { scheme: i2, authority: o2, path: s2, query: h2, fragment: c2 } = t3;
-        if (i2 && (n2 += i2, n2 += ":"), (o2 || "file" === i2) && (n2 += a2, n2 += a2), o2) {
+        let n2 = "", { scheme: i3, authority: o2, path: s2, query: h2, fragment: c2 } = t3;
+        if (i3 && (n2 += i3, n2 += ":"), (o2 || "file" === i3) && (n2 += a2, n2 += a2), o2) {
           let t4 = o2.indexOf("@");
           if (-1 !== t4) {
             const e4 = o2.substr(0, t4);
@@ -13257,8 +13257,8 @@ ${stack}`);
         }, t3.resolvePath = function(t4, ...e3) {
           let r2 = t4.path, n2 = false;
           r2[0] !== x && (r2 = x + r2, n2 = true);
-          let i2 = w.resolve(r2, ...e3);
-          return n2 && i2[0] === x && !t4.authority && (i2 = i2.substring(1)), t4.with({ path: i2 });
+          let i3 = w.resolve(r2, ...e3);
+          return n2 && i3[0] === x && !t4.authority && (i3 = i3.substring(1)), t4.with({ path: i3 });
         }, t3.dirname = function(t4) {
           if (0 === t4.path.length || t4.path === x)
             return t4;
@@ -13291,14 +13291,14 @@ ${stack}`);
       const toPath = typeof to === "string" ? to : to.path;
       const fromParts = fromPath.split("/").filter((e) => e.length > 0);
       const toParts = toPath.split("/").filter((e) => e.length > 0);
-      let i = 0;
-      for (; i < fromParts.length; i++) {
-        if (fromParts[i] !== toParts[i]) {
+      let i2 = 0;
+      for (; i2 < fromParts.length; i2++) {
+        if (fromParts[i2] !== toParts[i2]) {
           break;
         }
       }
-      const backPart = "../".repeat(fromParts.length - i);
-      const toPart = toParts.slice(i).join("/");
+      const backPart = "../".repeat(fromParts.length - i2);
+      const toPart = toParts.slice(i2).join("/");
       return backPart + toPart;
     }
     UriUtils2.relative = relative;
@@ -16673,14 +16673,14 @@ ${stack}`);
   function firstCharOptimizedIndices(ast, result, ignoreCase) {
     switch (ast.type) {
       case "Disjunction":
-        for (let i = 0; i < ast.value.length; i++) {
-          firstCharOptimizedIndices(ast.value[i], result, ignoreCase);
+        for (let i2 = 0; i2 < ast.value.length; i2++) {
+          firstCharOptimizedIndices(ast.value[i2], result, ignoreCase);
         }
         break;
       case "Alternative":
         const terms = ast.value;
-        for (let i = 0; i < terms.length; i++) {
-          const term = terms[i];
+        for (let i2 = 0; i2 < terms.length; i2++) {
+          const term = terms[i2];
           switch (term.type) {
             case "EndAnchor":
             case "GroupBackReference":
@@ -17440,16 +17440,16 @@ See https://chevrotain.io/docs/guide/resolving_lexer_errors.html#UNREACHABLE`;
     // implements /\n|\r\n?/g.test
     test: function(text) {
       const len = text.length;
-      for (let i = this.lastIndex; i < len; i++) {
-        const c = text.charCodeAt(i);
+      for (let i2 = this.lastIndex; i2 < len; i2++) {
+        const c = text.charCodeAt(i2);
         if (c === 10) {
-          this.lastIndex = i + 1;
+          this.lastIndex = i2 + 1;
           return true;
         } else if (c === 13) {
-          if (text.charCodeAt(i + 1) === 10) {
-            this.lastIndex = i + 2;
+          if (text.charCodeAt(i2 + 1) === 10) {
+            this.lastIndex = i2 + 2;
           } else {
-            this.lastIndex = i + 1;
+            this.lastIndex = i2 + 1;
           }
           return true;
         }
@@ -17520,8 +17520,8 @@ See https://chevrotain.io/docs/guide/resolving_lexer_errors.html#UNREACHABLE`;
   function initCharCodeToOptimizedIndexMap() {
     if (isEmpty_default(charCodeToOptimizedIdxMap)) {
       charCodeToOptimizedIdxMap = new Array(65536);
-      for (let i = 0; i < 65536; i++) {
-        charCodeToOptimizedIdxMap[i] = i > 255 ? 255 + ~~(i / 255) : i;
+      for (let i2 = 0; i2 < 65536; i2++) {
+        charCodeToOptimizedIdxMap[i2] = i2 > 255 ? 255 + ~~(i2 / 255) : i2;
       }
     }
   }
@@ -17862,7 +17862,7 @@ See https://chevrotain.io/docs/guide/resolving_lexer_errors.html#UNREACHABLE`;
     // this method also used quite a bit of `!` none null assertions because it is too optimized
     // for `tsc` to always understand it is "safe"
     tokenizeInternal(text, initialMode) {
-      let i, j, k, matchAltImage, longerAlt, matchedImage, payload, altPayload, imageLength, group, tokType, newToken, errLength, droppedChar, msg, match;
+      let i2, j, k, matchAltImage, longerAlt, matchedImage, payload, altPayload, imageLength, group, tokType, newToken, errLength, droppedChar, msg, match;
       const orgText = text;
       const orgLength = orgText.length;
       let offset = 0;
@@ -17941,8 +17941,8 @@ See https://chevrotain.io/docs/guide/resolving_lexer_errors.html#UNREACHABLE`;
         const nextCharCode = orgText.charCodeAt(offset);
         const chosenPatternIdxToConfig = getPossiblePatterns(nextCharCode);
         const chosenPatternsLength = chosenPatternIdxToConfig.length;
-        for (i = 0; i < chosenPatternsLength; i++) {
-          currConfig = chosenPatternIdxToConfig[i];
+        for (i2 = 0; i2 < chosenPatternsLength; i2++) {
+          currConfig = chosenPatternIdxToConfig[i2];
           const currPattern = currConfig.pattern;
           payload = null;
           const singleCharCode = currConfig.short;
@@ -18586,16 +18586,16 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_factoring.`;
   function possiblePathsFrom(targetDef, maxLength, currPath = []) {
     currPath = clone_default(currPath);
     let result = [];
-    let i = 0;
+    let i2 = 0;
     function remainingPathWith(nextDef) {
-      return nextDef.concat(drop_default(targetDef, i + 1));
+      return nextDef.concat(drop_default(targetDef, i2 + 1));
     }
     function getAlternativesForProd(definition) {
       const alternatives = possiblePathsFrom(remainingPathWith(definition), maxLength, currPath);
       return result.concat(alternatives);
     }
-    while (currPath.length < maxLength && i < targetDef.length) {
-      const prod = targetDef[i];
+    while (currPath.length < maxLength && i2 < targetDef.length) {
+      const prod = targetDef[i2];
       if (prod instanceof Alternative) {
         return getAlternativesForProd(prod.definition);
       } else if (prod instanceof NonTerminal) {
@@ -18643,11 +18643,11 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_factoring.`;
       } else {
         throw Error("non exhaustive match");
       }
-      i++;
+      i2++;
     }
     result.push({
       partialPath: currPath,
-      suffixDef: drop_default(targetDef, i)
+      suffixDef: drop_default(targetDef, i2)
     });
     return result;
   }
@@ -18817,8 +18817,8 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_factoring.`;
         };
         possiblePaths.push(nextPathWith);
       } else if (prod instanceof Alternation) {
-        for (let i = prod.definition.length - 1; i >= 0; i--) {
-          const currAlt = prod.definition[i];
+        for (let i2 = prod.definition.length - 1; i2 >= 0; i2--) {
+          const currAlt = prod.definition[i2];
           const currAltPath = {
             idx: currIdx,
             def: currAlt.definition.concat(drop_default(currDef)),
@@ -18923,9 +18923,9 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_factoring.`;
             for (let j = 0; j < currNumOfPaths; j++) {
               const currPath = currAlt[j];
               const currPathLength = currPath.length;
-              for (let i = 0; i < currPathLength; i++) {
-                const nextToken = this.LA(i + 1);
-                if (tokenMatcher2(nextToken, currPath[i]) === false) {
+              for (let i2 = 0; i2 < currPathLength; i2++) {
+                const nextToken = this.LA(i2 + 1);
+                if (tokenMatcher2(nextToken, currPath[i2]) === false) {
                   continue nextPath;
                 }
               }
@@ -18964,9 +18964,9 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_factoring.`;
             for (let j = 0; j < currNumOfPaths; j++) {
               const currPath = currAlt[j];
               const currPathLength = currPath.length;
-              for (let i = 0; i < currPathLength; i++) {
-                const nextToken = this.LA(i + 1);
-                if (tokenMatcher2(nextToken, currPath[i]) === false) {
+              for (let i2 = 0; i2 < currPathLength; i2++) {
+                const nextToken = this.LA(i2 + 1);
+                if (tokenMatcher2(nextToken, currPath[i2]) === false) {
                   continue nextPath;
                 }
               }
@@ -19009,9 +19009,9 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_factoring.`;
           for (let j = 0; j < numOfPaths; j++) {
             const currPath = alt[j];
             const currPathLength = currPath.length;
-            for (let i = 0; i < currPathLength; i++) {
-              const nextToken = this.LA(i + 1);
-              if (tokenMatcher2(nextToken, currPath[i]) === false) {
+            for (let i2 = 0; i2 < currPathLength; i2++) {
+              const nextToken = this.LA(i2 + 1);
+              if (tokenMatcher2(nextToken, currPath[i2]) === false) {
                 continue nextPath;
               }
             }
@@ -19099,15 +19099,15 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_factoring.`;
   };
   function initializeArrayOfArrays(size) {
     const result = new Array(size);
-    for (let i = 0; i < size; i++) {
-      result[i] = [];
+    for (let i2 = 0; i2 < size; i2++) {
+      result[i2] = [];
     }
     return result;
   }
   function pathToHashKeys(path) {
     let keys2 = [""];
-    for (let i = 0; i < path.length; i++) {
-      const tokType = path[i];
+    for (let i2 = 0; i2 < path.length; i2++) {
+      const tokType = path[i2];
       const longerKeys = [];
       for (let j = 0; j < keys2.length; j++) {
         const currShorterKey = keys2[j];
@@ -19201,8 +19201,8 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_factoring.`;
   }
   function containsPath(alternative, searchPath) {
     compareOtherPath:
-      for (let i = 0; i < alternative.length; i++) {
-        const otherPath = alternative[i];
+      for (let i2 = 0; i2 < alternative.length; i2++) {
+        const otherPath = alternative[i2];
         if (otherPath.length !== searchPath.length) {
           continue;
         }
@@ -20165,8 +20165,8 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_factoring.`;
   function defaultVisit(ctx, param) {
     const childrenNames = keys_default(ctx);
     const childrenNamesLength = childrenNames.length;
-    for (let i = 0; i < childrenNamesLength; i++) {
-      const currChildName = childrenNames[i];
+    for (let i2 = 0; i2 < childrenNamesLength; i2++) {
+      const currChildName = childrenNames[i2];
       const currChildArray = ctx[currChildName];
       const currChildArrayLength = currChildArray.length;
       for (let j = 0; j < currChildArrayLength; j++) {
@@ -21230,8 +21230,8 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
       const lookAheadPathsPerAlternative = getLookaheadPathsForOptionalProd(occurrence, ruleGrammar, prodType, this.maxLookahead);
       const insideProdPaths = lookAheadPathsPerAlternative[0];
       const actualTokens = [];
-      for (let i = 1; i <= this.maxLookahead; i++) {
-        actualTokens.push(this.LA(i));
+      for (let i2 = 1; i2 <= this.maxLookahead; i2++) {
+        actualTokens.push(this.LA(i2));
       }
       const msg = this.errorMessageProvider.buildEarlyExitMessage({
         expectedIterationPaths: insideProdPaths,
@@ -21248,8 +21248,8 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
       const ruleGrammar = this.getGAstProductions()[ruleName];
       const lookAheadPathsPerAlternative = getLookaheadPathsForOr(occurrence, ruleGrammar, this.maxLookahead);
       const actualTokens = [];
-      for (let i = 1; i <= this.maxLookahead; i++) {
-        actualTokens.push(this.LA(i));
+      for (let i2 = 1; i2 <= this.maxLookahead; i2++) {
+        actualTokens.push(this.LA(i2));
       }
       const previousToken = this.LA(0);
       const errMsg = this.errorMessageProvider.buildNoViableAltMessage({
@@ -21319,31 +21319,31 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
     enableRecording() {
       this.RECORDING_PHASE = true;
       this.TRACE_INIT("Enable Recording", () => {
-        for (let i = 0; i < 10; i++) {
-          const idx = i > 0 ? i : "";
+        for (let i2 = 0; i2 < 10; i2++) {
+          const idx = i2 > 0 ? i2 : "";
           this[`CONSUME${idx}`] = function(arg1, arg2) {
-            return this.consumeInternalRecord(arg1, i, arg2);
+            return this.consumeInternalRecord(arg1, i2, arg2);
           };
           this[`SUBRULE${idx}`] = function(arg1, arg2) {
-            return this.subruleInternalRecord(arg1, i, arg2);
+            return this.subruleInternalRecord(arg1, i2, arg2);
           };
           this[`OPTION${idx}`] = function(arg1) {
-            return this.optionInternalRecord(arg1, i);
+            return this.optionInternalRecord(arg1, i2);
           };
           this[`OR${idx}`] = function(arg1) {
-            return this.orInternalRecord(arg1, i);
+            return this.orInternalRecord(arg1, i2);
           };
           this[`MANY${idx}`] = function(arg1) {
-            this.manyInternalRecord(i, arg1);
+            this.manyInternalRecord(i2, arg1);
           };
           this[`MANY_SEP${idx}`] = function(arg1) {
-            this.manySepFirstInternalRecord(i, arg1);
+            this.manySepFirstInternalRecord(i2, arg1);
           };
           this[`AT_LEAST_ONE${idx}`] = function(arg1) {
-            this.atLeastOneInternalRecord(i, arg1);
+            this.atLeastOneInternalRecord(i2, arg1);
           };
           this[`AT_LEAST_ONE_SEP${idx}`] = function(arg1) {
-            this.atLeastOneSepFirstInternalRecord(i, arg1);
+            this.atLeastOneSepFirstInternalRecord(i2, arg1);
           };
         }
         this[`consume`] = function(idx, arg1, arg2) {
@@ -21373,8 +21373,8 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
       this.RECORDING_PHASE = false;
       this.TRACE_INIT("Deleting Recording methods", () => {
         const that = this;
-        for (let i = 0; i < 10; i++) {
-          const idx = i > 0 ? i : "";
+        for (let i2 = 0; i2 < 10; i2++) {
+          const idx = i2 > 0 ? i2 : "";
           delete that[`CONSUME${idx}`];
           delete that[`SUBRULE${idx}`];
           delete that[`OPTION${idx}`];
@@ -21811,8 +21811,8 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
     };
     createRuleStartAndStopATNStates(atn, rules);
     const ruleLength = rules.length;
-    for (let i = 0; i < ruleLength; i++) {
-      const rule = rules[i];
+    for (let i2 = 0; i2 < ruleLength; i2++) {
+      const rule = rules[i2];
       const ruleBlock = block(atn, rule, rule);
       if (ruleBlock === void 0) {
         continue;
@@ -21823,8 +21823,8 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
   }
   function createRuleStartAndStopATNStates(atn, rules) {
     const ruleLength = rules.length;
-    for (let i = 0; i < ruleLength; i++) {
-      const rule = rules[i];
+    for (let i2 = 0; i2 < ruleLength; i2++) {
+      const rule = rules[i2];
       const start = newState(atn, rule, void 0, {
         type: ATN_RULE_START
       });
@@ -22028,15 +22028,15 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
   }
   function makeBlock(atn, alts) {
     const altsLength = alts.length;
-    for (let i = 0; i < altsLength - 1; i++) {
-      const handle = alts[i];
+    for (let i2 = 0; i2 < altsLength - 1; i2++) {
+      const handle = alts[i2];
       let transition;
       if (handle.left.transitions.length === 1) {
         transition = handle.left.transitions[0];
       }
       const isRuleTransition = transition instanceof RuleTransition;
       const ruleTransition = transition;
-      const next = alts[i + 1].left;
+      const next = alts[i2 + 1].left;
       if (handle.left.type === ATN_BASIC && handle.right.type === ATN_BASIC && transition !== void 0 && (isRuleTransition && ruleTransition.followState === handle.right || transition.target === handle.right)) {
         if (isRuleTransition) {
           ruleTransition.followState = next;
@@ -22192,8 +22192,8 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
     toString() {
       let value = "";
       const size = this.predicates.length;
-      for (let i = 0; i < size; i++) {
-        value += this.predicates[i] === true ? "1" : "0";
+      for (let i2 = 0; i2 < size; i2++) {
+        value += this.predicates[i2] === true ? "1" : "0";
       }
       return value;
     }
@@ -22263,9 +22263,9 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
         return function(orAlts) {
           const predicates = new PredicateSet();
           const length = orAlts === void 0 ? 0 : orAlts.length;
-          for (let i = 0; i < length; i++) {
-            const gate = orAlts === null || orAlts === void 0 ? void 0 : orAlts[i].GATE;
-            predicates.set(i, gate === void 0 || gate.call(this));
+          for (let i2 = 0; i2 < length; i2++) {
+            const gate = orAlts === null || orAlts === void 0 ? void 0 : orAlts[i2].GATE;
+            predicates.set(i2, gate === void 0 || gate.call(this));
           }
           const result = adaptivePredict.call(this, dfas, decisionIndex, predicates, logging);
           return typeof result === "number" ? result : void 0;
@@ -22353,8 +22353,8 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
   function initATNSimulator(atn) {
     const decisionLength = atn.decisionStates.length;
     const decisionToDFA = Array(decisionLength);
-    for (let i = 0; i < decisionLength; i++) {
-      decisionToDFA[i] = createDFACache(atn.decisionStates[i], i);
+    for (let i2 = 0; i2 < decisionLength; i2++) {
+      decisionToDFA[i2] = createDFACache(atn.decisionStates[i2], i2);
     }
     return decisionToDFA;
   }
@@ -22371,13 +22371,13 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
   }
   function performLookahead(dfa, s0, predicateSet, logging) {
     let previousD = s0;
-    let i = 1;
+    let i2 = 1;
     const path = [];
-    let t = this.LA(i++);
+    let t = this.LA(i2++);
     while (true) {
       let d = getExistingTargetState(previousD, t);
       if (d === void 0) {
-        d = computeLookaheadTarget.apply(this, [dfa, previousD, t, i, predicateSet, logging]);
+        d = computeLookaheadTarget.apply(this, [dfa, previousD, t, i2, predicateSet, logging]);
       }
       if (d === DFA_ERROR) {
         return buildAdaptivePredictError(path, previousD, t);
@@ -22387,7 +22387,7 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
       }
       previousD = d;
       path.push(t);
-      t = this.LA(i++);
+      t = this.LA(i2++);
     }
   }
   function computeLookaheadTarget(dfa, previousD, token, lookahead, predicateSet, logging) {
@@ -22414,8 +22414,8 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
   }
   function reportLookaheadAmbiguity(dfa, lookahead, ambiguityIndices, logging) {
     const prefixPath = [];
-    for (let i = 1; i <= lookahead; i++) {
-      prefixPath.push(this.LA(i).tokenType);
+    for (let i2 = 1; i2 <= lookahead; i2++) {
+      prefixPath.push(this.LA(i2).tokenType);
     }
     const atnState = dfa.atnStartState;
     const topLevelRule = atnState.rule;
@@ -22483,8 +22483,8 @@ For Further details.`;
         continue;
       }
       const transitionLength = c.state.transitions.length;
-      for (let i = 0; i < transitionLength; i++) {
-        const transition = c.state.transitions[i];
+      for (let i2 = 0; i2 < transitionLength; i2++) {
+        const transition = c.state.transitions[i2];
         const target = getReachableTarget(transition, token);
         if (target !== void 0) {
           intermediate.add({
@@ -22560,11 +22560,11 @@ For Further details.`;
   function computeStartState(atnState) {
     const configs = new ATNConfigSet();
     const numberOfTransitions = atnState.transitions.length;
-    for (let i = 0; i < numberOfTransitions; i++) {
-      const target = atnState.transitions[i].target;
+    for (let i2 = 0; i2 < numberOfTransitions; i2++) {
+      const target = atnState.transitions[i2].target;
       const config = {
         state: target,
-        alt: i,
+        alt: i2,
         stack: []
       };
       closure(config, configs);
@@ -22592,8 +22592,8 @@ For Further details.`;
       configs.add(config);
     }
     const transitionLength = p.transitions.length;
-    for (let i = 0; i < transitionLength; i++) {
-      const transition = p.transitions[i];
+    for (let i2 = 0; i2 < transitionLength; i2++) {
+      const transition = p.transitions[i2];
       const c = getEpsilonTarget(config, transition);
       if (c !== void 0) {
         closure(c, configs);
@@ -23676,8 +23676,8 @@ For Further details.`;
         return diff;
       });
       let lastModifiedOffset = text.length;
-      for (let i = sortedEdits.length - 1; i >= 0; i--) {
-        let e = sortedEdits[i];
+      for (let i2 = sortedEdits.length - 1; i2 >= 0; i2--) {
+        let e = sortedEdits[i2];
         let startOffset = document.offsetAt(e.range.start);
         let endOffset = document.offsetAt(e.range.end);
         if (endOffset <= lastModifiedOffset) {
@@ -23701,20 +23701,20 @@ For Further details.`;
       mergeSort2(right, compare);
       let leftIdx = 0;
       let rightIdx = 0;
-      let i = 0;
+      let i2 = 0;
       while (leftIdx < left.length && rightIdx < right.length) {
         let ret = compare(left[leftIdx], right[rightIdx]);
         if (ret <= 0) {
-          data[i++] = left[leftIdx++];
+          data[i2++] = left[leftIdx++];
         } else {
-          data[i++] = right[rightIdx++];
+          data[i2++] = right[rightIdx++];
         }
       }
       while (leftIdx < left.length) {
-        data[i++] = left[leftIdx++];
+        data[i2++] = left[leftIdx++];
       }
       while (rightIdx < right.length) {
-        data[i++] = right[rightIdx++];
+        data[i2++] = right[rightIdx++];
       }
       return data;
     }
@@ -23754,15 +23754,15 @@ For Further details.`;
         let lineOffsets = [];
         let text = this._content;
         let isLineStart = true;
-        for (let i = 0; i < text.length; i++) {
+        for (let i2 = 0; i2 < text.length; i2++) {
           if (isLineStart) {
-            lineOffsets.push(i);
+            lineOffsets.push(i2);
             isLineStart = false;
           }
-          let ch = text.charAt(i);
+          let ch = text.charAt(i2);
           isLineStart = ch === "\r" || ch === "\n";
-          if (ch === "\r" && i + 1 < text.length && text.charAt(i + 1) === "\n") {
-            i++;
+          if (ch === "\r" && i2 + 1 < text.length && text.charAt(i2 + 1) === "\n") {
+            i2++;
           }
         }
         if (isLineStart && text.length > 0) {
@@ -24033,8 +24033,8 @@ For Further details.`;
       return this.content[0];
     }
     get lastNonHiddenNode() {
-      for (let i = this.content.length - 1; i >= 0; i--) {
-        const child = this.content[i];
+      for (let i2 = this.content.length - 1; i2 >= 0; i2--) {
+        const child = this.content[i2];
         if (!child.hidden) {
           return child;
         }
@@ -24203,10 +24203,10 @@ For Further details.`;
         return [];
       }
       const offset = token.startOffset;
-      for (let i = 0; i < hiddenTokens.length; i++) {
-        const token2 = hiddenTokens[i];
+      for (let i2 = 0; i2 < hiddenTokens.length; i2++) {
+        const token2 = hiddenTokens[i2];
         if (token2.startOffset > offset) {
-          return hiddenTokens.splice(0, i);
+          return hiddenTokens.splice(0, i2);
         }
       }
       return hiddenTokens.splice(0, hiddenTokens.length);
@@ -24583,9 +24583,9 @@ For Further details.`;
     const predicates = namedArgs.map((e) => buildPredicate(e.value));
     return (args) => {
       const ruleArgs = {};
-      for (let i = 0; i < predicates.length; i++) {
-        const ruleTarget = rule.parameters[i];
-        const predicate = predicates[i];
+      for (let i2 = 0; i2 < predicates.length; i2++) {
+        const ruleTarget = rule.parameters[i2];
+        const predicate = predicates[i2];
         ruleArgs[ruleTarget.name] = predicate(args);
       }
       return ruleArgs;
@@ -24998,10 +24998,10 @@ For Further details.`;
   (function(ValueConverter2) {
     function convertString(input) {
       let result = "";
-      for (let i = 1; i < input.length - 1; i++) {
-        const c = input.charAt(i);
+      for (let i2 = 1; i2 < input.length - 1; i2++) {
+        const c = input.charAt(i2);
         if (c === "\\") {
-          const c1 = input.charAt(++i);
+          const c1 = input.charAt(++i2);
           result += convertEscapeCharacter(c1);
         } else {
           result += c;
@@ -25154,8 +25154,8 @@ For Further details.`;
           let lineOffsets = this._lineOffsets;
           const addedLineOffsets = computeLineOffsets(change.text, false, startOffset);
           if (endLine - startLine === addedLineOffsets.length) {
-            for (let i = 0, len = addedLineOffsets.length; i < len; i++) {
-              lineOffsets[i + startLine + 1] = addedLineOffsets[i];
+            for (let i2 = 0, len = addedLineOffsets.length; i2 < len; i2++) {
+              lineOffsets[i2 + startLine + 1] = addedLineOffsets[i2];
             }
           } else {
             if (addedLineOffsets.length < 1e4) {
@@ -25166,8 +25166,8 @@ For Further details.`;
           }
           const diff = change.text.length - (endOffset - startOffset);
           if (diff !== 0) {
-            for (let i = startLine + 1 + addedLineOffsets.length, len = lineOffsets.length; i < len; i++) {
-              lineOffsets[i] = lineOffsets[i] + diff;
+            for (let i2 = startLine + 1 + addedLineOffsets.length, len = lineOffsets.length; i2 < len; i2++) {
+              lineOffsets[i2] = lineOffsets[i2] + diff;
             }
           }
         } else if (_FullTextDocument.isFull(change)) {
@@ -25291,32 +25291,32 @@ For Further details.`;
     mergeSort(right, compare);
     let leftIdx = 0;
     let rightIdx = 0;
-    let i = 0;
+    let i2 = 0;
     while (leftIdx < left.length && rightIdx < right.length) {
       const ret = compare(left[leftIdx], right[rightIdx]);
       if (ret <= 0) {
-        data[i++] = left[leftIdx++];
+        data[i2++] = left[leftIdx++];
       } else {
-        data[i++] = right[rightIdx++];
+        data[i2++] = right[rightIdx++];
       }
     }
     while (leftIdx < left.length) {
-      data[i++] = left[leftIdx++];
+      data[i2++] = left[leftIdx++];
     }
     while (rightIdx < right.length) {
-      data[i++] = right[rightIdx++];
+      data[i2++] = right[rightIdx++];
     }
     return data;
   }
   function computeLineOffsets(text, isAtLineStart, textOffset = 0) {
     const result = isAtLineStart ? [textOffset] : [];
-    for (let i = 0; i < text.length; i++) {
-      const ch = text.charCodeAt(i);
+    for (let i2 = 0; i2 < text.length; i2++) {
+      const ch = text.charCodeAt(i2);
       if (isEOL(ch)) {
-        if (ch === 13 && i + 1 < text.length && text.charCodeAt(i + 1) === 10) {
-          i++;
+        if (ch === 13 && i2 + 1 < text.length && text.charCodeAt(i2 + 1) === 10) {
+          i2++;
         }
-        result.push(textOffset + i + 1);
+        result.push(textOffset + i2 + 1);
       }
     }
     return result;
@@ -26258,8 +26258,8 @@ For Further details.`;
         } while (currentNode);
       }
       let result = this.getGlobalScope(referenceType, context);
-      for (let i = scopes.length - 1; i >= 0; i--) {
-        result = this.createScope(scopes[i], result);
+      for (let i2 = scopes.length - 1; i2 >= 0; i2--) {
+        result = this.createScope(scopes[i2], result);
       }
       return result;
     }
@@ -26825,10 +26825,10 @@ For Further details.`;
     const tokens = [];
     let currentLine = context.position.line;
     let currentCharacter = context.position.character;
-    for (let i = 0; i < context.lines.length; i++) {
-      const first2 = i === 0;
-      const last2 = i === context.lines.length - 1;
-      let line = context.lines[i];
+    for (let i2 = 0; i2 < context.lines.length; i2++) {
+      const first2 = i2 === 0;
+      const last2 = i2 === context.lines.length - 1;
+      let line = context.lines[i2];
       let index = 0;
       if (first2 && context.options.start) {
         const match = (_a = context.options.start) === null || _a === void 0 ? void 0 : _a.exec(line);
@@ -27198,9 +27198,9 @@ ${content}`;
     }
     toString() {
       let text = "";
-      for (let i = 0; i < this.inlines.length; i++) {
-        const inline = this.inlines[i];
-        const next = this.inlines[i + 1];
+      for (let i2 = 0; i2 < this.inlines.length; i2++) {
+        const inline = this.inlines[i2];
+        const next = this.inlines[i2 + 1];
         text += inline.toString();
         if (next && next.range.start.line > inline.range.start.line) {
           text += "\n";
@@ -27210,9 +27210,9 @@ ${content}`;
     }
     toMarkdown(options) {
       let text = "";
-      for (let i = 0; i < this.inlines.length; i++) {
-        const inline = this.inlines[i];
-        const next = this.inlines[i + 1];
+      for (let i2 = 0; i2 < this.inlines.length; i2++) {
+        const inline = this.inlines[i2];
+        const next = this.inlines[i2 + 1];
         text += inline.toMarkdown(options);
         if (next && next.range.start.line > inline.range.start.line) {
           text += "\n";
@@ -27668,7 +27668,7 @@ ${content}`;
       }
       const numberOfDedents = this.indentationStack.length - matchIndentIndex - 1;
       const newlinesBeforeDedent = (_d = (_c = text.substring(0, offset).match(/[\r\n]+$/)) === null || _c === void 0 ? void 0 : _c[0].length) !== null && _d !== void 0 ? _d : 1;
-      for (let i = 0; i < numberOfDedents; i++) {
+      for (let i2 = 0; i2 < numberOfDedents; i2++) {
         const token = this.createIndentationTokenInstance(
           this.dedentTokenType,
           text,
@@ -27734,11 +27734,11 @@ ${content}`;
       const dedentTokenIdx = dedentTokenType.tokenTypeIdx;
       const cleanTokens = [];
       const length = result.tokens.length - 1;
-      for (let i = 0; i < length; i++) {
-        const token = result.tokens[i];
-        const nextToken = result.tokens[i + 1];
+      for (let i2 = 0; i2 < length; i2++) {
+        const token = result.tokens[i2];
+        const nextToken = result.tokens[i2 + 1];
         if (token.tokenTypeIdx === indentTokenIdx && nextToken.tokenTypeIdx === dedentTokenIdx) {
-          i++;
+          i2++;
           continue;
         }
         cleanTokens.push(token);
@@ -29477,8 +29477,8 @@ ${content}`;
       let previous;
       let character = 0;
       const len = text.length;
-      for (let i = 0; i < len; i++) {
-        const strChar = text.charCodeAt(i);
+      for (let i2 = 0; i2 < len; i2++) {
+        const strChar = text.charCodeAt(i2);
         const testChar = query.charCodeAt(character);
         if (strChar === testChar || this.toUpperCharCode(strChar) === this.toUpperCharCode(testChar)) {
           matchedFirstCharacter || (matchedFirstCharacter = previous === void 0 || // Beginning of word
@@ -29838,13 +29838,13 @@ ${content}`;
           character: 0
         });
         this.currentTokensBuilder.push(firstLineStart.line, firstLineStart.character, nextLineOffset - firstLineStart.character - 1, intType, totalModifier);
-        for (let i = startLine + 1; i < endLine; i++) {
+        for (let i2 = startLine + 1; i2 < endLine; i2++) {
           const currentLineOffset = nextLineOffset;
           nextLineOffset = this.currentDocument.textDocument.offsetAt({
-            line: i + 1,
+            line: i2 + 1,
             character: 0
           });
-          this.currentTokensBuilder.push(i, 0, nextLineOffset - currentLineOffset - 1, intType, totalModifier);
+          this.currentTokensBuilder.push(i2, 0, nextLineOffset - currentLineOffset - 1, intType, totalModifier);
         }
         this.currentTokensBuilder.push(endLine, 0, range.end.character, intType, totalModifier);
       }
@@ -29923,8 +29923,8 @@ ${content}`;
     SemanticTokensDecoder2.decode = decode;
     function sliceIntoChunks(arr, chunkSize) {
       const res = [];
-      for (let i = 0; i < arr.length; i += chunkSize) {
-        const chunk = arr.slice(i, i + chunkSize);
+      for (let i2 = 0; i2 < arr.length; i2 += chunkSize) {
+        const chunk = arr.slice(i2, i2 + chunkSize);
         res.push(chunk);
       }
       return res;
@@ -30968,6 +30968,9 @@ ${content}`;
   var Freon = "Freon";
   var FreonEditor = "FreonEditor";
   var FreonModel = "FreonModel";
+  function isFreonModel(item) {
+    return reflection2.isInstance(item, FreonModel);
+  }
   var FretConformanceRule = "FretConformanceRule";
   var FretCreateExp = "FretCreateExp";
   function isFretCreateExp(item) {
@@ -31015,6 +31018,9 @@ ${content}`;
   var LineWithOptional = "LineWithOptional";
   var LineWithoutOptional = "LineWithoutOptional";
   var Model = "Model";
+  function isModel(item) {
+    return reflection2.isInstance(item, Model);
+  }
   var ModelUnit = "ModelUnit";
   function isModelUnit(item) {
     return reflection2.isInstance(item, ModelUnit);
@@ -31226,7 +31232,6 @@ ${content}`;
             properties: [
               { name: "applied" },
               { name: "appliedKwd" },
-              { name: "param" },
               { name: "propName" },
               { name: "typeParam" }
             ]
@@ -31410,7 +31415,8 @@ ${content}`;
             properties: [
               { name: "external" },
               { name: "fregment" },
-              { name: "kind" }
+              { name: "kind" },
+              { name: "p", defaultValue: [] }
             ]
           };
         }
@@ -31719,7 +31725,8 @@ ${content}`;
             properties: [
               { name: "kind" },
               { name: "name" },
-              { name: "properties", defaultValue: [] }
+              { name: "properties", defaultValue: [] },
+              { name: "version" }
             ]
           };
         }
@@ -32091,8 +32098,7 @@ ${content}`;
             name: Validator_Definition,
             properties: [
               { name: "cr", defaultValue: [] },
-              { name: "languageName" },
-              { name: "validatorName" }
+              { name: "languageName" }
             ]
           };
         }
@@ -32204,7 +32210,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32295,7 +32301,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -32314,7 +32320,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32376,7 +32382,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -32395,22 +32401,60 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
           },
           {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Keyword",
+                "value": "version"
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$ref": "#/rules@155"
+                },
+                "arguments": [],
+                "cardinality": "?"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "version",
+                "operator": "=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@158"
+                  },
+                  "arguments": []
+                }
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$ref": "#/rules@155"
+                },
+                "arguments": [],
+                "cardinality": "?"
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32431,14 +32475,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           }
@@ -32469,7 +32513,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -32488,7 +32532,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32511,7 +32555,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -32522,14 +32566,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32557,7 +32601,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -32569,7 +32613,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -32577,14 +32621,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@159"
+                  "$ref": "#/rules@158"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -32592,14 +32636,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@154"
+                  "$ref": "#/rules@153"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -32610,14 +32654,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32728,7 +32772,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32748,7 +32792,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32763,7 +32807,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               },
@@ -32782,7 +32826,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               }
@@ -32805,14 +32849,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32846,14 +32890,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32917,7 +32961,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32929,7 +32973,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32937,14 +32981,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -32964,14 +33008,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33006,7 +33050,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33014,14 +33058,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@154"
+              "$ref": "#/rules@153"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33056,7 +33100,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33067,14 +33111,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@136"
+                  "$ref": "#/rules@135"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33094,7 +33138,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33127,7 +33171,7 @@ ${content}`;
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@159"
+                    "$ref": "#/rules@158"
                   },
                   "arguments": []
                 }
@@ -33135,7 +33179,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33143,14 +33187,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@152"
+                  "$ref": "#/rules@151"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33170,7 +33214,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33195,7 +33239,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33203,14 +33247,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@152"
+                  "$ref": "#/rules@151"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33230,7 +33274,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33259,7 +33303,7 @@ ${content}`;
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@159"
+                "$ref": "#/rules@158"
               },
               "arguments": []
             }
@@ -33274,7 +33318,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33291,7 +33335,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33316,14 +33360,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@147"
+                  "$ref": "#/rules@146"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33343,7 +33387,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33351,14 +33395,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@148"
+                  "$ref": "#/rules@147"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33375,7 +33419,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33400,7 +33444,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33437,7 +33481,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33445,14 +33489,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@152"
+              "$ref": "#/rules@151"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33472,7 +33516,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33499,7 +33543,7 @@ ${content}`;
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@158"
+                "$ref": "#/rules@157"
               },
               "arguments": []
             }
@@ -33507,7 +33551,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33542,7 +33586,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33553,14 +33597,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@136"
+                  "$ref": "#/rules@135"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33580,7 +33624,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33618,7 +33662,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33638,7 +33682,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -33657,7 +33701,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33672,7 +33716,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               },
@@ -33691,7 +33735,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33715,14 +33759,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33743,14 +33787,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33785,7 +33829,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               }
@@ -33804,7 +33848,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -33823,7 +33867,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33844,14 +33888,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33872,14 +33916,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33909,7 +33953,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33932,7 +33976,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               }
@@ -33954,7 +33998,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -33974,7 +34018,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -33985,14 +34029,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@152"
+              "$ref": "#/rules@151"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -34029,7 +34073,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -34049,7 +34093,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34070,7 +34114,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34081,14 +34125,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@154"
+              "$ref": "#/rules@153"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -34120,7 +34164,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -34139,7 +34183,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -34150,14 +34194,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@136"
+                  "$ref": "#/rules@135"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34177,7 +34221,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34212,7 +34256,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -34231,7 +34275,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -34242,14 +34286,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@136"
+                  "$ref": "#/rules@135"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34269,7 +34313,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34307,7 +34351,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               }
@@ -34329,7 +34373,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               }
@@ -34348,7 +34392,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -34367,7 +34411,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -34382,7 +34426,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               },
@@ -34401,7 +34445,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34425,14 +34469,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -34460,7 +34504,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34472,7 +34516,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34484,7 +34528,7 @@ ${content}`;
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@158"
+                    "$ref": "#/rules@157"
                   },
                   "arguments": []
                 }
@@ -34492,7 +34536,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34500,14 +34544,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@154"
+                  "$ref": "#/rules@153"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34518,14 +34562,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -34606,7 +34650,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -34645,7 +34689,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -34664,7 +34708,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -34678,7 +34722,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               },
@@ -34689,7 +34733,7 @@ ${content}`;
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@158"
+                    "$ref": "#/rules@157"
                   },
                   "arguments": []
                 }
@@ -34697,7 +34741,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34715,21 +34759,21 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@150"
+                  "$ref": "#/rules@149"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               },
@@ -34749,7 +34793,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34757,14 +34801,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@151"
+                  "$ref": "#/rules@150"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34811,7 +34855,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34834,7 +34878,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -34860,7 +34904,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -34880,7 +34924,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34888,7 +34932,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@147"
+                  "$ref": "#/rules@146"
                 },
                 "arguments": []
               },
@@ -34908,14 +34952,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@148"
+                  "$ref": "#/rules@147"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -34932,7 +34976,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               },
@@ -34954,7 +34998,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -34974,6 +35018,13 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
+                  "$ref": "#/rules@146"
+                },
+                "arguments": []
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
                   "$ref": "#/rules@147"
                 },
                 "arguments": []
@@ -34981,14 +35032,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@148"
-                },
-                "arguments": []
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               },
@@ -35010,7 +35054,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -35030,6 +35074,13 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
+                  "$ref": "#/rules@146"
+                },
+                "arguments": []
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
                   "$ref": "#/rules@147"
                 },
                 "arguments": []
@@ -35037,14 +35088,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@148"
-                },
-                "arguments": []
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": []
               },
@@ -35066,7 +35110,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -35086,7 +35130,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -35094,14 +35138,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@150"
+                  "$ref": "#/rules@149"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -35124,14 +35168,14 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@136"
+                      "$ref": "#/rules@135"
                     },
                     "arguments": []
                   },
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -35154,14 +35198,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@151"
+                  "$ref": "#/rules@150"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -35198,7 +35242,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35225,7 +35269,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35245,7 +35289,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35281,14 +35325,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@142"
+              "$ref": "#/rules@141"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35308,7 +35352,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35319,7 +35363,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@152"
+                  "$ref": "#/rules@151"
                 },
                 "arguments": []
               },
@@ -35338,7 +35382,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -35349,7 +35393,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@148"
+              "$ref": "#/rules@147"
             },
             "arguments": []
           }
@@ -35383,7 +35427,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35391,14 +35435,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35458,14 +35502,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35497,7 +35541,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35509,7 +35553,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35517,14 +35561,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@159"
+              "$ref": "#/rules@158"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35556,7 +35600,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35568,7 +35612,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35576,14 +35620,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@153"
+              "$ref": "#/rules@152"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35598,7 +35642,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -35606,14 +35650,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@135"
+                  "$ref": "#/rules@134"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -35636,7 +35680,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35644,14 +35688,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35683,7 +35727,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35695,7 +35739,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -35703,14 +35747,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@159"
+              "$ref": "#/rules@158"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -36073,7 +36117,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -36081,14 +36125,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@147"
+              "$ref": "#/rules@146"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -36111,7 +36155,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -36134,7 +36178,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -36145,14 +36189,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@149"
+                  "$ref": "#/rules@148"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -36175,14 +36219,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@148"
+              "$ref": "#/rules@147"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -36217,7 +36261,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -36240,7 +36284,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -36254,14 +36298,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@149"
+                  "$ref": "#/rules@148"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -36281,7 +36325,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -36304,7 +36348,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -36333,7 +36377,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@147"
+              "$ref": "#/rules@146"
             },
             "arguments": []
           },
@@ -36353,14 +36397,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@148"
+              "$ref": "#/rules@147"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -36455,19 +36499,18 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@155"
+              "$ref": "#/rules@154"
             },
             "arguments": []
           }
-        ],
-        "cardinality": "*"
+        ]
       },
       "definesHiddenTokens": false,
       "entry": false,
@@ -36545,19 +36588,18 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@155"
+              "$ref": "#/rules@154"
             },
             "arguments": []
           }
-        ],
-        "cardinality": "*"
+        ]
       },
       "definesHiddenTokens": false,
       "entry": false,
@@ -36579,7 +36621,14 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@152"
+                "$ref": "#/rules@151"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@149"
               },
               "arguments": []
             },
@@ -36593,28 +36642,14 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@151"
+                "$ref": "#/rules@153"
               },
               "arguments": []
             },
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@154"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@158"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@136"
+                "$ref": "#/rules@157"
               },
               "arguments": []
             },
@@ -36628,14 +36663,21 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@137"
+                "$ref": "#/rules@134"
               },
               "arguments": []
             },
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@138"
+                "$ref": "#/rules@136"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@137"
               },
               "arguments": []
             },
@@ -36650,21 +36692,14 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
+                "$ref": "#/rules@142"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
                 "$ref": "#/rules@143"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@144"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@146"
               },
               "arguments": []
             },
@@ -36678,21 +36713,7 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@133"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@134"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@131"
+                "$ref": "#/rules@144"
               },
               "arguments": []
             },
@@ -36700,6 +36721,27 @@ ${content}`;
               "$type": "RuleCall",
               "rule": {
                 "$ref": "#/rules@132"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@133"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@130"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@131"
               },
               "arguments": []
             },
@@ -36720,7 +36762,7 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@147"
+                "$ref": "#/rules@146"
               },
               "arguments": []
             },
@@ -36802,7 +36844,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@149"
+              "$ref": "#/rules@148"
             },
             "arguments": []
           }
@@ -36828,7 +36870,14 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@152"
+                "$ref": "#/rules@151"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@149"
               },
               "arguments": []
             },
@@ -36842,28 +36891,14 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@151"
+                "$ref": "#/rules@153"
               },
               "arguments": []
             },
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@154"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@158"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@136"
+                "$ref": "#/rules@157"
               },
               "arguments": []
             },
@@ -36877,14 +36912,21 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@137"
+                "$ref": "#/rules@134"
               },
               "arguments": []
             },
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@138"
+                "$ref": "#/rules@136"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@137"
               },
               "arguments": []
             },
@@ -36907,21 +36949,14 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
+                "$ref": "#/rules@142"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
                 "$ref": "#/rules@143"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@144"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@146"
               },
               "arguments": []
             },
@@ -36935,25 +36970,7 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@133"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@134"
-              },
-              "arguments": []
-            },
-            {
-              "$type": "Keyword",
-              "value": "="
-            },
-            {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@131"
+                "$ref": "#/rules@144"
               },
               "arguments": []
             },
@@ -36967,6 +36984,31 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
+                "$ref": "#/rules@133"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "Keyword",
+              "value": "="
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@130"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
+                "$ref": "#/rules@131"
+              },
+              "arguments": []
+            },
+            {
+              "$type": "RuleCall",
+              "rule": {
                 "$ref": "#/rules@124"
               },
               "arguments": []
@@ -36974,7 +37016,7 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@130"
+                "$ref": "#/rules@129"
               },
               "arguments": []
             },
@@ -36988,7 +37030,7 @@ ${content}`;
             {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@147"
+                "$ref": "#/rules@146"
               },
               "arguments": []
             },
@@ -37054,7 +37096,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@157"
+              "$ref": "#/rules@156"
             },
             "arguments": []
           },
@@ -37092,7 +37134,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@157"
+              "$ref": "#/rules@156"
             },
             "arguments": []
           },
@@ -37317,6 +37359,10 @@ ${content}`;
             "value": "validator"
           },
           {
+            "$type": "Keyword",
+            "value": "version"
+          },
+          {
             "$type": "RuleCall",
             "rule": {
               "$ref": "#/rules@60"
@@ -37422,7 +37468,7 @@ ${content}`;
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@141"
+                "$ref": "#/rules@140"
               },
               "arguments": []
             }
@@ -37443,14 +37489,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@148"
+              "$ref": "#/rules@147"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37477,7 +37523,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37489,7 +37535,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37509,7 +37555,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37530,14 +37576,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@148"
+              "$ref": "#/rules@147"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37572,7 +37618,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37584,7 +37630,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37596,7 +37642,7 @@ ${content}`;
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@159"
+                "$ref": "#/rules@158"
               },
               "arguments": []
             }
@@ -37604,7 +37650,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37631,7 +37677,7 @@ ${content}`;
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@140"
+                "$ref": "#/rules@139"
               },
               "arguments": []
             }
@@ -37639,7 +37685,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37659,7 +37705,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37674,7 +37720,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -37686,7 +37732,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -37706,10 +37752,23 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "p",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "RuleCall",
+                  "rule": {
+                    "$ref": "#/rules@52"
+                  },
+                  "arguments": []
+                },
+                "cardinality": "*"
               }
             ],
             "cardinality": "?"
@@ -37717,7 +37776,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@148"
+              "$ref": "#/rules@147"
             },
             "arguments": []
           }
@@ -37768,14 +37827,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@139"
+              "$ref": "#/rules@138"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37793,7 +37852,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -37805,7 +37864,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -37817,7 +37876,7 @@ ${content}`;
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@159"
+                    "$ref": "#/rules@158"
                   },
                   "arguments": []
                 }
@@ -37825,7 +37884,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -37840,7 +37899,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37852,7 +37911,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37864,7 +37923,7 @@ ${content}`;
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@159"
+                "$ref": "#/rules@158"
               },
               "arguments": []
             }
@@ -37872,7 +37931,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37880,14 +37939,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@148"
+              "$ref": "#/rules@147"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37910,14 +37969,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@153"
+              "$ref": "#/rules@152"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -37932,7 +37991,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -37943,14 +38002,14 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@135"
+                      "$ref": "#/rules@134"
                     },
                     "arguments": []
                   },
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -37979,7 +38038,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@152"
+                  "$ref": "#/rules@151"
                 },
                 "arguments": []
               },
@@ -38001,7 +38060,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38019,7 +38078,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38040,7 +38099,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38074,7 +38133,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38108,7 +38167,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -38137,7 +38196,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38163,7 +38222,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38171,7 +38230,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@147"
+                  "$ref": "#/rules@146"
                 },
                 "arguments": []
               },
@@ -38198,7 +38257,7 @@ ${content}`;
                     "terminal": {
                       "$type": "RuleCall",
                       "rule": {
-                        "$ref": "#/rules@156"
+                        "$ref": "#/rules@155"
                       },
                       "arguments": []
                     }
@@ -38209,14 +38268,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@148"
+                  "$ref": "#/rules@147"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38227,14 +38286,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38259,65 +38318,44 @@ ${content}`;
       "hidden": false
     },
     {
-      "$type": "TerminalRule",
+      "$type": "ParserRule",
       "name": "DisplayType",
+      "dataType": "string",
       "definition": {
-        "$type": "TerminalAlternatives",
+        "$type": "Alternatives",
         "elements": [
           {
-            "$type": "TerminalAlternatives",
-            "elements": [
-              {
-                "$type": "TerminalAlternatives",
-                "elements": [
-                  {
-                    "$type": "TerminalAlternatives",
-                    "elements": [
-                      {
-                        "$type": "CharacterRange",
-                        "left": {
-                          "$type": "Keyword",
-                          "value": "checkbox"
-                        }
-                      },
-                      {
-                        "$type": "CharacterRange",
-                        "left": {
-                          "$type": "Keyword",
-                          "value": "radio"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "$type": "CharacterRange",
-                    "left": {
-                      "$type": "Keyword",
-                      "value": "switch"
-                    }
-                  }
-                ]
-              },
-              {
-                "$type": "CharacterRange",
-                "left": {
-                  "$type": "Keyword",
-                  "value": "inner-switch"
-                }
-              }
-            ]
+            "$type": "Keyword",
+            "value": "checkbox"
           },
           {
-            "$type": "CharacterRange",
-            "left": {
-              "$type": "Keyword",
-              "value": "slider"
-            }
+            "$type": "Keyword",
+            "value": "radio"
+          },
+          {
+            "$type": "Keyword",
+            "value": "switch"
+          },
+          {
+            "$type": "Keyword",
+            "value": "inner-switch"
+          },
+          {
+            "$type": "Keyword",
+            "value": "slider"
+          },
+          {
+            "$type": "Keyword",
+            "value": "multiline"
           }
         ]
       },
+      "definesHiddenTokens": false,
+      "entry": false,
       "fragment": false,
-      "hidden": false
+      "hiddenTokens": [],
+      "parameters": [],
+      "wildcard": false
     },
     {
       "$type": "ParserRule",
@@ -38380,7 +38418,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@147"
+              "$ref": "#/rules@146"
             },
             "arguments": []
           },
@@ -38390,7 +38428,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38413,7 +38451,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38424,14 +38462,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@149"
+                  "$ref": "#/rules@148"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38452,9 +38490,51 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
+                "cardinality": "?"
+              },
+              {
+                "$type": "Group",
+                "elements": [
+                  {
+                    "$type": "RuleCall",
+                    "rule": {
+                      "$ref": "#/rules@148"
+                    },
+                    "arguments": []
+                  },
+                  {
+                    "$type": "RuleCall",
+                    "rule": {
+                      "$ref": "#/rules@155"
+                    },
+                    "arguments": [],
+                    "cardinality": "?"
+                  },
+                  {
+                    "$type": "Assignment",
+                    "feature": "tt",
+                    "operator": "+=",
+                    "terminal": {
+                      "$type": "RuleCall",
+                      "rule": {
+                        "$ref": "#/rules@43"
+                      },
+                      "arguments": []
+                    },
+                    "cardinality": "+"
+                  },
+                  {
+                    "$type": "RuleCall",
+                    "rule": {
+                      "$ref": "#/rules@155"
+                    },
+                    "arguments": [],
+                    "cardinality": "?"
+                  }
+                ],
                 "cardinality": "?"
               }
             ],
@@ -38463,14 +38543,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@148"
+              "$ref": "#/rules@147"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38500,7 +38580,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38512,7 +38592,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38532,7 +38612,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38555,7 +38635,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -38575,7 +38655,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38587,7 +38667,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38607,7 +38687,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38630,7 +38710,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -38670,7 +38750,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38682,7 +38762,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38690,14 +38770,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@159"
+              "$ref": "#/rules@158"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38724,7 +38804,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -38735,7 +38815,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -38746,7 +38826,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -38765,7 +38845,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -38784,7 +38864,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38830,7 +38910,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38838,14 +38918,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38868,7 +38948,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -38879,14 +38959,14 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@136"
+                      "$ref": "#/rules@135"
                     },
                     "arguments": []
                   },
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -38906,7 +38986,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -38920,14 +39000,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38962,7 +39042,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38970,14 +39050,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -38998,7 +39078,7 @@ ${content}`;
                       {
                         "$type": "RuleCall",
                         "rule": {
-                          "$ref": "#/rules@156"
+                          "$ref": "#/rules@155"
                         },
                         "arguments": [],
                         "cardinality": "?"
@@ -39027,7 +39107,7 @@ ${content}`;
                       {
                         "$type": "RuleCall",
                         "rule": {
-                          "$ref": "#/rules@156"
+                          "$ref": "#/rules@155"
                         },
                         "arguments": [],
                         "cardinality": "?"
@@ -39062,7 +39142,7 @@ ${content}`;
                       {
                         "$type": "RuleCall",
                         "rule": {
-                          "$ref": "#/rules@156"
+                          "$ref": "#/rules@155"
                         },
                         "arguments": [],
                         "cardinality": "?"
@@ -39091,7 +39171,7 @@ ${content}`;
                       {
                         "$type": "RuleCall",
                         "rule": {
-                          "$ref": "#/rules@156"
+                          "$ref": "#/rules@155"
                         },
                         "arguments": [],
                         "cardinality": "?"
@@ -39118,14 +39198,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -39149,14 +39229,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -39177,14 +39257,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -39252,7 +39332,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -39275,14 +39355,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@154"
+              "$ref": "#/rules@153"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -39369,7 +39449,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -39403,7 +39483,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -39411,14 +39491,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@143"
+                  "$ref": "#/rules@142"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -39438,7 +39518,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -39446,14 +39526,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@144"
+                  "$ref": "#/rules@143"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -39488,7 +39568,22 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
+                },
+                "arguments": [],
+                "cardinality": "?"
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$ref": "#/rules@142"
+                },
+                "arguments": []
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -39503,22 +39598,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
-                },
-                "arguments": [],
-                "cardinality": "?"
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@144"
-                },
-                "arguments": []
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -39553,7 +39633,22 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
+                },
+                "arguments": [],
+                "cardinality": "?"
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$ref": "#/rules@142"
+                },
+                "arguments": []
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -39562,21 +39657,6 @@ ${content}`;
                 "$type": "RuleCall",
                 "rule": {
                   "$ref": "#/rules@143"
-                },
-                "arguments": []
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@156"
-                },
-                "arguments": [],
-                "cardinality": "?"
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@144"
                 },
                 "arguments": []
               }
@@ -39607,103 +39687,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
-                },
-                "arguments": [],
-                "cardinality": "?"
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@143"
-                },
-                "arguments": []
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@156"
-                },
-                "arguments": [],
-                "cardinality": "?"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "param",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@71"
-                  },
-                  "arguments": []
-                },
-                "cardinality": "?"
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@156"
-                },
-                "arguments": [],
-                "cardinality": "?"
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@144"
-                },
-                "arguments": []
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@156"
-                },
-                "arguments": [],
-                "cardinality": "?"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "applied",
-                "operator": "=",
-                "terminal": {
-                  "$type": "RuleCall",
-                  "rule": {
-                    "$ref": "#/rules@73"
-                  },
-                  "arguments": []
-                },
-                "cardinality": "?"
-              }
-            ]
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "propName",
-                "operator": "=",
-                "terminal": {
-                  "$type": "CrossReference",
-                  "type": {
-                    "$ref": "#/rules@18"
-                  },
-                  "terminal": {
-                    "$type": "RuleCall",
-                    "rule": {
-                      "$ref": "#/rules@47"
-                    },
-                    "arguments": []
-                  },
-                  "deprecatedSyntax": false
-                }
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -39741,14 +39725,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@135"
+              "$ref": "#/rules@134"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -39768,7 +39752,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -39844,7 +39828,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -39886,7 +39870,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -39922,14 +39906,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@135"
+              "$ref": "#/rules@134"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -39956,7 +39940,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -39967,14 +39951,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@135"
+                  "$ref": "#/rules@134"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -40001,7 +39985,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -40039,7 +40023,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@143"
+              "$ref": "#/rules@142"
             },
             "arguments": []
           },
@@ -40049,7 +40033,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -40072,14 +40056,14 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@136"
+                      "$ref": "#/rules@135"
                     },
                     "arguments": []
                   },
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -40105,14 +40089,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@144"
+              "$ref": "#/rules@143"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40152,7 +40136,7 @@ ${content}`;
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@158"
+                "$ref": "#/rules@157"
               },
               "arguments": []
             }
@@ -40160,7 +40144,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40187,26 +40171,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "Assignment",
-            "feature": "validatorName",
-            "operator": "=",
-            "terminal": {
-              "$type": "RuleCall",
-              "rule": {
-                "$ref": "#/rules@46"
-              },
-              "arguments": []
-            }
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -40217,7 +40182,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -40228,7 +40193,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": []
           },
@@ -40247,7 +40212,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40296,7 +40261,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40304,14 +40269,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40332,14 +40297,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40380,7 +40345,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@154"
+                      "$ref": "#/rules@153"
                     },
                     "arguments": []
                   }
@@ -40404,7 +40369,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@154"
+                      "$ref": "#/rules@153"
                     },
                     "arguments": []
                   }
@@ -40428,7 +40393,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@154"
+                      "$ref": "#/rules@153"
                     },
                     "arguments": []
                   }
@@ -40452,7 +40417,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@154"
+                      "$ref": "#/rules@153"
                     },
                     "arguments": []
                   }
@@ -40476,7 +40441,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@154"
+                      "$ref": "#/rules@153"
                     },
                     "arguments": []
                   }
@@ -40500,7 +40465,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@154"
+                      "$ref": "#/rules@153"
                     },
                     "arguments": []
                   }
@@ -40511,7 +40476,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40537,14 +40502,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@150"
+                  "$ref": "#/rules@149"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -40564,7 +40529,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -40575,14 +40540,14 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@136"
+                      "$ref": "#/rules@135"
                     },
                     "arguments": []
                   },
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -40602,7 +40567,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -40613,14 +40578,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@151"
+                  "$ref": "#/rules@150"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -40633,14 +40598,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@150"
+                  "$ref": "#/rules@149"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -40660,7 +40625,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -40671,14 +40636,14 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@136"
+                      "$ref": "#/rules@135"
                     },
                     "arguments": []
                   },
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -40698,7 +40663,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -40709,14 +40674,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@151"
+                  "$ref": "#/rules@150"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -40745,7 +40710,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40753,14 +40718,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@152"
+              "$ref": "#/rules@151"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40780,7 +40745,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40847,7 +40812,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40855,14 +40820,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@152"
+              "$ref": "#/rules@151"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40874,7 +40839,7 @@ ${content}`;
             "terminal": {
               "$type": "RuleCall",
               "rule": {
-                "$ref": "#/rules@159"
+                "$ref": "#/rules@158"
               },
               "arguments": []
             }
@@ -40882,7 +40847,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40909,7 +40874,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -40962,7 +40927,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41014,7 +40979,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41026,7 +40991,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41034,14 +40999,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@143"
+              "$ref": "#/rules@142"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41061,7 +41026,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41069,14 +41034,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@136"
+              "$ref": "#/rules@135"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41096,14 +41061,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@144"
+              "$ref": "#/rules@143"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41143,7 +41108,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41155,7 +41120,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41163,14 +41128,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@143"
+              "$ref": "#/rules@142"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41190,7 +41155,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41198,14 +41163,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@136"
+              "$ref": "#/rules@135"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41225,14 +41190,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@144"
+              "$ref": "#/rules@143"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41287,7 +41252,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41339,7 +41304,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41351,7 +41316,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41359,14 +41324,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@135"
+              "$ref": "#/rules@134"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41386,7 +41351,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41398,7 +41363,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41418,7 +41383,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41494,7 +41459,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41587,7 +41552,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41595,14 +41560,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41625,7 +41590,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -41639,14 +41604,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@136"
+                  "$ref": "#/rules@135"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -41666,7 +41631,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -41677,14 +41642,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41711,10 +41676,92 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@149"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@155"
+            },
+            "arguments": [],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "Assignment",
+                "feature": "c",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "CrossReference",
+                  "type": {
+                    "$ref": "#/rules@5"
+                  },
+                  "deprecatedSyntax": false
+                }
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$ref": "#/rules@155"
+                },
+                "arguments": [],
+                "cardinality": "?"
+              }
+            ],
+            "cardinality": "?"
+          },
+          {
+            "$type": "Group",
+            "elements": [
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$ref": "#/rules@135"
+                },
+                "arguments": []
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$ref": "#/rules@155"
+                },
+                "arguments": [],
+                "cardinality": "?"
+              },
+              {
+                "$type": "Assignment",
+                "feature": "c",
+                "operator": "+=",
+                "terminal": {
+                  "$type": "CrossReference",
+                  "type": {
+                    "$ref": "#/rules@5"
+                  },
+                  "deprecatedSyntax": false
+                }
+              },
+              {
+                "$type": "RuleCall",
+                "rule": {
+                  "$ref": "#/rules@155"
+                },
+                "arguments": [],
+                "cardinality": "?"
+              }
+            ],
+            "cardinality": "*"
           },
           {
             "$type": "RuleCall",
@@ -41726,89 +41773,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
-            },
-            "arguments": [],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "Assignment",
-                "feature": "c",
-                "operator": "+=",
-                "terminal": {
-                  "$type": "CrossReference",
-                  "type": {
-                    "$ref": "#/rules@5"
-                  },
-                  "deprecatedSyntax": false
-                }
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@156"
-                },
-                "arguments": [],
-                "cardinality": "?"
-              }
-            ],
-            "cardinality": "?"
-          },
-          {
-            "$type": "Group",
-            "elements": [
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@136"
-                },
-                "arguments": []
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@156"
-                },
-                "arguments": [],
-                "cardinality": "?"
-              },
-              {
-                "$type": "Assignment",
-                "feature": "c",
-                "operator": "+=",
-                "terminal": {
-                  "$type": "CrossReference",
-                  "type": {
-                    "$ref": "#/rules@5"
-                  },
-                  "deprecatedSyntax": false
-                }
-              },
-              {
-                "$type": "RuleCall",
-                "rule": {
-                  "$ref": "#/rules@156"
-                },
-                "arguments": [],
-                "cardinality": "?"
-              }
-            ],
-            "cardinality": "*"
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@151"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41840,7 +41805,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41860,7 +41825,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41868,14 +41833,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41896,14 +41861,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41935,7 +41900,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41943,14 +41908,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41971,7 +41936,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -41979,14 +41944,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42021,7 +41986,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42029,14 +41994,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42057,14 +42022,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42139,7 +42104,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42159,7 +42124,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42167,14 +42132,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@154"
+              "$ref": "#/rules@153"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42206,7 +42171,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42226,7 +42191,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42234,14 +42199,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@154"
+              "$ref": "#/rules@153"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42273,7 +42238,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42293,7 +42258,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42301,14 +42266,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@154"
+              "$ref": "#/rules@153"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42346,7 +42311,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -42360,7 +42325,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42375,7 +42340,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42383,14 +42348,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@154"
+              "$ref": "#/rules@153"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42512,7 +42477,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42576,7 +42541,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -42588,7 +42553,7 @@ ${content}`;
                 "terminal": {
                   "$type": "RuleCall",
                   "rule": {
-                    "$ref": "#/rules@152"
+                    "$ref": "#/rules@151"
                   },
                   "arguments": []
                 }
@@ -42596,7 +42561,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -42618,7 +42583,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42650,7 +42615,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42685,7 +42650,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42693,14 +42658,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42723,7 +42688,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -42734,14 +42699,14 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@136"
+                      "$ref": "#/rules@135"
                     },
                     "arguments": []
                   },
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -42761,7 +42726,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -42775,14 +42740,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42824,7 +42789,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42832,14 +42797,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@152"
+              "$ref": "#/rules@151"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42859,7 +42824,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42898,7 +42863,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42906,14 +42871,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@150"
+              "$ref": "#/rules@149"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42936,14 +42901,14 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@154"
+                  "$ref": "#/rules@153"
                 },
                 "arguments": []
               },
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -42954,14 +42919,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@151"
+              "$ref": "#/rules@150"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -42996,7 +42961,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -43004,14 +42969,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@152"
+              "$ref": "#/rules@151"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -43031,7 +42996,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -43066,7 +43031,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -43074,14 +43039,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@143"
+              "$ref": "#/rules@142"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -43104,7 +43069,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -43115,14 +43080,14 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@136"
+                      "$ref": "#/rules@135"
                     },
                     "arguments": []
                   },
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -43142,7 +43107,7 @@ ${content}`;
                   {
                     "$type": "RuleCall",
                     "rule": {
-                      "$ref": "#/rules@156"
+                      "$ref": "#/rules@155"
                     },
                     "arguments": [],
                     "cardinality": "?"
@@ -43156,14 +43121,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@144"
+              "$ref": "#/rules@143"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -43223,7 +43188,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -43271,7 +43236,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -43279,14 +43244,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@135"
+              "$ref": "#/rules@134"
             },
             "arguments": []
           },
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -43306,7 +43271,7 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "arguments": [],
             "cardinality": "?"
@@ -43416,7 +43381,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -43436,7 +43401,7 @@ ${content}`;
               {
                 "$type": "RuleCall",
                 "rule": {
-                  "$ref": "#/rules@156"
+                  "$ref": "#/rules@155"
                 },
                 "arguments": [],
                 "cardinality": "?"
@@ -43493,7 +43458,14 @@ ${content}`;
           {
             "$type": "RuleCall",
             "rule": {
-              "$ref": "#/rules@130"
+              "$ref": "#/rules@129"
+            },
+            "arguments": []
+          },
+          {
+            "$type": "RuleCall",
+            "rule": {
+              "$ref": "#/rules@126"
             },
             "arguments": []
           },
@@ -43508,13 +43480,6 @@ ${content}`;
             "$type": "RuleCall",
             "rule": {
               "$ref": "#/rules@128"
-            },
-            "arguments": []
-          },
-          {
-            "$type": "RuleCall",
-            "rule": {
-              "$ref": "#/rules@129"
             },
             "arguments": []
           }
@@ -43541,7 +43506,7 @@ ${content}`;
           {
             "$type": "TerminalRuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "cardinality": "?"
           }
@@ -43563,7 +43528,7 @@ ${content}`;
           {
             "$type": "TerminalRuleCall",
             "rule": {
-              "$ref": "#/rules@156"
+              "$ref": "#/rules@155"
             },
             "cardinality": "?"
           }
@@ -43592,19 +43557,6 @@ ${content}`;
         "left": {
           "$type": "Keyword",
           "value": "\\\\\\""
-        }
-      },
-      "fragment": false,
-      "hidden": false
-    },
-    {
-      "$type": "TerminalRule",
-      "name": "ESCAPED_QUESTION",
-      "definition": {
-        "$type": "CharacterRange",
-        "left": {
-          "$type": "Keyword",
-          "value": "\\\\?"
         }
       },
       "fragment": false,
@@ -44064,7 +44016,7 @@ ${content}`;
 
   // src/language/generated/module.ts
   var FreonAstLanguageMetaData = {
-    languageId: "freon",
+    languageId: "Freon",
     fileExtensions: [".ast", ".edit", ".scope", ".type", ".valid"],
     caseInsensitive: false,
     mode: "development"
@@ -44108,8 +44060,15 @@ ${content}`;
     return rs;
   };
 
-  // src/language/MyScopeProvider.ts
-  var MyScopeProvider2 = class extends DefaultScopeProvider {
+  // src/language/FreonScopeProvider.ts
+  var on = false;
+  var i = 1;
+  function LOG(msg) {
+    if (on) {
+      console.log(i + " " + msg);
+    }
+  }
+  var FreonScopeProvider = class extends DefaultScopeProvider {
     constructor(services) {
       super(services);
       this.FRE_NODE = {
@@ -44118,12 +44077,15 @@ ${content}`;
         type: "TypeConcept",
         path: ""
       };
+      this.i = 1;
       this.astNodeDescriptionProvider = services.workspace.AstNodeDescriptionProvider;
     }
     getScope(context) {
+      LOG(`getScope for ${context.property} ${context.container.$type}`);
       let result = EMPTY_SCOPE;
       switch (context.property) {
         case "propName": {
+          LOG(`getScope propName ${context.property}`);
           const projection = this.containerOfType(context.container, "Projection");
           if (isProjection(projection)) {
             result = this.getProperties(projection.classifier);
@@ -44132,7 +44094,13 @@ ${content}`;
             if (isConceptDefinition(scopeDef)) {
               const dotExp = this.containerOfType(context.container, "ScoperDotExpression");
               if (isScoperDotExpression(dotExp)) {
-                result = this.getScopeFromDotExpression(dotExp, context);
+                LOG(`Scoper calling getClassifierForDotExpression !!! `);
+                const classifier = this.getClassifierForDotExpression(dotExp);
+                if (classifier !== void 0) {
+                  result = this.getPropertiesOfClassifier(classifier);
+                } else {
+                  LOG(`getScope 8 result from getScopeFromDotExpression is undefined`);
+                }
               } else {
                 result = this.getProperties(scopeDef.cref);
               }
@@ -44145,7 +44113,7 @@ ${content}`;
                 if (isClassifierTypeSpec(typeSpec)) {
                   result = this.getProperties(typeSpec.cref);
                 } else {
-                  console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected Projection, ConceptDefinition, ConceptRule or ClassifierTypeSpec for 'propName'`);
+                  LOG(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected Projection, ConceptDefinition, ConceptRule or ClassifierTypeSpec for 'propName'`);
                 }
               }
             }
@@ -44157,7 +44125,7 @@ ${content}`;
           if (isFretCreateExp(createExp)) {
             result = this.getProperties(createExp.cref);
           } else {
-            console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: expected Create Expression for 'propInstanceName'`);
+            LOG(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: expected Create Expression for 'propInstanceName'`);
           }
           break;
         }
@@ -44166,7 +44134,7 @@ ${content}`;
           if (isFretWhereExp(whereExp)) {
             result = this.getProperties(whereExp.var.cref);
           } else {
-            console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected Where Expression for 'varPropName'`);
+            LOG(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected Where Expression for 'varPropName'`);
           }
           break;
         }
@@ -44179,13 +44147,13 @@ ${content}`;
               if (isClassifierType(previousTypeRef)) {
                 result = this.getProperties(previousTypeRef);
               } else {
-                console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected previous property type to be a Classifier for 'nextPropName'`);
+                LOG(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected previous property type to be a Classifier for 'nextPropName'`);
               }
             } else {
-              console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected previous PropertyRef for 'nextPropName'`);
+              LOG(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected previous PropertyRef for 'nextPropName'`);
             }
           } else {
-            console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected DotExpression for 'nextPropName'`);
+            LOG(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected DotExpression for 'nextPropName'`);
           }
           break;
         }
@@ -44199,14 +44167,12 @@ ${content}`;
               if (isClassifierType(contextTypeRef)) {
                 result = this.getProperties(contextTypeRef);
               } else {
-                console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected ClassifierType for 'isUniqueName'`);
+                LOG(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected ClassifierType for 'isUniqueName'`);
               }
             } else {
-              console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected Property for 'isUniqueName', propName is ${uniqueExp.propName} `);
-              console.log(`context ${context.container?.$cstNode?.length}, ${context.container?.$cstNode?.offset}, ${context.container?.$cstNode?.range}, ${context.container?.$cstNode?.end}`);
             }
           } else {
-            console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected IsUniqueRule and ConceptRule for 'isUniqueName'`);
+            LOG(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected IsUniqueRule and ConceptRule for 'isUniqueName'`);
           }
           break;
         }
@@ -44224,7 +44190,7 @@ ${content}`;
                 result = this.getLimitedInstances(typeSpec.cref?.conceptType?.ref);
               }
             } else {
-              console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected LimitedValueExpression for 'limitedInstance'`);
+              LOG(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected LimitedValueExpression for 'limitedInstance'`);
             }
           }
           break;
@@ -44244,66 +44210,97 @@ ${content}`;
     }
     // Get the scope for the dot expression in the ConceptDefinition of the Freon scoper 
     // (And later: in the ConceptRule of the Freon validator)
-    getScopeFromDotExpression(dotExp, context) {
-      let result = EMPTY_SCOPE;
+    /**
+     * 
+     * @param dotExp  The containing dot expression
+     * @param context The info for which we calculate the scope 
+     * @returns 
+     */
+    getClassifierForDotExpression(dotExp) {
+      LOG(`getClassifierForDotExpression 1 '${dotExp?.afterDotExp?.appliedKwd}' cont ${dotExp.$container.propName}`);
       const appliedExp = this.containerOfType(dotExp, "AppliedExpression");
       if (isAppliedExpression(appliedExp)) {
+        LOG(`getClassifierForDotExpression 2 container of type applied '${appliedExp.appliedKwd}'`);
         const referencedProperty = appliedExp?.propName?.ref;
         if (referencedProperty !== void 0) {
+          LOG(`getClassifierForDotExpression 2a property ref '${referencedProperty.name}'`);
           const referencedType = referencedProperty.propertyType;
           if (isClassifierType(referencedType)) {
-            result = this.getProperties(referencedType);
+            return referencedType.conceptType.ref;
           } else {
-            console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected referenced property type to be a Classifier for 'afterDotExp'`);
+            LOG(`getClassifierForDotExpression 3 ${ast_utils_exports.getDocument(dotExp).uri.fsPath}: Expected referenced property type to be a Classifier for 'afterDotExp'`);
           }
         } else if (appliedExp?.appliedKwd !== void 0) {
+          LOG(`getClassifierForDotExpression 2b applied with keyword '${appliedExp.appliedKwd}'`);
           switch (appliedExp?.appliedKwd) {
             case "self": {
               const conceptDef = this.containerOfType(appliedExp, "ConceptDefinition");
               if (isConceptDefinition(conceptDef)) {
-                result = this.getProperties(conceptDef?.cref);
+                LOG(`getClassifierForDotExpression 20 returnign concept ${conceptDef.cref?.conceptType?.$refText}`);
+                return conceptDef.cref.conceptType.ref;
+              } else {
+                LOG(`getClassifierForDotExpression 6 no concept for self`);
               }
               break;
             }
             case "if": {
               const typeParam = appliedExp?.typeParam;
               if (typeParam !== void 0) {
-                result = this.getProperties(typeParam);
+                LOG(`getClassifierForDotExpression 13 if found ${typeParam.conceptType.ref?.name}`);
+                return typeParam.conceptType.ref;
+              } else {
+                LOG(`getClassifierForDotExpression 7 no concept for if`);
               }
               break;
             }
             case "owner": {
-              const conceptDef = this.containerOfType(appliedExp, "ConceptDefinition");
-              if (isConceptDefinition(conceptDef)) {
-                const conceptNode = conceptDef?.cref?.conceptType.ref;
-                if (conceptNode !== void 0) {
-                  const ownerCandidates = ast_utils_exports.findLocalReferences(conceptNode);
+              LOG(`getClassifierForDotExpression 5 FreonScopeProvider: owner`);
+              const previousDotExp = this.containerOfType(appliedExp, "ScoperDotExpression");
+              if (isScoperDotExpression(previousDotExp)) {
+                const classifier = this.getClassifierForDotExpression(previousDotExp);
+                if (classifier !== void 0) {
+                  const ownerCandidates = ast_utils_exports.findLocalReferences(classifier);
+                  LOG(`getClassifierForDotExpression:   debug number of owner candidates: ${ownerCandidates.count()}`);
+                  let result = void 0;
                   ownerCandidates.forEach((oc) => {
-                    if (oc.$refNode?.astNode !== void 0 && isClassifierType(oc.$refNode?.astNode)) {
-                      const propertyNode = this.containerOfType(oc.$refNode?.astNode, "Property");
-                      if (propertyNode !== void 0 && !propertyNode.reference) {
-                        console.log(`Debug referencing property: ${propertyNode?.$document}`);
-                        const classifierNode = propertyNode.$container;
-                        result = this.appendScopes(result, this.getPropertiesOfClassifier(classifierNode));
+                    if (oc.$refNode?.astNode !== void 0) {
+                      if (isClassifierType(oc.$refNode?.astNode)) {
+                        const propertyNode = this.containerOfType(oc.$refNode?.astNode, "Property");
+                        if (propertyNode !== void 0 && !propertyNode.reference) {
+                          const classifierNode = propertyNode.$container;
+                          if (isClassifier(classifierNode) || isModel(classifierNode)) {
+                            result = classifierNode;
+                          }
+                        }
+                      } else if (isFreonModel(oc.$refNode?.astNode)) {
+                        LOG(`getClassifierForDotExpression    found model for ${oc.$refText}`);
                       }
                     }
                   });
+                  return result;
                 } else {
-                  console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected to find Classifier node for the ClassifierDefinition`);
+                  LOG(`getClassifierForDotExpression 9 result from getScopeFromDotExpression is undefined`);
+                }
+              } else {
+                const cd = this.containerOfType(dotExp, "ConceptDefinition");
+                if (isConceptDefinition(cd)) {
+                  return cd.cref.conceptType.ref;
+                } else {
+                  LOG(`getClassifierForDotExpression 10 owner found in non-scoper definition`);
                 }
               }
               break;
             }
             default:
-              console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected one of the special keywords, but got ${appliedExp?.appliedKwd}`);
           }
         } else {
-          console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected property reference or a special keyword for 'afterDotExp'`);
+          LOG(`getClassifierForDotExpression 4 ${ast_utils_exports.getDocument(dotExp).uri.fsPath}: Expected property reference or a special keyword for 'afterDotExp'`);
         }
       } else {
-        console.log(`${ast_utils_exports.getDocument(context.container).uri.fsPath}: Expected AppliedExpression for 'afterDotExp'`);
+        LOG(`getClassifierForDotExpression 11 ERROR ERROR`);
+        LOG(`${ast_utils_exports.getDocument(dotExp).uri.fsPath}: Expected AppliedExpression for 'afterDotExp'`);
       }
-      return result;
+      return void 0;
     }
     // const instanceExpr = this.containerOfType(context.container, "InstanceExpression")
     // if (isInstanceExpression(instanceExpr)) {
@@ -44325,6 +44322,28 @@ ${content}`;
     //     }
     // }
     // return default
+    /**
+     * @param appliedEx
+     * @returns 
+     */
+    getClassifierOrModel(appliedExp) {
+      if (appliedExp.appliedKwd === "self") {
+        const conceptDef = this.containerOfType(appliedExp, "ConceptDefinition");
+        if (isConceptDefinition(conceptDef)) {
+          return conceptDef.cref.conceptType.ref;
+        }
+      } else if (appliedExp.appliedKwd === "owner") {
+      } else if (appliedExp.appliedKwd === "if") {
+        const typeParam = appliedExp?.typeParam;
+        if (typeParam !== void 0) {
+          return typeParam.conceptType.ref;
+        }
+      } else if (appliedExp.appliedKwd === "type") {
+      } else {
+        return appliedExp.propName?.ref?.propertyType?.conceptType.ref;
+      }
+      return void 0;
+    }
     getScopeForDirectory(context, dir) {
       const scopes = [];
       const referenceType = this.reflection.getReferenceType(context);
@@ -44342,8 +44361,8 @@ ${content}`;
         } while (currentNode);
       }
       let result = this.getGlobalScopeForDirectory(referenceType, context, dir);
-      for (let i = scopes.length - 1; i >= 0; i--) {
-        result = this.createScope(scopes[i], result);
+      for (let i2 = scopes.length - 1; i2 >= 0; i2--) {
+        result = this.createScope(scopes[i2], result);
       }
       return result;
     }
@@ -44358,14 +44377,12 @@ ${content}`;
       this.globalScopeCache.delete(referenceType);
       return this.globalScopeCache.get(referenceType, () => new MapScope(elements));
     }
-    getProperties(cref, log = false) {
+    getProperties(cref) {
       const classifierReference = getClassifierType(cref);
       const classifierRef = classifierReference?.ref;
       if (isClassifier(classifierRef)) {
         const descriptions = allProperties(classifierRef).flatMap((p) => isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []);
-        if (log) {
-          console.log("   getProperties isClassifier:     " + descriptions.map((d) => d.name).join(", "));
-        }
+        LOG("   getProperties isClassifier:     " + descriptions.map((d) => d.name).join(", "));
         if (isModelUnit(classifierRef) && !descriptions.some((d) => d.name === "name")) {
           const MODELUNIT_NAME = {
             name: "name",
@@ -44377,17 +44394,13 @@ ${content}`;
         }
         return new MapScope(descriptions);
       }
-      if (log) {
-        console.log("   getProperties is NOT Classifier ================================ ");
-      }
+      LOG("   getProperties is NOT Classifier ================================ ");
       return EMPTY_SCOPE;
     }
-    getPropertiesOfClassifier(classifier, log = false) {
-      if (isClassifier(classifier)) {
+    getPropertiesOfClassifier(classifier) {
+      if (isClassifier(classifier) || isModel(classifier)) {
         const descriptions = allProperties(classifier).flatMap((p) => isOk(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []);
-        if (log) {
-          console.log("   getProperties isClassifier:     " + descriptions.map((d) => d.name).join(", "));
-        }
+        LOG("   getProperties isClassifier:     " + descriptions.map((d) => d.name).join(", "));
         if (isModelUnit(classifier) && !descriptions.some((d) => d.name === "name")) {
           const MODELUNIT_NAME = {
             name: "name",
@@ -44399,34 +44412,26 @@ ${content}`;
         }
         return new MapScope(descriptions);
       }
-      if (log) {
-        console.log("   getProperties is NOT Classifier ================================ ");
-      }
+      LOG("   getProperties is NOT Classifier ================================ ");
       return EMPTY_SCOPE;
     }
-    appendScopes(scope1, scope2) {
-      return new MapScope(scope1.getAllElements().concat(scope2.getAllElements()));
-    }
+    // private appendScopes(scope1: Scope, scope2: Scope): Scope {
+    //     return new MapScope(scope1.getAllElements().concat(scope2.getAllElements()));
+    // }
     getInstances(lt, log = false) {
       const limitedReference = lt.conceptType;
       const limitedRef = limitedReference?.ref;
       if (isLimited(limitedRef)) {
         const descriptions = allInstances(limitedRef).flatMap((p) => isOkInstance(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []);
-        if (log) {
-          console.log("   getInstances:     " + descriptions.map((d) => d.name).join(", "));
-        }
+        LOG("   getInstances:     " + descriptions.map((d) => d.name).join(", "));
         return new MapScope(descriptions);
       }
-      if (log) {
-        console.log("   getIntsancesis NOT Classifier ================================ ");
-      }
+      LOG("   getIntsancesis NOT Classifier ================================ ");
       return EMPTY_SCOPE;
     }
     getLimitedInstances(lt, log = false) {
       const descriptions = allInstances(lt).flatMap((p) => isOkInstance(p) ? this.astNodeDescriptionProvider.createDescription(p, p.name) : []);
-      if (log) {
-        console.log("   getInstances:     " + descriptions.map((d) => d.name).join(", "));
-      }
+      LOG("   getInstances:     " + descriptions.map((d) => d.name).join(", "));
       return new MapScope(descriptions);
     }
     dir(desc) {
@@ -44462,9 +44467,11 @@ ${content}`;
     }
     const result = [];
     result.push(...classifier.properties);
-    allSuperClassifiers(classifier).forEach(
-      (cref) => result.push(...cref.properties)
-    );
+    if (isClassifier(classifier)) {
+      allSuperClassifiers(classifier).forEach(
+        (cref) => result.push(...cref.properties)
+      );
+    }
     return result;
   }
   function allInstances(limited) {
@@ -44540,8 +44547,8 @@ ${content}`;
     return result;
   }
 
-  // src/language/MyScopeComputation.ts
-  var MyScopeComputation = class extends DefaultScopeComputation {
+  // src/language/FreonScopeComputation.ts
+  var FreonScopeComputation = class extends DefaultScopeComputation {
     /**
      * 
      * @param document Export concepts and interfaces 
@@ -44590,9 +44597,9 @@ ${content}`;
     return c !== null && c !== void 0 && c.name !== void 0;
   }
 
-  // src/language/MySemanticTokenProvider.ts
+  // src/language/FreonSemanticTokenProvider.ts
   var import_vscode_languageserver10 = __toESM(require_main4(), 1);
-  var MySemanticTokenProvider = class extends AbstractSemanticTokenProvider {
+  var FreonSemanticTokenProvider = class extends AbstractSemanticTokenProvider {
     constructor(services) {
       super(services);
     }
@@ -44638,6 +44645,12 @@ ${content}`;
           property: "propName",
           type: import_vscode_languageserver10.SemanticTokenTypes.property
         });
+      } else if (isAppliedExpression(node)) {
+        acceptor({
+          node,
+          property: "propName",
+          type: import_vscode_languageserver10.SemanticTokenTypes.property
+        });
       }
     }
   };
@@ -44649,13 +44662,13 @@ ${content}`;
     },
     references: {
       // ScopeProvider: (services) => new MyScopeProvider(services),
-      ScopeProvider: (services) => new MyScopeProvider2(services),
+      ScopeProvider: (services) => new FreonScopeProvider(services),
       // ScopeComputation: (services) => new DefaultScopeComputation(services),
-      ScopeComputation: (services) => new MyScopeComputation(services)
+      ScopeComputation: (services) => new FreonScopeComputation(services)
     },
     lsp: {
       // CompletionProvider: (services) => new MyCompletionProvider(services),
-      SemanticTokenProvider: (services) => new MySemanticTokenProvider(services)
+      SemanticTokenProvider: (services) => new FreonSemanticTokenProvider(services)
     }
   };
   function createFreonServices(context) {
@@ -44680,7 +44693,7 @@ ${content}`;
   var connection = (0, import_node2.createConnection)(import_node2.ProposedFeatures.all);
   var { shared } = createFreonServices({ connection, ...NodeFileSystem });
   startLanguageServer(shared);
-  console.log("Freon Language Server 0.0.4");
+  console.log("Freon Language Server 2.0.0 - compatible with Freon 2.0.0");
 })();
 /*! Bundled license information:
 
