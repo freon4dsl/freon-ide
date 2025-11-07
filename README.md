@@ -18,6 +18,9 @@ Currently it copies all samples and test languages from the main Freon repositor
 **test** runs all tests, which means all installed test languages will be parsed. When output contains parser errors, there is something to fix.
 Note that this does not test whether code completion, syntax coloring etc is ok.
 
+**November 7 2025, 2025: Released 2.0.0**
+Takes into account all syntax changes in Freon 2.0.0.
+
 **September 25 2025, 2025: Released 0.0.7**
 Takes into account all syntax changes in Freon 2.0.0-beta.4
 
